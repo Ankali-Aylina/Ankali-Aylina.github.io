@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>个人服务器2 nginx与samba</title>
-    <url>/2022/10/16/nginx%E4%B8%8Esamba/</url>
-    <content><![CDATA[<p>已完成nginx+samba搭建hexo博客网站，大概不久将使用外网穿透实现外网访问博客，到时候将可能弃用GitHub。<br>外网访问太慢了，而且上传经常断连(╯’ ^ ‘)╯︵ ┻━┻<br>git服务器上传的文件没法用nginx代理就离谱，反正我是放弃了 ╮(﹀_﹀||)╭</p>
+    <title>个人服务器1 git服务器搭建成功！！！^_^***</title>
+    <url>/2022/10/13/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA%E6%88%90%E5%8A%9F%EF%BC%81%EF%BC%81%EF%BC%81/</url>
+    <content><![CDATA[<p>经过6次重刷tf卡，查阅N次信息后基于orange pi 3 lts个人小型Linux服务器（git服务器）终于搭建好了！！！≖‿≖✧<br>下面会构建nginx服务器，等一次性弄完以后一次性写个教程(*•̀ㅂ•́)و</p>
 ]]></content>
       <categories>
         <category>Tree NetWork 发展史</category>
@@ -13,9 +13,9 @@
       </tags>
   </entry>
   <entry>
-    <title>个人服务器1 git服务器搭建成功！！！^_^***</title>
-    <url>/2022/10/13/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA%E6%88%90%E5%8A%9F%EF%BC%81%EF%BC%81%EF%BC%81/</url>
-    <content><![CDATA[<p>经过6次重刷tf卡，查阅N次信息后基于orange pi 3 lts个人小型Linux服务器（git服务器）终于搭建好了！！！≖‿≖✧<br>下面会构建nginx服务器，等一次性弄完以后一次性写个教程(*•̀ㅂ•́)و</p>
+    <title>个人服务器2 nginx与samba</title>
+    <url>/2022/10/16/nginx%E4%B8%8Esamba/</url>
+    <content><![CDATA[<p>已完成nginx+samba搭建hexo博客网站，大概不久将使用外网穿透实现外网访问博客，到时候将可能弃用GitHub。<br>外网访问太慢了，而且上传经常断连(╯’ ^ ‘)╯︵ ┻━┻<br>git服务器上传的文件没法用nginx代理就离谱，反正我是放弃了 ╮(﹀_﹀||)╭</p>
 ]]></content>
       <categories>
         <category>Tree NetWork 发展史</category>
