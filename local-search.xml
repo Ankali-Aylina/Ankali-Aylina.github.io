@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>智能散热小桌板</title>
+    <link href="/2025/05/05/IRSTB/"/>
+    <url>/2025/05/05/IRSTB/</url>
+    
+    <content type="html"><![CDATA[<h1 id="智能散热小桌板"><a href="#智能散热小桌板" class="headerlink" title="智能散热小桌板"></a>智能散热小桌板</h1><h2 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h2><p><del>智能散热小桌板是一款基于CW32L010芯片开发的智能散热小桌板。它集成了蓝牙、风扇、LED灯功能，可以实时监测桌面的温湿度，并根据温度自动调节风扇转速，为用户提供舒适的使用环境。</del><br>简单来说就是能根据电脑温度自动调节风扇转速的散热小桌板。</p><h2 id="功能特点"><a href="#功能特点" class="headerlink" title="功能特点"></a>功能特点</h2><ul><li>实时监测电脑的温度</li><li>根据温度自动调节风扇转速</li><li>使用蓝牙连接</li></ul><h2 id="硬件设计"><a href="#硬件设计" class="headerlink" title="硬件设计"></a>硬件设计</h2><ul><li>主控芯片：CW32L010</li><li>蓝牙模块：DX-BT24-T</li><li>风扇：12V直流风扇(利民的12025风扇)</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>嵌入式 CW32L010 智能散热小桌板</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CW32L010</tag>
+      
+      <tag>蓝牙</tag>
+      
+      <tag>散热小桌板</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CW32L010适配GNU启动文件解析</title>
     <link href="/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/"/>
     <url>/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/</url>
@@ -40,6 +69,12 @@
     <content type="html"><![CDATA[<h1 id="朋友你好！欢迎来到兔兔报社！"><a href="#朋友你好！欢迎来到兔兔报社！" class="headerlink" title="朋友你好！欢迎来到兔兔报社！"></a>朋友你好！欢迎来到兔兔报社！</h1><h2 id="首先感谢背景原画老师：Eternal-Frost"><a href="#首先感谢背景原画老师：Eternal-Frost" class="headerlink" title="首先感谢背景原画老师：Eternal-Frost"></a>首先感谢背景原画老师：<a href="https://space.bilibili.com/391459669">Eternal-Frost</a></h2><p><img src="Eternal-Frost-origin.png" alt="Eternal-Frost-origin"></p><h2 id="感谢Hexo和Next的作者"><a href="#感谢Hexo和Next的作者" class="headerlink" title="感谢Hexo和Next的作者"></a>感谢<a href="https://hexo.io/">Hexo</a>和<a href="https://github.com/theme-next/hexo-theme-next">Next</a>的作者</h2><h3 id="在三年前该网站被搭建并且上传，但是我并没有积极地进行维护，因此本站被重建了。"><a href="#在三年前该网站被搭建并且上传，但是我并没有积极地进行维护，因此本站被重建了。" class="headerlink" title="在三年前该网站被搭建并且上传，但是我并没有积极地进行维护，因此本站被重建了。"></a>在三年前该网站被搭建并且上传，但是我并没有积极地进行维护，因此本站被重建了。</h3><h3 id="希望你能在这个网站找到你想要的答案，那么接下来祝你旅途愉快！"><a href="#希望你能在这个网站找到你想要的答案，那么接下来祝你旅途愉快！" class="headerlink" title="希望你能在这个网站找到你想要的答案，那么接下来祝你旅途愉快！"></a>希望你能在这个网站找到你想要的答案，那么接下来祝你旅途愉快！</h3>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>介绍</tag>
+      
+    </tags>
     
   </entry>
   
