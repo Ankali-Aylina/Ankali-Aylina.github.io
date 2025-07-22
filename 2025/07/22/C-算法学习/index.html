@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A01.png">
 <meta property="article:published_time" content="2025-07-22T08:40:52.000Z">
-<meta property="article:modified_time" content="2025-07-22T15:09:22.888Z">
+<meta property="article:modified_time" content="2025-07-22T18:27:23.310Z">
 <meta property="article:author" content="Ankali-Aylina">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="算法">
@@ -243,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          6k 字
         
       </span>
     
@@ -254,7 +254,7 @@
         
         
         
-          25 分钟
+          51 分钟
         
       </span>
     
@@ -492,7 +492,7 @@
 <li><code>current = parent</code>移动到父目录继续搜索。</li>
 </ul>
 <ol start="3">
-<li></li>
+<li>根据查找结果返回相应的值。</li>
 </ol>
   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 处理查找结果</span><br><span class="hljs-keyword">if</span> (matches.<span class="hljs-built_in">empty</span>())<br>&#123;<br>    <span class="hljs-comment">// 没有找到匹配项</span><br>    <span class="hljs-keyword">return</span> std::<span class="hljs-literal">nullopt</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (find_all)<br>&#123;<br>    <span class="hljs-comment">// 返回所有匹配路径 (实际实现需要修改返回类型)</span><br>    <span class="hljs-comment">// 此处简化处理返回最近的一个匹配项</span><br>    <span class="hljs-keyword">return</span> matches.<span class="hljs-built_in">back</span>(); <span class="hljs-comment">// 最近的祖先目录</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// 默认返回最近(最上层)的匹配项</span><br>    <span class="hljs-keyword">return</span> matches.<span class="hljs-built_in">back</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
@@ -506,6 +506,255 @@
 </li>
 <li><code>else</code>默认返回最近(最上层)的匹配项。<ul>
 <li><code>matches.back()</code>返回最近的一个匹配项。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>void copyFiles(const fs::path &amp;src, const fs::path &amp;dst)</code>函数</p>
+<ul>
+<li>该函数用于复制文件，将源文件复制到目标文件夹。</li>
+<li><code>src</code> : 源文件路径</li>
+<li><code>dst</code> : 目标文件夹路径</li>
+<li>该函数的实现如下：</li>
+</ul>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs cpp">std::vector&lt;std::future&lt;<span class="hljs-type">void</span>&gt;&gt; futures; <span class="hljs-comment">// 存储异步任务的结果</span><br><br><span class="hljs-comment">// 原子计数器：用于线程安全的进度跟踪</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; filesCopied = <span class="hljs-number">0</span>;       <span class="hljs-comment">// 已复制的文件数</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; directoriesCopied = <span class="hljs-number">0</span>; <span class="hljs-comment">// 已复制的目录数</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; tasksCompleted = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 新增：跟踪完成的任务数（含失败）</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; copyErrors = <span class="hljs-number">0</span>;        <span class="hljs-comment">// 新增：错误计数器</span><br>std::mutex errorMutex;                  <span class="hljs-comment">// 新增：保护错误输出</span><br><br>    <span class="hljs-comment">// 获取开始时间（用于计算速度）</span><br><span class="hljs-keyword">auto</span> startTime = std::chrono::steady_clock::<span class="hljs-built_in">now</span>();<br><br><span class="hljs-keyword">auto</span> showProgress = [&amp;]()<br>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> totalTasks = futures.<span class="hljs-built_in">size</span>();<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> completed = tasksCompleted; <span class="hljs-comment">// 使用tasksCompleted替代filesCopied+directoriesCopied</span><br><br>    <span class="hljs-keyword">auto</span> duration = std::chrono::steady_clock::<span class="hljs-built_in">now</span>() - startTime;<br>    <span class="hljs-type">double</span> seconds = std::chrono::<span class="hljs-built_in">duration</span>&lt;<span class="hljs-type">double</span>&gt;(duration).<span class="hljs-built_in">count</span>();<br>    <span class="hljs-type">double</span> progress = (totalTasks &gt; <span class="hljs-number">0</span>) ? (<span class="hljs-number">100.0</span> * completed / totalTasks) : <span class="hljs-number">0.0</span>;<br>    <span class="hljs-type">double</span> speed = (seconds &gt; <span class="hljs-number">0.1</span>) ? (filesCopied / seconds) : <span class="hljs-number">0.0</span>;<br><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;\r进度: &quot;</span> &lt;&lt; std::fixed &lt;&lt; std::<span class="hljs-built_in">setprecision</span>(<span class="hljs-number">1</span>)<br>              &lt;&lt; progress &lt;&lt; <span class="hljs-string">&quot;% | &quot;</span><br>              &lt;&lt; <span class="hljs-string">&quot;文件: &quot;</span> &lt;&lt; filesCopied<br>              &lt;&lt; <span class="hljs-string">&quot; | 目录: &quot;</span> &lt;&lt; directoriesCopied<br>              &lt;&lt; <span class="hljs-string">&quot; | 错误: &quot;</span> &lt;&lt; copyErrors <span class="hljs-comment">// 显示错误计数</span><br>              &lt;&lt; <span class="hljs-string">&quot; | 速度: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">setprecision</span>(<span class="hljs-number">1</span>) &lt;&lt; speed &lt;&lt; <span class="hljs-string">&quot; 文件/秒&quot;</span><br>              &lt;&lt; <span class="hljs-string">&quot; | 任务: &quot;</span> &lt;&lt; completed &lt;&lt; <span class="hljs-string">&quot;/&quot;</span> &lt;&lt; totalTasks<br>              &lt;&lt; std::flush;<br>&#125;;<br><br><span class="hljs-comment">// 确保目标目录存在（加入异常处理）</span><br><span class="hljs-keyword">try</span><br>&#123;<br>    fs::<span class="hljs-built_in">create_directories</span>(dst);    <span class="hljs-comment">// 创建目标目录</span><br>&#125;<br><span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>&#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;entry : fs::<span class="hljs-built_in">directory_iterator</span>(src))<br>&#123;<br>    <span class="hljs-keyword">auto</span> target = dst / entry.<span class="hljs-built_in">path</span>().<span class="hljs-built_in">filename</span>();    <span class="hljs-comment">// 目标路径</span><br><br>    <span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">is_directory</span>(entry))<br>    &#123;<br>        futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                     &#123;<br>                                         <span class="hljs-keyword">try</span><br>                                         &#123;<br>                                             <span class="hljs-comment">// 尝试创建子目录</span><br>                                             fs::<span class="hljs-built_in">create_directories</span>(target);<br>                                             <span class="hljs-comment">// 递归复制（可能抛出异常）</span><br>                                             fs::<span class="hljs-built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);<br>                                             directoriesCopied++;<br>                                         &#125;<br>                                         <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                         &#123;<br>                                             std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                             std::cerr &lt;&lt; <span class="hljs-string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                       &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                             copyErrors++;<br>                                         &#125;<br>                                         tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                     &#125;));<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">is_regular_file</span>(entry))<br>    &#123;<br>        futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                     &#123;<br>                                         <span class="hljs-keyword">try</span><br>                                         &#123;<br>                                            <span class="hljs-comment">// 尝试复制文件</span><br>                                             fs::<span class="hljs-built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);<br>                                             filesCopied++;<br>                                         &#125;<br>                                         <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                         &#123;<br>                                             std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                             std::cerr &lt;&lt; <span class="hljs-string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                       &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                             copyErrors++;<br>                                         &#125;<br>                                         tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                     &#125;));<br>    &#125;<br>&#125;<br><br>std::cout &lt;&lt; <span class="hljs-string">&quot;开始复制，总任务数: &quot;</span> &lt;&lt; futures.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br><br><span class="hljs-comment">// 修改循环条件：基于tasksCompleted而非成功计数</span><br><span class="hljs-keyword">while</span> (tasksCompleted &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(futures.<span class="hljs-built_in">size</span>()))<br>&#123;<br>    <span class="hljs-built_in">showProgress</span>();<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">milliseconds</span>(<span class="hljs-number">200</span>));<br>&#125;<br><br><span class="hljs-built_in">showProgress</span>();<br>std::cout &lt;&lt; <span class="hljs-string">&quot;\n复制完成! &quot;</span>;<br><br><span class="hljs-comment">// 处理异步任务中的异常（防止未捕获异常传播）</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;f : futures)<br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        f.<span class="hljs-built_in">get</span>(); <span class="hljs-comment">// 获取异步结果（可能重新抛出异常）</span><br>    &#125;<br>    <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>    &#123;<br>        <span class="hljs-comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">auto</span> endTime = std::chrono::steady_clock::<span class="hljs-built_in">now</span>();<br><span class="hljs-keyword">auto</span> duration = std::chrono::<span class="hljs-built_in">duration_cast</span>&lt;std::chrono::milliseconds&gt;(endTime - startTime);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;总耗时: &quot;</span> &lt;&lt; duration.<span class="hljs-built_in">count</span>() / <span class="hljs-number">1000.0</span> &lt;&lt; <span class="hljs-string">&quot; 秒 | 错误总数: &quot;</span> &lt;&lt; copyErrors &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>std::vector&lt;std::future&lt;void&gt;&gt; futures;</code>用于存储异步任务的结果。<ul>
+<li><code>std::future&lt;void&gt;</code>表示一个异步操作的状态。</li>
+</ul>
+</li>
+<li><code>std::atomic&lt;int&gt; filesCopied = 0;</code>：用于记录已复制的文件数。</li>
+<li><code>std::atomic&lt;int&gt; directoriesCopied = 0;</code>：用于记录已复制的目录数。</li>
+<li><code>std::atomic&lt;int&gt; tasksCompleted = 0;</code>：跟踪已完成的任务数(包含失败的任务数)。<ul>
+<li>ps.使用atomic(原子操作)可以避免多线程同时修改时的数据竞争。</li>
+</ul>
+</li>
+<li><code>std::mutex errorMutex;</code>：用于保护错误计数器，防止多线程同时修改时出现数据竞争。</li>
+<li><code>auto startTime = std::chrono::steady_clock::now();</code>获取开始时间（用于计算速度）。</li>
+<li><code>auto showProgress = [&amp;]() &#123;...&#125;;</code>进度显示函数，用于显示复制进度。<ul>
+<li><p><code>const int totalTasks = futures.size();</code>获取总任务数。</p>
+</li>
+<li><p><code>const int completed = tasksCompleted;</code>获取已完成任务数。</p>
+</li>
+<li><p><code>auto duration = std::chrono::steady_clock::now() - startTime;</code>计算耗时。</p>
+</li>
+<li><p><code>double seconds = std::chrono::duration&lt;double&gt;(duration).count();</code>将耗时转换为秒。</p>
+<ul>
+<li><h3 id="duration模板的基本结构："><a href="#duration模板的基本结构：" class="headerlink" title="duration模板的基本结构："></a><code>duration</code>模板的基本结构：</h3>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Rep</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">Period</span> = std::ratio&lt;<span class="hljs-number">1</span>&gt;&gt;<br><span class="hljs-keyword">class</span> duration;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><h3 id="Rep-数值类型（如int-double等）"><a href="#Rep-数值类型（如int-double等）" class="headerlink" title="Rep:数值类型（如int, double等）"></a><code>Rep</code>:数值类型（如int, double等）</h3></li>
+<li><h3 id="Period-时间单位（默认秒），使用std-ratio表示分数单位"><a href="#Period-时间单位（默认秒），使用std-ratio表示分数单位" class="headerlink" title="Period:时间单位（默认秒），使用std::ratio表示分数单位"></a><code>Period</code>:时间单位（默认秒），使用std::ratio表示分数单位</h3></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用类型</th>
+<th>等价表示</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>std::ratio&lt;1&gt;</code></td>
+<td>1秒</td>
+<td>默认单位</td>
+</tr>
+<tr>
+<td><code>std::ratio&lt;1,1000&gt;</code></td>
+<td>1毫秒</td>
+<td>千分之一秒</td>
+</tr>
+<tr>
+<td><code>std::ratio&lt;1,1000000&gt;</code></td>
+<td>1微秒</td>
+<td>百万分之一秒</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="std-chrono-duration类型部分"><a href="#std-chrono-duration类型部分" class="headerlink" title="std::chrono::duration&lt;double&gt;类型部分"></a><code>std::chrono::duration&lt;double&gt;</code>类型部分</h3><ol>
+<li>这是模板类的类型声明</li>
+<li><code>double</code>表示内部存储类型为双精度浮点数</li>
+<li>时间单位为秒（默认std::ratio&lt;1&gt;）</li>
+<li>ps.可以通过修改<code>duration</code>为<code>milliseconds</code>来使用毫秒模板。</li>
+</ol>
+<ul>
+<li>ex. <code>std::chrono::milliseconds</code></li>
+</ul>
+</li>
+<li><h3 id="duration-变量部分"><a href="#duration-变量部分" class="headerlink" title="(duration)变量部分"></a><code>(duration)</code>变量部分</h3><ol>
+<li>这是一个已经存在的duration对象</li>
+<li>实际要转换的时间间隔值</li>
+<li>通常通过时间点计算得到</li>
+</ol>
+</li>
+<li><p><code>std::chrono::duration&lt;double&gt;(duration)</code>属于类型转换部分</p>
+<ol>
+<li>创建新的duration对象</li>
+<li>指定内部存储类型为double（浮点数）</li>
+<li>自动转换为以秒为单位的持续时间</li>
+</ol>
+</li>
+<li><p><code>.count()</code> 提取数值</p>
+<ol>
+<li>返回duration对象内部存储的数值</li>
+<li>由于指定为double类型，返回值为双精度浮点数</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><code>double progress = (totalTasks &gt; 0) ? (100.0 * completed / totalTasks) : 0.0;</code> 当任务数大于0时，计算进度百分比，否则进度为0。</p>
+</li>
+<li><p><code>double speed = (seconds &gt; 0.1) ? (filesCopied / seconds) : 0.0;</code> ：当耗时超过0.1秒时，计算平均速度，否则速度为0。</p>
+</li>
+<li><p><code>std::cout &lt;&lt; &quot;\r进度: &quot; &lt;&lt; std::fixed &lt;&lt; std::setprecision(1)</code></p>
+<ul>
+<li><code>\r</code> 回车符，使光标回到行首，用于覆盖之前的内容。</li>
+<li><code>std::fixed</code> 设置浮点数输出为固定小数点格式。</li>
+<li><code>std::setprecision(1)</code> 设置输出精度为1位小数。</li>
+</ul>
+</li>
+<li><p><code>&lt;&lt; std::flush;</code></p>
+<ul>
+<li><code>std::flush</code> 强制刷新输出缓冲区，确保输出立即显示，而不是等待缓冲区满或程序结束。</li>
+</ul>
+</li>
+<li><p>创建目录异常处理</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-keyword">try</span><br>&#123;<br>    fs::<span class="hljs-built_in">create_directories</span>(dst);<br>&#125;<br><span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>&#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>fs::create_directories(dst);</code> 创建目标目录</li>
+<li><code>catch (const std::exception &amp;e)</code> 捕获异常</li>
+<li><code>std::cerr &lt;&lt; &quot;创建目标目录失败: &quot; &lt;&lt; dst &lt;&lt; &quot; - &quot; &lt;&lt; e.what() &lt;&lt; std::endl;</code> 输出错误信息</li>
+</ul>
+</li>
+<li><p><code>for (const auto &amp;entry : fs::directory_iterator(src))</code></p>
+<ul>
+<li><code>fs::directory_iterator(src)</code> 创建一个迭代器，用于遍历源目录中的所有条目。</li>
+<li><code>for (const auto &amp;entry : ...)</code> 遍历每个条目。</li>
+<li><code>const auto &amp;entry</code> 使用常量引用，避免不必要的拷贝，同时保证条目不会被修改。</li>
+</ul>
+</li>
+<li><p><code>auto target = dst / entry.path().filename();</code></p>
+<ul>
+<li><code>dst / entry.path().filename()</code> 使用<code>/</code>运算符将目标目录与条目的文件名连接起来，生成目标路径。</li>
+<li><code>entry.path().filename()</code> 获取条目的文件名或目录名。</li>
+</ul>
+</li>
+<li><p><code>fs::is_directory(entry)</code></p>
+<ul>
+<li>判断条目是否为目录。</li>
+</ul>
+</li>
+<li><p><code> fs::create_directories(target);</code></p>
+<ul>
+<li>创建目标目录</li>
+</ul>
+</li>
+<li><h3 id="创建异步任务复制子目录"><a href="#创建异步任务复制子目录" class="headerlink" title="创建异步任务复制子目录"></a>创建异步任务复制子目录</h3>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp">futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                        &#123;<br>                                            <span class="hljs-keyword">try</span><br>                                            &#123;<br>                                                <span class="hljs-comment">// 尝试创建子目录</span><br>                                                fs::<span class="hljs-built_in">create_directories</span>(target);<br>                                                <span class="hljs-comment">// 递归复制（可能抛出异常）</span><br>                                                fs::<span class="hljs-built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);<br>                                                directoriesCopied++;<br>                                            &#125;<br>                                            <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                            &#123;<br>                                                std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                                std::cerr &lt;&lt; <span class="hljs-string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                        &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                                copyErrors++;<br>                                            &#125;<br>                                            tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                        &#125;));<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>futures.push_back(...);</code> 将异步任务的结果存储在<code>futures</code>向量中，以便稍后处理。</li>
+<li><code>std::async(std::launch::async, [=, &amp;directoriesCopied] &#123;...&#125;);</code> 创建一个异步任务<ul>
+<li><code>std::async</code>: 异步任务创建函数</li>
+<li><code>std::launch::async</code>: 启动策略，表示任务将在另一个线程中异步执行。</li>
+<li><code>[=, &amp;directoriesCopied]</code>: 捕获列表，按值捕获所有变量，按引用捕获<code>directoriesCopied</code>。</li>
+<li><code>&#123;...&#125;</code>: 异步任务的内容，使用lambda表达式定义。</li>
+</ul>
+</li>
+<li><code>try &#123;...&#125; catch (const std::exception &amp;e) &#123;...&#125;</code> 异常处理<ul>
+<li><code>try &#123;...&#125;</code> 尝试创建子目录并复制整个子目录，递归复制，覆盖已存在的文件。</li>
+<li><code>catch (const std::exception &amp;e) &#123;...&#125;</code> 捕获异常<ul>
+<li><code>std::lock_guard&lt;std::mutex&gt; lock(errorMutex);</code> 创建互斥锁，保证在多线程环境下安全地访问共享资源。</li>
+<li><code>std::cerr &lt;&lt; &quot;\n目录复制错误: &quot; &lt;&lt; entry.path() &lt;&lt; &quot; -&gt; &quot; &lt;&lt; target &lt;&lt; &quot; - &quot; &lt;&lt; e.what() &lt;&lt; std::endl;</code> 输出错误信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>fs::copy(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);</code> 复制整个子目录，递归复制，覆盖已存在的文件。<ul>
+<li><code>fs::copy</code>: 复制函数</li>
+<li><code>entry</code>: 源路径</li>
+<li><code>target</code>: 目标路径</li>
+<li><code>fs::copy_options::recursive</code>: 递归复制子目录</li>
+<li><code>fs::copy_options::overwrite_existing</code>: 覆盖已存在的文件</li>
+</ul>
+</li>
+<li><code>directoriesCopied++;</code> 原子递增目录计数器。</li>
+</ul>
+</li>
+<li><p><code>else if (fs::is_regular_file(entry))</code><br>  -<code>判断条目是否为普通文件。</code></p>
+</li>
+<li><h3 id="创建异步任务复制文件"><a href="#创建异步任务复制文件" class="headerlink" title="创建异步任务复制文件"></a>创建异步任务复制文件</h3>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp">futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                        &#123;<br>                                            <span class="hljs-keyword">try</span><br>                                            &#123;<br>                                                fs::<span class="hljs-built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);<br>                                                filesCopied++;<br>                                            &#125;<br>                                            <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                            &#123;<br>                                                std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                                std::cerr &lt;&lt; <span class="hljs-string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                        &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                                copyErrors++;<br>                                            &#125;<br>                                            tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                        &#125;));<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>futures.push_back(...);</code> 将异步任务的结果存储在<code>futures</code>向量中，以便稍后处理。</li>
+<li><code>std::async(std::launch::async, [=, &amp;filesCopied] &#123;...&#125;);</code> 创建一个异步任务<ul>
+<li><code>std::launch::async</code>: 启动策略，表示任务将在另一个线程中异步执行。</li>
+<li><code>[=, &amp;filesCopied]</code>: 捕获列表，按值捕获所有变量，按引用捕获<code>filesCopied</code>。</li>
+<li><code>&#123;...&#125;</code>: 异步任务的内容，使用lambda表达式定义。</li>
+</ul>
+</li>
+<li><code>try &#123;...&#125; catch (const std::exception &amp;e) &#123;...&#125;</code> 异常处理<ul>
+<li><code>try &#123;...&#125;</code> 尝试复制文件，覆盖已存在的文件。</li>
+<li><code>catch (const std::exception &amp;e) &#123;...&#125;</code> 捕获异常<ul>
+<li><code>std::lock_guard&lt;std::mutex&gt; lock(errorMutex);</code> 创建互斥锁，保证在多线程环境下安全地访问共享资源。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>fs::copy_file(entry, target, fs::copy_options::overwrite_existing);</code> 复制单个文件，覆盖已存在的文件。<ul>
+<li><code>fs::copy_file()</code>: 复制文件函数</li>
+<li><code>entry</code>: 源路径</li>
+<li><code>target</code>: 目标路径</li>
+<li><code>fs::copy_options::overwrite_existing</code>: 覆盖已存在的文件</li>
+</ul>
+</li>
+<li><code>filesCopied++;</code> 原子递增文件计数器。</li>
+</ul>
+</li>
+<li><p><code> std::cout &lt;&lt; &quot;开始复制，总任务数: &quot; &lt;&lt; futures.size() &lt;&lt; &quot;\n&quot;;</code></p>
+<ul>
+<li><code>futures.size()</code>: 异步任务的数量</li>
+</ul>
+</li>
+<li><h3 id="等待异步任务完成并且更新进度"><a href="#等待异步任务完成并且更新进度" class="headerlink" title="等待异步任务完成并且更新进度"></a>等待异步任务完成并且更新进度</h3>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">    <span class="hljs-comment">// 等待所有异步任务完成，并显示进度</span><br><span class="hljs-keyword">while</span> (filesCopied + directoriesCopied &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(futures.<span class="hljs-built_in">size</span>()))<br>&#123;<br>    <span class="hljs-built_in">showProgress</span>();<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">milliseconds</span>(<span class="hljs-number">200</span>)); <span class="hljs-comment">// 每200ms更新一次</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>while (filesCopied + directoriesCopied &lt; static_cast&lt;int&gt;(futures.size()))</code> 当文件和目录复制完成数量小于异步任务数量时，继续循环。<ul>
+<li>&#96;&#96;&#96;filesCopied + directoriesCopied&#96;: 文件和目录复制完成数量。</li>
+<li><code>static_cast&lt;int&gt;()</code>: 将异步任务数量显式转换为整数。<ul>
+<li><h4 id="ps-显式转换是一种由程序员手动进行的类型转换，它告诉编译器将一个类型的值转换为另一个类型。与隐式转换不同，显式转换需要程序员明确指定转换的类型，因此也被称为“显式类型转换”或“强制类型转换”。"><a href="#ps-显式转换是一种由程序员手动进行的类型转换，它告诉编译器将一个类型的值转换为另一个类型。与隐式转换不同，显式转换需要程序员明确指定转换的类型，因此也被称为“显式类型转换”或“强制类型转换”。" class="headerlink" title="ps.显式转换是一种由程序员手动进行的类型转换，它告诉编译器将一个类型的值转换为另一个类型。与隐式转换不同，显式转换需要程序员明确指定转换的类型，因此也被称为“显式类型转换”或“强制类型转换”。"></a>ps.显式转换是一种由程序员手动进行的类型转换，它告诉编译器将一个类型的值转换为另一个类型。与隐式转换不同，显式转换需要程序员明确指定转换的类型，因此也被称为“显式类型转换”或“强制类型转换”。</h4></li>
+</ul>
+</li>
+<li><code>futures.size()</code>: 异步任务数量。</li>
+</ul>
+</li>
+<li><code>showProgress();</code> 更新进度</li>
+<li><code>std::this_thread::sleep_for(std::chrono::milliseconds(200));</code> 每隔200毫秒更新一次进度。</li>
+</ul>
+</li>
+<li><h3 id="等待所有任务完成"><a href="#等待所有任务完成" class="headerlink" title="等待所有任务完成"></a>等待所有任务完成</h3>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;f : futures)<br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        f.<span class="hljs-built_in">get</span>(); <span class="hljs-comment">// 获取异步结果（可能重新抛出异常）</span><br>    &#125;<br>    <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>    &#123;<br>        <span class="hljs-comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>for (auto &amp;f : futures)</code> 遍历所有异步任务<ul>
+<li><code>futures</code>: 异步任务向量</li>
+</ul>
+</li>
+<li><code>f.get();</code> 获取异步任务的结果，可能重新抛出异常。</li>
+<li><code>catch (const std::exception &amp;e)</code> 捕获异常<ul>
+<li><code>catch (const std::exception &amp;e) &#123;...&#125;</code> 捕获异常</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>auto endTime = std::chrono::steady_clock::now();</code></p>
+<ul>
+<li><code>std::chrono::steady_clock::now()</code>: 获取当前时间点。</li>
+</ul>
+</li>
+<li><p><code>auto duration = std::chrono::duration_cast&lt;std::chrono::seconds&gt;(endTime - startTime);</code></p>
+<ul>
+<li><code>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(endTime - startTime)</code>: 计算时间间隔，将时间间隔转换为秒。<ul>
+<li><code>chrono::duration_cast&lt;&gt;</code>: 时间间隔转换函数</li>
+<li><code>std::chrono::seconds</code>: 时间间隔类型，表示秒。</li>
+<li><code>endTime - startTime</code>: 时间间隔，表示从开始时间到结束时间的间隔。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -579,7 +828,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025年7月22日</div>
+          <div>2025年7月23日</div>
         </div>
       
       
