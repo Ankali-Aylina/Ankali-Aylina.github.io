@@ -100,7 +100,7 @@
     root.setAttribute('data-mode', preference);
     root.setAttribute('data-theme', resolvedTheme());
     if (persist !== false) {
-      try { localStorage.setItem('rnp-theme', preference); } catch (error) {}
+      try { localStorage.setItem('rnp-theme-v2', preference); } catch (error) {}
     }
     syncThemeUi();
   }
