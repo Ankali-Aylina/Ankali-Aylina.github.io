@@ -34,14 +34,16 @@
   try {
     var key = 'rnp-theme';
     var saved = localStorage.getItem(key);
-    var mode = "light";
-    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var configured = "auto";
+    if (configured !== 'auto' && configured !== 'light' && configured !== 'dark') configured = 'auto';
+    var preference = (saved === 'dark' || saved === 'light' || saved === 'auto') ? saved : configured;
     var requested = '';
     try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
-    if (requested === 'dark' || requested === 'light') active = requested;
+    if (requested === 'dark' || requested === 'light' || requested === 'auto') preference = requested;
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = preference === 'auto' ? (system ? 'dark' : 'light') : preference;
     document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-mode', mode);
+    document.documentElement.setAttribute('data-mode', preference);
   } catch (error) {}
 })();
 </script>

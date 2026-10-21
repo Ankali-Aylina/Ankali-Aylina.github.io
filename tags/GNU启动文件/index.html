@@ -34,14 +34,16 @@
   try {
     var key = 'rnp-theme';
     var saved = localStorage.getItem(key);
-    var mode = "light";
-    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var configured = "auto";
+    if (configured !== 'auto' && configured !== 'light' && configured !== 'dark') configured = 'auto';
+    var preference = (saved === 'dark' || saved === 'light' || saved === 'auto') ? saved : configured;
     var requested = '';
     try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
-    if (requested === 'dark' || requested === 'light') active = requested;
+    if (requested === 'dark' || requested === 'light' || requested === 'auto') preference = requested;
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = preference === 'auto' ? (system ? 'dark' : 'light') : preference;
     document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-mode', mode);
+    document.documentElement.setAttribute('data-mode', preference);
   } catch (error) {}
 })();
 </script>
@@ -172,9 +174,9 @@
     
     <div class="entry__tags">
       
-      <a href="/tags/GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">#GNU启动文件</a>
-      
       <a href="/tags/CW32L010/">#CW32L010</a>
+      
+      <a href="/tags/GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">#GNU启动文件</a>
       
       <a href="/tags/%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">#启动文件解析</a>
       

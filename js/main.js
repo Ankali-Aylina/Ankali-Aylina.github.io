@@ -61,33 +61,53 @@
   updateClock();
   window.setInterval(updateClock, 30000);
 
-  /* ---------- light / dark ---------- */
+  /* ---------- light / dark / auto ---------- */
 
   var motionMedia = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   var motionEnabled = root.getAttribute('data-motion') === 'on' && !(motionMedia && motionMedia.matches);
+  var schemeMedia = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
   var toggle = $('[data-theme-toggle]');
   var themeLabel = $('[data-theme-label]');
+  var themePreference = root.getAttribute('data-mode') || 'auto';
+  if (themePreference !== 'auto' && themePreference !== 'light' && themePreference !== 'dark') {
+    themePreference = 'auto';
+  }
+
+  function resolvedTheme() {
+    return themePreference === 'auto'
+      ? (schemeMedia && schemeMedia.matches ? 'dark' : 'light')
+      : themePreference;
+  }
 
   function syncThemeUi() {
     var dark = root.getAttribute('data-theme') === 'dark';
-    if (themeLabel) themeLabel.textContent = dark ? 'DKT' : 'LGT';
+    if (themeLabel) themeLabel.textContent = themePreference === 'auto' ? 'AUTO' : (dark ? 'DKT' : 'LGT');
     if (toggle) {
       toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
-      toggle.setAttribute('title', dark ? '切换到亮色 / LIGHT MODE' : '切换到暗色 / DARK MODE');
+      toggle.setAttribute('title',
+        themePreference === 'auto'
+          ? '主题：跟随系统（AUTO），点击切换为浅色'
+          : themePreference === 'light'
+            ? '主题：浅色（LGT），点击切换为深色'
+            : '主题：深色（DKT），点击切换为跟随系统');
     }
   }
   syncThemeUi();
 
-  function applyTheme(next) {
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('rnp-theme', next); } catch (error) {}
+  function applyTheme(preference, persist) {
+    themePreference = preference;
+    root.setAttribute('data-mode', preference);
+    root.setAttribute('data-theme', resolvedTheme());
+    if (persist !== false) {
+      try { localStorage.setItem('rnp-theme', preference); } catch (error) {}
+    }
     syncThemeUi();
   }
 
   if (toggle) {
     toggle.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      var next = themePreference === 'auto' ? 'light' : (themePreference === 'light' ? 'dark' : 'auto');
       if (motionEnabled && document.startViewTransition) {
         try { document.startViewTransition(function () { applyTheme(next); }); }
         catch (error) { applyTheme(next); }
@@ -97,16 +117,13 @@
     });
   }
 
-  if (window.matchMedia) {
-    var scheme = window.matchMedia('(prefers-color-scheme: dark)');
-    var onSchemeChange = function (event) {
-      if (root.getAttribute('data-mode') !== 'auto') return;
-      try { if (localStorage.getItem('rnp-theme')) return; } catch (error) {}
-      root.setAttribute('data-theme', event.matches ? 'dark' : 'light');
-      syncThemeUi();
+  if (schemeMedia) {
+    var onSchemeChange = function () {
+      if (themePreference !== 'auto') return;
+      applyTheme('auto', false);
     };
-    if (scheme.addEventListener) scheme.addEventListener('change', onSchemeChange);
-    else if (scheme.addListener) scheme.addListener(onSchemeChange);
+    if (schemeMedia.addEventListener) schemeMedia.addEventListener('change', onSchemeChange);
+    else if (schemeMedia.addListener) schemeMedia.addListener(onSchemeChange);
   }
 
   /* ---------- reading progress + toc scrollspy ---------- */
