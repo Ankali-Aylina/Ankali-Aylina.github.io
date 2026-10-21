@@ -1,0 +1,224 @@
+/* ============================================================
+   ANIM / motion layer
+   Technical motion, not decoration: reveal, boot, count, wipe.
+   Loaded after main.css. Content never depends on this file.
+   ============================================================ */
+
+.docbar { position: relative; overflow: hidden; }
+
+@keyframes rnp-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rnp-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes rnp-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes rnp-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes rnp-scan {
+  0% { transform: translateX(-100%); opacity: 0; }
+  12% { opacity: .65; }
+  72% { opacity: .65; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes rnp-panel {
+  from { opacity: 0; transform: translateY(-7px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes rnp-vt-in {
+  from { opacity: .4; }
+  to { opacity: 1; }
+}
+
+@keyframes rnp-vt-out {
+  from { opacity: 1; }
+  to { opacity: .4; }
+}
+
+/* page boot sequence */
+
+html[data-motion="on"] .sysbar {
+  animation: rnp-fade .35s ease-out both;
+}
+
+html[data-motion="on"] .masthead__id {
+  animation: rnp-rise .62s cubic-bezier(.16, 1, .3, 1) .06s both;
+}
+
+html[data-motion="on"] .kicker__mark {
+  transform-origin: left center;
+  animation: rnp-line .5s cubic-bezier(.16, 1, .3, 1) .28s both;
+}
+
+html[data-motion="on"] .masthead__title {
+  animation: rnp-wipe .8s cubic-bezier(.2, .7, .2, 1) .08s backwards;
+}
+
+html[data-motion="on"] .masthead__sub {
+  animation: rnp-fade .55s ease-out .34s both;
+}
+
+html[data-motion="on"] .stamp {
+  animation: rnp-fade .55s ease-out .36s both;
+}
+
+html[data-motion="on"] .nav__item {
+  animation: rnp-fade .42s ease-out both;
+}
+html[data-motion="on"] .nav__item:nth-child(1) { animation-delay: .32s; }
+html[data-motion="on"] .nav__item:nth-child(2) { animation-delay: .36s; }
+html[data-motion="on"] .nav__item:nth-child(3) { animation-delay: .40s; }
+html[data-motion="on"] .nav__item:nth-child(4) { animation-delay: .44s; }
+html[data-motion="on"] .nav__item:nth-child(5) { animation-delay: .48s; }
+html[data-motion="on"] .nav__item.is-active::before {
+  transform-origin: left center;
+  animation: rnp-line .45s cubic-bezier(.16, 1, .3, 1) .52s both;
+}
+
+html[data-motion="on"] .docbar {
+  animation: rnp-fade .4s ease-out .28s both;
+}
+
+html[data-motion="on"] .docbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  opacity: 0;
+  transform: translateX(-100%);
+  animation: rnp-scan 1.15s cubic-bezier(.3, .7, .3, 1) .62s both;
+}
+
+html[data-motion="on"] .status {
+  animation: rnp-rise .55s cubic-bezier(.16, 1, .3, 1) .38s both;
+}
+
+html[data-motion="on"] .sec-head {
+  animation: rnp-fade .5s ease-out .56s both;
+}
+
+html[data-motion="on"] .page-head {
+  animation: rnp-rise .55s cubic-bezier(.16, 1, .3, 1) .12s both;
+}
+
+html[data-motion="on"] .post__head {
+  animation: rnp-rise .6s cubic-bezier(.16, 1, .3, 1) .14s both;
+}
+
+html[data-motion="on"] .post__meta {
+  animation: rnp-fade .5s ease-out .34s both;
+}
+
+/* hover: mechanical, small, directional */
+
+.entry__num,
+.entry__tick,
+.entry__go,
+.entry__arrow,
+.tag-cell__name,
+.index-row__name,
+.adjacent__title {
+  transition: color .2s ease, width .22s ease, transform .22s ease;
+}
+
+.entry:hover .entry__num { color: var(--blue); }
+.entry:hover .entry__tick { width: 38px; }
+.entry:hover .entry__arrow { transform: translateX(3px); }
+
+.tag-cell,
+.index-row,
+.pager__btn,
+.copy-link,
+.error__btn,
+.post__tags-list a {
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+/* search overlay */
+
+html[data-motion="on"] .search:not([hidden]) .search__scrim {
+  animation: rnp-fade .18s ease-out both;
+}
+
+html[data-motion="on"] .search:not([hidden]) .search__panel {
+  animation: rnp-panel .24s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+html[data-motion="on"] .search-result {
+  animation: rnp-rise .32s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+/* scroll reveal: class is only added by JS, so no-JS never hides content */
+
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.reveal-pending.reveal-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .55s cubic-bezier(.16, 1, .3, 1),
+    transform .55s cubic-bezier(.16, 1, .3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* theme cross-fade (View Transitions where supported) */
+
+::view-transition-old(root) {
+  animation: rnp-vt-out .18s ease both;
+}
+
+::view-transition-new(root) {
+  animation: rnp-vt-in .28s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-motion="on"] *,
+  html[data-motion="on"] *::before,
+  html[data-motion="on"] *::after {
+    animation: none !important;
+  }
+
+  .reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reveal-pending.reveal-in {
+    transition: none !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+@media print {
+  html[data-motion="on"] *,
+  html[data-motion="on"] *::before,
+  html[data-motion="on"] *::after {
+    animation: none !important;
+  }
+
+  .reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

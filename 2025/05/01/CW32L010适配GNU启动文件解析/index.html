@@ -1,335 +1,207 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN" data-theme="light" data-motion="on">
 <head>
-  <meta charset="UTF-8">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/Icon.png">
-  <link rel="icon" href="/img/Icon.png">
   
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Ankali-Aylina">
-  <meta name="keywords" content="RNP, Rabbit Newspaper, 知识分享报社 嵌入式 CW32 Ankali-Aylina C C++">
-  
-    <meta name="description" content="CW32L010适配GNU启动文件解析前言因为keil开发单片机实在是手感不太好，所以打算使用GNU工具链进行开发，因此找到了VSCode上的EIDE插件，但是GNU工具链的启动文件和keil的启动文件还是有一些区别的，所以打算记录一下GNU启动文件的结构，方便以后查阅。 ps：本文基于CW32L010的GNU启动文件进行解析,主要放在启动文件（.s文件）的解析。由于我也是新手一个，文章中可能存在">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CW32L010适配GNU启动文件解析 · Anim</title>
+<meta name="description" content="Anim · 知识分享报社">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Anim">
 <meta property="og:title" content="CW32L010适配GNU启动文件解析">
-<meta property="og:url" content="http://ankali-aylina.github.io/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/index.html">
-<meta property="og:site_name" content="兔兔报社">
-<meta property="og:description" content="CW32L010适配GNU启动文件解析前言因为keil开发单片机实在是手感不太好，所以打算使用GNU工具链进行开发，因此找到了VSCode上的EIDE插件，但是GNU工具链的启动文件和keil的启动文件还是有一些区别的，所以打算记录一下GNU启动文件的结构，方便以后查阅。 ps：本文基于CW32L010的GNU启动文件进行解析,主要放在启动文件（.s文件）的解析。由于我也是新手一个，文章中可能存在">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:description" content="Anim · 知识分享报社">
+<meta property="og:url" content="http://ankali-aylina.github.io/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">
+
 <meta property="article:published_time" content="2025-05-01T06:34:38.000Z">
+
 <meta property="article:modified_time" content="2025-05-05T10:35:57.746Z">
-<meta property="article:author" content="Ankali-Aylina">
+
+
 <meta property="article:tag" content="GNU启动文件">
+
 <meta property="article:tag" content="CW32L010">
+
 <meta property="article:tag" content="启动文件解析">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>CW32L010适配GNU启动文件解析 ◇ 兔兔报社</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CW32L010适配GNU启动文件解析">
+<meta name="twitter:description" content="Anim · 知识分享报社">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="/css/motion.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme';
+    var saved = localStorage.getItem(key);
+    var mode = "light";
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light') active = requested;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', mode);
+  } catch (error) {}
+})();
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"ankali-aylina.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":64,"cursorChar":"⌥","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2022-09-18T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 7.3.0"></head>
-
-
-<body>
-  
-
-  <header>
+<body class="is-post has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
     
-
-<div class="header-inner" style="height: 80vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Rabbit Newspaper</strong>
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.10.22 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
     </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
     </div>
   </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/Eternal-Frost.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="CW32L010适配GNU启动文件解析"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-author" aria-hidden="true"></i>
-        Ankali-Aylina
-      </span>
+  <nav class="nav" aria-label="主导航">
     
     
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-05-01 14:34" pubdate>
-          2025年5月1日 下午
-        </time>
-      </span>
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
     
-  </div>
-
-  <div class="mt-1">
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">02</span>
+      <span class="nav__name">归档</span>
+    </a>
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          2.2k 字
-        
-      </span>
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">分类</span>
+    </a>
     
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
 
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          19 分钟
-        
-      </span>
-    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>ANIM-20250501-54</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">TRANSMISSION</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
 
-    
-    
+    <main class="main" id="main">
       
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
+<article class="post">
+  <header class="post__head">
+    <p class="post__kicker">
+      <span>TRANSMISSION</span>
+      <span class="post__kicker-sep" aria-hidden="true">/</span>
+      <span>ANIM-20250501-54</span>
+    </p>
+    <h1 class="post__title">CW32L010适配GNU启动文件解析</h1>
     
-  </div>
-
-
-        
+    <div class="post__meta">
+      <div class="post__meta-cell">
+        <span class="post__meta-label">DATE / 发布</span>
+        <b><time datetime="2025-05-01T06:34:38.000Z">2025.05.01</time></b>
       </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
+      <div class="post__meta-cell">
+        <span class="post__meta-label">CHANNEL / 分类</span>
+        <b><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">LABELS / 标签</span>
+        <b class="post__meta-tags">
+          
+          <a href="/tags/GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">#GNU启动文件</a> <a href="/tags/CW32L010/">#CW32L010</a> <a href="/tags/%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">#启动文件解析</a>
+          
+        </b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">READOUT / 时长</span>
+        <b>3 MIN</b>
+      </div>
     </div>
-  </div>
-</div>
-
-</div>
-
   </header>
 
-  <main>
-    
+  <div class="post__grid">
+    <div class="post__main">
+      
+      <details class="toc-mobile" data-toc-mobile>
+        <summary><span>CONTENTS / 目录</span><span class="toc-mobile__count">3 LABELS</span></summary>
+        <div class="toc-mobile__body"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">GNU启动文件的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E9%9C%80%E8%A6%81%E5%AE%9A%E4%B9%89%E6%B1%87%E7%BC%96%E8%AF%AD%E6%B3%95%EF%BC%8C%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%8C%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97%EF%BC%8C%E6%8C%87%E4%BB%A4%E9%9B%86%E3%80%82"><span class="toc-text">首先需要定义汇编语法，定义处理器，浮点运算，指令集。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">定义全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">定义几个重要的地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Reset-Handler%E5%87%BD%E6%95%B0"><span class="toc-text">定义Reset_Handler函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Reset-Handler%E5%87%BD%E6%95%B0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">定义Reset_Handler函数的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B0%E8%BF%99%E9%87%8C%E5%8F%AF%E4%BB%A5%E8%AF%B4%E6%98%AF%E8%AE%BE%E7%BD%AE%E5%A5%BD%E4%BA%86%E6%95%B4%E4%B8%AAReset-Handler%E5%87%BD%E6%95%B0%EF%BC%8C%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%88%91%E4%BB%AC%E8%BF%98%E9%9C%80%E8%A6%81%E8%AE%BE%E7%BD%AEDefault-Handler%E5%87%BD%E6%95%B0%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%A4%84%E7%90%86%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8%EF%BC%88%E9%98%B2%E6%AD%A2%E7%A8%8B%E5%BA%8F%E8%B7%91%E9%A3%9E%EF%BC%89"><span class="toc-text">到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-text">设置中断函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%EF%BC%8C%E4%B8%8D%E5%90%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E5%B9%B6%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E8%BF%99%E4%B8%AA%E9%9C%80%E8%A6%81%E5%8F%82%E8%80%83%E5%AF%B9%E5%BA%94%E7%9A%84%E8%8A%AF%E7%89%87"><span class="toc-text">设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%B1%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="toc-text">弱定义函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CW32L010-EIDE-TEMPLATE"><span class="toc-text">CW32L010-EIDE-TEMPLATE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8ECW32L010%E7%9A%84EIDE%E6%A8%A1%E6%9D%BF%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91%E5%9F%BA%E4%BA%8ECW32L010%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE%E3%80%82-s%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E4%B9%9F%E5%B7%B2%E7%BB%8F%E5%90%8C%E6%AD%A5%E4%B8%8A%E4%BC%A0%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%8F%82%E8%80%83%E3%80%82"><span class="toc-text">这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。.s启动文件也已经同步上传，可以参考。</span></a></li></ol></div>
+      </details>
       
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">CW32L010适配GNU启动文件解析</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="CW32L010适配GNU启动文件解析"><a href="#CW32L010适配GNU启动文件解析" class="headerlink" title="CW32L010适配GNU启动文件解析"></a>CW32L010适配GNU启动文件解析</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为keil开发单片机实在是手感不太好，所以打算使用GNU工具链进行开发，因此找到了VSCode上的EIDE插件，但是GNU工具链的启动文件和keil的启动文件还是有一些区别的，所以打算记录一下GNU启动文件的结构，方便以后查阅。</p>
+      <div class="post-body" id="post-body" data-post-body>
+        <h1 id="CW32L010适配GNU启动文件解析"><a href="#CW32L010适配GNU启动文件解析" class="headerlink" title="CW32L010适配GNU启动文件解析"></a>CW32L010适配GNU启动文件解析</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为keil开发单片机实在是手感不太好，所以打算使用GNU工具链进行开发，因此找到了VSCode上的EIDE插件，但是GNU工具链的启动文件和keil的启动文件还是有一些区别的，所以打算记录一下GNU启动文件的结构，方便以后查阅。</p>
 <p>ps：本文基于CW32L010的GNU启动文件进行解析,主要放在启动文件（.s文件）的解析。由于我也是新手一个，文章中可能存在错误，欢迎指正。</p>
 <h2 id="GNU启动文件的结构"><a href="#GNU启动文件的结构" class="headerlink" title="GNU启动文件的结构"></a>GNU启动文件的结构</h2><h3 id="首先需要定义汇编语法，定义处理器，浮点运算，指令集。"><a href="#首先需要定义汇编语法，定义处理器，浮点运算，指令集。" class="headerlink" title="首先需要定义汇编语法，定义处理器，浮点运算，指令集。"></a>首先需要定义汇编语法，定义处理器，浮点运算，指令集。</h3><p>因为CW32l010是M0+内核，所以使用的是Cortex-M0+处理器，软件浮点运算(M0+无硬件FPU)，Thumb指令集。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">.syntax unified <span class="hljs-comment">// 启用统一的ARM/Thumb汇编语法。</span><br>.cpu cortex-m0plus <span class="hljs-comment">// 使用Cortex-M0+处理器</span><br>.fpu softvfp <span class="hljs-comment">// 使用软件浮点运算，M0+无硬件FPU</span><br>.thumb <span class="hljs-comment">// 使用Thumb指令集</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.syntax unified <span class="comment">// 启用统一的ARM/Thumb汇编语法。</span></span><br><span class="line">.cpu cortex-m0plus <span class="comment">// 使用Cortex-M0+处理器</span></span><br><span class="line">.fpu softvfp <span class="comment">// 使用软件浮点运算，M0+无硬件FPU</span></span><br><span class="line">.thumb <span class="comment">// 使用Thumb指令集</span></span><br></pre></td></tr></table></figure>
 <h3 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h3><ol>
 <li>定义一个全局符号g_pfnVectors之后用来存储中断向量表。</li>
 <li>定义一个全局函数Default_Handler，用来处理中断向量表中的异常（防止程序跑飞）</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">.global g_pfnVectors <span class="hljs-comment">// 声明全局变量g_pfnVectors</span><br>.global Default_Handler <span class="hljs-comment">// 声明全局函数Default_Handler</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.global g_pfnVectors <span class="comment">// 声明全局变量g_pfnVectors</span></span><br><span class="line">.global Default_Handler <span class="comment">// 声明全局函数Default_Handler</span></span><br></pre></td></tr></table></figure>
 <h3 id="定义几个重要的地址"><a href="#定义几个重要的地址" class="headerlink" title="定义几个重要的地址"></a>定义几个重要的地址</h3><h4 id="在开始这段内容讲解前，我们需要先明白几个知识点"><a href="#在开始这段内容讲解前，我们需要先明白几个知识点" class="headerlink" title="在开始这段内容讲解前，我们需要先明白几个知识点"></a>在开始这段内容讲解前，我们需要先明白几个知识点</h4><p>我们所编写的代码在上电之前都是存储在Flash中的，上电之后，代码会被加载到RAM中，所以我们需要定义一些地址，来表示Flash和RAM中的地址，完成初始化。</p>
 <ol>
 <li>.data data段存放着已经初始化过且不为0的全局变量和静态变量，一开始放在Flash中，上电之后，会被加载到RAM中。</li>
@@ -340,451 +212,191 @@
 <li>_sbss 定义的是在RAM中bss段的起始<strong>地址</strong></li>
 <li>_ebss 定义的是在RAM中bss段的结束<strong>地址</strong></li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* start address for the initialization values of the .data section.</span><br><span class="hljs-comment">defined in linker script */</span><br><br>```c<br><span class="hljs-comment">/* start address for the initialization values of the .data section.</span><br><span class="hljs-comment">defined in linker script */</span><br><span class="hljs-comment">/* .data data段 Flash中初始化数据的起始地址 */</span><br>.word _sidata<br><br><span class="hljs-comment">/* start address for the .data section. defined in linker script */</span><br><span class="hljs-comment">/* .data data段 RAM中数据段的起始地址 */</span><br>.word _sdata<br><br><span class="hljs-comment">/* end address for the .data section. defined in linker script */</span><br><span class="hljs-comment">/* .data data段 RAM中数据段的结束地址 */</span><br>.word _edata<br><br><span class="hljs-comment">/* start address for the .bss section. defined in linker script */</span><br><span class="hljs-comment">/* .bss BSS段（未初始化全局变量）的起始地址 */</span><br>.word _sbss<br><br><span class="hljs-comment">/* end address for the .bss section. defined in linker script */</span><br><span class="hljs-comment">/* .bss BSS段（未初始化全局变量）的结束地址 */</span><br>.word _ebss<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* start address for the initialization values of the .data section.</span></span><br><span class="line"><span class="comment">defined in linker script */</span></span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line"><span class="comment">/* start address for the initialization values of the .data section.</span></span><br><span class="line"><span class="comment">defined in linker script */</span></span><br><span class="line"><span class="comment">/* .data data段 Flash中初始化数据的起始地址 */</span></span><br><span class="line">.word _sidata</span><br><span class="line"></span><br><span class="line"><span class="comment">/* start address for the .data section. defined in linker script */</span></span><br><span class="line"><span class="comment">/* .data data段 RAM中数据段的起始地址 */</span></span><br><span class="line">.word _sdata</span><br><span class="line"></span><br><span class="line"><span class="comment">/* end address for the .data section. defined in linker script */</span></span><br><span class="line"><span class="comment">/* .data data段 RAM中数据段的结束地址 */</span></span><br><span class="line">.word _edata</span><br><span class="line"></span><br><span class="line"><span class="comment">/* start address for the .bss section. defined in linker script */</span></span><br><span class="line"><span class="comment">/* .bss BSS段（未初始化全局变量）的起始地址 */</span></span><br><span class="line">.word _sbss</span><br><span class="line"></span><br><span class="line"><span class="comment">/* end address for the .bss section. defined in linker script */</span></span><br><span class="line"><span class="comment">/* .bss BSS段（未初始化全局变量）的结束地址 */</span></span><br><span class="line">.word _ebss</span><br></pre></td></tr></table></figure>
 <h3 id="定义Reset-Handler函数"><a href="#定义Reset-Handler函数" class="headerlink" title="定义Reset_Handler函数"></a>定义Reset_Handler函数</h3><p>定义一个Reset_Handler函数，用于初始化RAM和系统调用main函数。</p>
 <ol>
 <li>定义一个名为 .text.Reset_Handler 的代码段（Section），专门存放 Reset_Handler 函数的代码。</li>
 <li>将 Reset_Handler 声明为 弱符号（Weak Symbol）。</li>
 <li>将 Reset_Handler 声明为 函数类型（Function Type）。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*定义一个名为 .text.Reset_Handler 的代码段（Section），专门存放 Reset_Handler 函数的代码 */</span><br>.section .text.Reset_Handler<br><br><span class="hljs-comment">/*将 Reset_Handler 声明为 弱符号（Weak Symbol） */</span><br>.weak Reset_Handler<br><br><span class="hljs-comment">/*将 Reset_Handler 声明为 函数类型（Function Type） */</span><br><span class="hljs-comment">/*%function：表示符号是函数类型 */</span><br>.type Reset_Handler, %function<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*定义一个名为 .text.Reset_Handler 的代码段（Section），专门存放 Reset_Handler 函数的代码 */</span></span><br><span class="line">.section .text.Reset_Handler</span><br><span class="line"></span><br><span class="line"><span class="comment">/*将 Reset_Handler 声明为 弱符号（Weak Symbol） */</span></span><br><span class="line">.weak Reset_Handler</span><br><span class="line"></span><br><span class="line"><span class="comment">/*将 Reset_Handler 声明为 函数类型（Function Type） */</span></span><br><span class="line"><span class="comment">/*%function：表示符号是函数类型 */</span></span><br><span class="line">.type Reset_Handler, %function</span><br></pre></td></tr></table></figure>
 <h3 id="定义Reset-Handler函数的内容"><a href="#定义Reset-Handler函数的内容" class="headerlink" title="定义Reset_Handler函数的内容"></a>定义Reset_Handler函数的内容</h3><ol>
 <li>设置栈指针，将栈指针指向_estack，也就是栈顶地址。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">Reset_Handler:<br>  ldr   r0, =_estack    <span class="hljs-comment">/* 获取栈顶地址 */</span><br>  mov   sp, r0          <span class="hljs-comment">/* set stack pointer 设置栈指针 */</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Reset_Handler:</span><br><span class="line">  ldr   r0, =_estack    <span class="comment">/* 获取栈顶地址 */</span></span><br><span class="line">  mov   sp, r0          <span class="comment">/* set stack pointer 设置栈指针 */</span></span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>将Flash中的初始化数据复制到RAM中，也就是将Flash中的data段复制到RAM中。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c">  ldr r0, =_sdata       <span class="hljs-comment">// 加载_sdata的地址到r0寄存器（data段起始地址）</span><br>  ldr r1, =_edata       <span class="hljs-comment">// 加载_edata的地址到r1寄存器（data段终止地址）</span><br>  ldr r2, =_sidata      <span class="hljs-comment">// 加载_sidata的地址到r2寄存器（Flash中的初始化数据）</span><br>  movs r3, #<span class="hljs-number">0</span>           <span class="hljs-comment">// 将0移动到r3寄存器</span><br>  b LoopCopyDataInit    <span class="hljs-comment">// 跳转到LoopCopyDataInit标签</span><br><br>CopyDataInit:<br>  ldr r4, [r2, r3]      <span class="hljs-comment">// 从r2寄存器加上r3寄存器的值所指向的内存地址中，将数据加载到r4寄存器中（加载Flash中的初始化数据到r4）</span><br>  str r4, [r0, r3]      <span class="hljs-comment">// 将r4寄存器中的数据存储到r0寄存器加上r3寄存器的值所指向的内存地址中(将r4中的数据存储到RAM中)</span><br>  adds r3, r3, #<span class="hljs-number">4</span>       <span class="hljs-comment">// 将r3寄存器的值加上4，并将结果存储到r3寄存器中(移动到下一个地址继续复制)</span><br><br><br>LoopCopyDataInit:<br>  adds r4, r0, r3       <span class="hljs-comment">// 将RAM数据段起始地址与r3寄存器的值相加，并将结果存储到r4寄存器中(将r4的数据替换为data段下一位地址)</span><br>  cmp r4, r1            <span class="hljs-comment">// 对比r4寄存器与RAM数据段结束地址（查看当前是否到达了RAM 数据段的结束地址）</span><br>  bcc CopyDataInit      <span class="hljs-comment">// 如果r4寄存器的值小于r1寄存器的值（未到达RAM的数据段结束地址），则跳转到CopyDataInit标签</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  ldr r0, =_sdata       <span class="comment">// 加载_sdata的地址到r0寄存器（data段起始地址）</span></span><br><span class="line">  ldr r1, =_edata       <span class="comment">// 加载_edata的地址到r1寄存器（data段终止地址）</span></span><br><span class="line">  ldr r2, =_sidata      <span class="comment">// 加载_sidata的地址到r2寄存器（Flash中的初始化数据）</span></span><br><span class="line">  movs r3, #<span class="number">0</span>           <span class="comment">// 将0移动到r3寄存器</span></span><br><span class="line">  b LoopCopyDataInit    <span class="comment">// 跳转到LoopCopyDataInit标签</span></span><br><span class="line"></span><br><span class="line">CopyDataInit:</span><br><span class="line">  ldr r4, [r2, r3]      <span class="comment">// 从r2寄存器加上r3寄存器的值所指向的内存地址中，将数据加载到r4寄存器中（加载Flash中的初始化数据到r4）</span></span><br><span class="line">  str r4, [r0, r3]      <span class="comment">// 将r4寄存器中的数据存储到r0寄存器加上r3寄存器的值所指向的内存地址中(将r4中的数据存储到RAM中)</span></span><br><span class="line">  adds r3, r3, #<span class="number">4</span>       <span class="comment">// 将r3寄存器的值加上4，并将结果存储到r3寄存器中(移动到下一个地址继续复制)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LoopCopyDataInit:</span><br><span class="line">  adds r4, r0, r3       <span class="comment">// 将RAM数据段起始地址与r3寄存器的值相加，并将结果存储到r4寄存器中(将r4的数据替换为data段下一位地址)</span></span><br><span class="line">  cmp r4, r1            <span class="comment">// 对比r4寄存器与RAM数据段结束地址（查看当前是否到达了RAM 数据段的结束地址）</span></span><br><span class="line">  bcc CopyDataInit      <span class="comment">// 如果r4寄存器的值小于r1寄存器的值（未到达RAM的数据段结束地址），则跳转到CopyDataInit标签</span></span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>将BSS段清零，也就是将RAM中的bss段清零。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Zero fill the bss segment. */</span><br><span class="hljs-comment">/*零填充bss区段。*/</span><br>  ldr r2, =_sbss        <span class="hljs-comment">// 将_sbss的地址加载到r2寄存器中（bss段起始地址）</span><br>  ldr r4, =_ebss        <span class="hljs-comment">// 将_ebss的地址加载到r4寄存器中（bss段终止地址）</span><br>  movs r3, #<span class="hljs-number">0</span>           <span class="hljs-comment">// 将0移动到r3寄存器中（bss段的填充数值）</span><br>  b LoopFillZerobss     <span class="hljs-comment">// 跳转到LoopFillZerobss标签处</span><br><br>FillZerobss:<br>  str  r3, [r2]         <span class="hljs-comment">// 将r3寄存器中的值存储到r2寄存器所指向的内存地址中（将r2地址指向的数值填充为0）</span><br>  adds r2, r2, #<span class="hljs-number">4</span>       <span class="hljs-comment">// 将r2寄存器的值加上4，并将结果存储到r2寄存器中（移动到下一个地址继续填充）</span><br><br>LoopFillZerobss:<br>  cmp r2, r4          <span class="hljs-comment">// 比较r2寄存器与_ebss的地址（如果到达结束地址的下一位地址则取消填充）</span><br>  bcc FillZerobss     <span class="hljs-comment">// 如果r2寄存器的值小于_ebss的地址（是否达到bss段的结束地址），则跳转到FillZerobss标签处</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Zero fill the bss segment. */</span></span><br><span class="line"><span class="comment">/*零填充bss区段。*/</span></span><br><span class="line">  ldr r2, =_sbss        <span class="comment">// 将_sbss的地址加载到r2寄存器中（bss段起始地址）</span></span><br><span class="line">  ldr r4, =_ebss        <span class="comment">// 将_ebss的地址加载到r4寄存器中（bss段终止地址）</span></span><br><span class="line">  movs r3, #<span class="number">0</span>           <span class="comment">// 将0移动到r3寄存器中（bss段的填充数值）</span></span><br><span class="line">  b LoopFillZerobss     <span class="comment">// 跳转到LoopFillZerobss标签处</span></span><br><span class="line"></span><br><span class="line">FillZerobss:</span><br><span class="line">  str  r3, [r2]         <span class="comment">// 将r3寄存器中的值存储到r2寄存器所指向的内存地址中（将r2地址指向的数值填充为0）</span></span><br><span class="line">  adds r2, r2, #<span class="number">4</span>       <span class="comment">// 将r2寄存器的值加上4，并将结果存储到r2寄存器中（移动到下一个地址继续填充）</span></span><br><span class="line"></span><br><span class="line">LoopFillZerobss:</span><br><span class="line">  cmp r2, r4          <span class="comment">// 比较r2寄存器与_ebss的地址（如果到达结束地址的下一位地址则取消填充）</span></span><br><span class="line">  bcc FillZerobss     <span class="comment">// 如果r2寄存器的值小于_ebss的地址（是否达到bss段的结束地址），则跳转到FillZerobss标签处</span></span><br></pre></td></tr></table></figure>
 <ol start="4">
 <li>初始化系统时钟，初始化静态构造函数，调用main函数。最后进入死循环。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Call the clock system initialization function.*/</span><br><span class="hljs-comment">/*调用时钟系统初始化函数。*/</span><br>  bl  SystemInit<br><br><span class="hljs-comment">/* Call static constructors */</span><br><span class="hljs-comment">/*调用静态构造函数*/</span><br>  bl __libc_init_array<br><br><span class="hljs-comment">/* Call the application s entry point.*/</span><br><span class="hljs-comment">/*调用应用程序的入口点。*/</span><br>  bl main<br><br>LoopForever:<br>  b LoopForever<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Call the clock system initialization function.*/</span></span><br><span class="line"><span class="comment">/*调用时钟系统初始化函数。*/</span></span><br><span class="line">  bl  SystemInit</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Call static constructors */</span></span><br><span class="line"><span class="comment">/*调用静态构造函数*/</span></span><br><span class="line">  bl __libc_init_array</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Call the application s entry point.*/</span></span><br><span class="line"><span class="comment">/*调用应用程序的入口点。*/</span></span><br><span class="line">  bl main</span><br><span class="line"></span><br><span class="line">LoopForever:</span><br><span class="line">  b LoopForever</span><br></pre></td></tr></table></figure>
 <ol start="5">
 <li>设置Reset_Handle的大小</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"> <span class="hljs-comment">/*设置Reset_Handle的大小，值为：当前位置-（减去）Reset_Handler的起始位置 */</span><br> <span class="hljs-comment">/*.表示当前地址 Reset_Handler 表示 Reset_Handler 的起始位置*/</span><br>.size Reset_Handler, .-Reset_Handler<br></code></pre></td></tr></table></figure>
-<h3 id="到这里可以说是设置好了整个Reset-Handler函数，接下来我们还需要设置Default-Handler函数，用于处理中断向量表中的异常（防止程序跑飞）"><a href="#到这里可以说是设置好了整个Reset-Handler函数，接下来我们还需要设置Default-Handler函数，用于处理中断向量表中的异常（防止程序跑飞）" class="headerlink" title="到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）"></a>到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//*定义一个名为 .text.Default_Handler 的代码段（Section） */</span><br><span class="hljs-comment">/*.text段用于存储可执行代码 */</span><br><span class="hljs-comment">/*&quot;ax&quot;为段属性标志 a:表示该段需要分配内存，x:表示该段可执行 */</span><br><span class="hljs-comment">/*%progbits：段类型，表示该段包含实际数据（代码或初始化数据） */</span><br>  .section .text.Default_Handler,<span class="hljs-string">&quot;ax&quot;</span>,%progbits<br><br><span class="hljs-comment">/*Default_Handler：定义一个默认中断符号，出现未定义的中断触发时将跳转到这里 */</span><br>Default_Handler:<br><br><span class="hljs-comment">/*Infinite_Loop：定义一个循环符号， b Infinite_Loop：无条件跳转到Infinite_Loop实现死循环。 */</span><br><span class="hljs-comment">/*用途：当出现未被定义的中断时跳转至此进行死循环防止程序跑飞 */</span><br>Infinite_Loop:<br>  b Infinite_Loop<br><br><span class="hljs-comment">/*设置 Default_Handler 的大小，值为：当前位置-（减去）Default_Handler的起始位置 */</span><br><span class="hljs-comment">/*.表示当前地址 Default_Handler 表示 Default_Handler 的起始位置*/</span><br>  .size Default_Handler, .-Default_Handler<br></code></pre></td></tr></table></figure>
-<h3 id="设置中断函数"><a href="#设置中断函数" class="headerlink" title="设置中断函数"></a>设置中断函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*定义一个名为 .isr_vector 的段（Section），专门用于存放中断向量表 */</span><br><span class="hljs-comment">/*&quot;a&quot;段属性标志 a:表示该段需要分配内存 */</span><br><span class="hljs-comment">/*%progbits：段类型，表示该段包含实际数据（中断服务函数的地址） */</span><br>.section .isr_vector,<span class="hljs-string">&quot;a&quot;</span>,%progbits<br><br><span class="hljs-comment">/*声明符号 g_pfnVectors 的类型为数据对象 */</span><br><span class="hljs-comment">/*%object：表示符号对应的是一个数据对象（如数组、结构体等） */</span><br><span class="hljs-comment">/*g_pfnVectors 是一个函数指针数组，每个元素指向一个中断服务函数 */</span><br>.type g_pfnVectors, %object<br><br><span class="hljs-comment">/*设置 g_pfnVectors 的大小为当前位置减去 g_pfnVectors 的起始位置 */</span><br><span class="hljs-comment">/*设置符号 g_pfnVectors 的大小为整个中断向量表的字节长度 */</span><br>.size g_pfnVectors, .-g_pfnVectors<br></code></pre></td></tr></table></figure>
-<h3 id="设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片"><a href="#设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片" class="headerlink" title="设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片"></a>设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c">g_pfnVectors:<br>  .word  _estack                        <span class="hljs-comment">/* Top of Stack */</span><br>  .word  Reset_Handler                  <span class="hljs-comment">/* Reset Handler */</span><br>  .word  NMI_Handler                    <span class="hljs-comment">/* NMI Handler */</span><br>  .word  HardFault_Handler              <span class="hljs-comment">/* Hard Fault Handler */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  SVC_Handler                    <span class="hljs-comment">/* SVCall Handler */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  Default_Handler                              <span class="hljs-comment">/* Reserved */</span><br>  .word  PendSV_Handler                 <span class="hljs-comment">/* PendSV Handler */</span><br>  .word  SysTick_Handler                <span class="hljs-comment">/* SysTick Handler */</span><br><br>  .word WDT_IRQHandler            <span class="hljs-comment">/* 0 Watch Dog Timer Interrupt Handler         */</span><br>  .word LVD_IRQHandler            <span class="hljs-comment">/* 1 Low Voltage Detect Interrupt Handler      */</span><br>  .word RTC_IRQHandler            <span class="hljs-comment">/* 2 Real Time Clock Interrupt Handler         */</span><br>  .word FLASHRAM_IRQHandler       <span class="hljs-comment">/* 3 Flash/RAM Interrupt Handler               */</span><br>  .word SYSCTRL_IRQHandler        <span class="hljs-comment">/* 4 System Control Interrupt Handler          */</span><br>  .word GPIOA_IRQHandler          <span class="hljs-comment">/* 5 GPIOA Interrupt Handler                   */</span><br>  .word GPIOB_IRQHandler          <span class="hljs-comment">/* 6 GPIOB Interrupt Handler                   */</span><br>  .word Default_Handler           <span class="hljs-comment">/* 7 Reserved                                  */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 8 Reserved                                  */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 9 Reserved                                  */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 10 Reserved                                 */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 11 Reserved                                 */</span><br>  .word ADC_IRQHandler            <span class="hljs-comment">/* 12 ADC Interrupt Handler                    */</span><br>  .word ATIM_IRQHandler           <span class="hljs-comment">/* 13 Advanced Timer Interrupt Handler         */</span><br>  .word VC1_IRQHandler            <span class="hljs-comment">/* 14 Voltage Comparator 1 Interrupt Handler   */</span><br>  .word VC2_IRQHandler            <span class="hljs-comment">/* 15 Voltage Comparator 2 Interrupt Handler   */</span><br>  .word GTIM1_IRQHandler          <span class="hljs-comment">/* 16 General Timer1 Interrupt Handler         */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 17 Reserved                                 */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 18 Reserved                                 */</span><br>  .word LPTIM_IRQHandler          <span class="hljs-comment">/* 19 Low Power Timer Interrupt Handler        */</span><br>  .word BTIM1_IRQHandler          <span class="hljs-comment">/* 20 Base Timer1 Interrupt Handler            */</span><br>  .word BTIM2_IRQHandler          <span class="hljs-comment">/* 21 Base Timer2 Interrupt Handler            */</span><br>  .word BTIM3_IRQHandler          <span class="hljs-comment">/* 22 Base Timer3 Interrupt Handler            */</span><br>  .word I2C1_IRQHandler           <span class="hljs-comment">/* 23 I2C1 Interrupt Handler                   */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 24 Reserved                                 */</span><br>  .word SPI1_IRQHandler           <span class="hljs-comment">/* 25 SPI Interrupt Handler                    */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 26 Reserved                                 */</span><br>  .word UART1_IRQHandler          <span class="hljs-comment">/* 27 UART1 Interrupt Handler                  */</span><br>  .word UART2_IRQHandler          <span class="hljs-comment">/* 28 UART2 Interrupt Handler                  */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 29 Reserved                                 */</span><br>  .word Default_Handler                         <span class="hljs-comment">/* 30 Reserved                                 */</span><br>  .word CLKFAULT_IRQHandler       <span class="hljs-comment">/* 31 Clock Fault Interrupt Handler            */</span><br><br></code></pre></td></tr></table></figure>
-<h3 id="弱定义函数"><a href="#弱定义函数" class="headerlink" title="弱定义函数"></a>弱定义函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*******************************************************************************</span><br><span class="hljs-comment">*</span><br><span class="hljs-comment">*为Default_Handler的每个异常处理程序提供弱别名。</span><br><span class="hljs-comment">*由于它们是弱别名，任何同名的函数都将被覆盖</span><br><span class="hljs-comment">*这个定义。</span><br><span class="hljs-comment">*禁止在此重复弱定义Reset_Handler！！！</span><br><span class="hljs-comment">*******************************************************************************/</span><br>  .weak      NMI_Handler<br>  .thumb_set NMI_Handler,Default_Handler<br><br>  .weak      HardFault_Handler<br>  .thumb_set HardFault_Handler,Default_Handler<br><br>  .weak      SVC_Handler<br>  .thumb_set SVC_Handler,Default_Handler<br><br>  .weak      PendSV_Handler<br>  .thumb_set PendSV_Handler,Default_Handler<br><br>  .weak      SysTick_Handler<br>  .thumb_set SysTick_Handler,Default_Handler<br><br>  .weak      WDT_IRQHandler<br>  .thumb_set WDT_IRQHandler,Default_Handler<br><br>  .weak      LVD_IRQHandler<br>  .thumb_set LVD_IRQHandler,Default_Handler<br><br>  .weak      RTC_IRQHandler<br>  .thumb_set RTC_IRQHandler,Default_Handler<br><br>  .weak      FLASHRAM_IRQHandler<br>  .thumb_set FLASHRAM_IRQHandler,Default_Handler<br><br>  .weak      SYSCTRL_IRQHandler<br>  .thumb_set SYSCTRL_IRQHandler,Default_Handler<br><br>  .weak      GPIOA_IRQHandler<br>  .thumb_set GPIOA_IRQHandler,Default_Handler<br><br>  .weak      GPIOB_IRQHandler<br>  .thumb_set GPIOB_IRQHandler,Default_Handler<br><br>  .weak      ADC_IRQHandler<br>  .thumb_set ADC_IRQHandler,Default_Handler<br><br>  .weak      ATIM_IRQHandler<br>  .thumb_set ATIM_IRQHandler,Default_Handler<br><br>  .weak      VC1_IRQHandler<br>  .thumb_set VC1_IRQHandler,Default_Handler<br><br>  .weak      VC2_IRQHandler<br>  .thumb_set VC2_IRQHandler,Default_Handler<br><br>  .weak      GTIM1_IRQHandler<br>  .thumb_set GTIM1_IRQHandler,Default_Handler<br><br>  .weak      LPTIM_IRQHandler<br>  .thumb_set LPTIM_IRQHandler,Default_Handler<br><br>  .weak      BTIM1_IRQHandler<br>  .thumb_set BTIM1_IRQHandler,Default_Handler<br><br>  .weak      BTIM2_IRQHandler<br>  .thumb_set BTIM2_IRQHandler,Default_Handler<br><br>  .weak      BTIM3_IRQHandler<br>  .thumb_set BTIM3_IRQHandler,Default_Handler<br><br>  .weak      I2C1_IRQHandler<br>  .thumb_set I2C1_IRQHandler,Default_Handler<br><br>  .weak      SPI1_IRQHandler<br>  .thumb_set SPI1_IRQHandler,Default_Handler<br><br>  .weak      UART1_IRQHandler<br>  .thumb_set UART1_IRQHandler,Default_Handler<br><br>  .weak      UART2_IRQHandler<br>  .thumb_set UART2_IRQHandler,Default_Handler<br><br>  .weak      CLKFAULT_IRQHandler<br>  .thumb_set CLKFAULT_IRQHandler,Default_Handler<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*设置Reset_Handle的大小，值为：当前位置-（减去）Reset_Handler的起始位置 */</span></span><br><span class="line"> <span class="comment">/*.表示当前地址 Reset_Handler 表示 Reset_Handler 的起始位置*/</span></span><br><span class="line">.size Reset_Handler, .-Reset_Handler</span><br></pre></td></tr></table></figure>
+<h3 id="到这里可以说是设置好了整个Reset-Handler函数，接下来我们还需要设置Default-Handler函数，用于处理中断向量表中的异常（防止程序跑飞）"><a href="#到这里可以说是设置好了整个Reset-Handler函数，接下来我们还需要设置Default-Handler函数，用于处理中断向量表中的异常（防止程序跑飞）" class="headerlink" title="到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）"></a>到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//*定义一个名为 .text.Default_Handler 的代码段（Section） */</span></span><br><span class="line"><span class="comment">/*.text段用于存储可执行代码 */</span></span><br><span class="line"><span class="comment">/*&quot;ax&quot;为段属性标志 a:表示该段需要分配内存，x:表示该段可执行 */</span></span><br><span class="line"><span class="comment">/*%progbits：段类型，表示该段包含实际数据（代码或初始化数据） */</span></span><br><span class="line">  .section .text.Default_Handler,<span class="string">&quot;ax&quot;</span>,%progbits</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Default_Handler：定义一个默认中断符号，出现未定义的中断触发时将跳转到这里 */</span></span><br><span class="line">Default_Handler:</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Infinite_Loop：定义一个循环符号， b Infinite_Loop：无条件跳转到Infinite_Loop实现死循环。 */</span></span><br><span class="line"><span class="comment">/*用途：当出现未被定义的中断时跳转至此进行死循环防止程序跑飞 */</span></span><br><span class="line">Infinite_Loop:</span><br><span class="line">  b Infinite_Loop</span><br><span class="line"></span><br><span class="line"><span class="comment">/*设置 Default_Handler 的大小，值为：当前位置-（减去）Default_Handler的起始位置 */</span></span><br><span class="line"><span class="comment">/*.表示当前地址 Default_Handler 表示 Default_Handler 的起始位置*/</span></span><br><span class="line">  .size Default_Handler, .-Default_Handler</span><br></pre></td></tr></table></figure>
+<h3 id="设置中断函数"><a href="#设置中断函数" class="headerlink" title="设置中断函数"></a>设置中断函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*定义一个名为 .isr_vector 的段（Section），专门用于存放中断向量表 */</span></span><br><span class="line"><span class="comment">/*&quot;a&quot;段属性标志 a:表示该段需要分配内存 */</span></span><br><span class="line"><span class="comment">/*%progbits：段类型，表示该段包含实际数据（中断服务函数的地址） */</span></span><br><span class="line">.section .isr_vector,<span class="string">&quot;a&quot;</span>,%progbits</span><br><span class="line"></span><br><span class="line"><span class="comment">/*声明符号 g_pfnVectors 的类型为数据对象 */</span></span><br><span class="line"><span class="comment">/*%object：表示符号对应的是一个数据对象（如数组、结构体等） */</span></span><br><span class="line"><span class="comment">/*g_pfnVectors 是一个函数指针数组，每个元素指向一个中断服务函数 */</span></span><br><span class="line">.type g_pfnVectors, %object</span><br><span class="line"></span><br><span class="line"><span class="comment">/*设置 g_pfnVectors 的大小为当前位置减去 g_pfnVectors 的起始位置 */</span></span><br><span class="line"><span class="comment">/*设置符号 g_pfnVectors 的大小为整个中断向量表的字节长度 */</span></span><br><span class="line">.size g_pfnVectors, .-g_pfnVectors</span><br></pre></td></tr></table></figure>
+<h3 id="设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片"><a href="#设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片" class="headerlink" title="设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片"></a>设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">g_pfnVectors:</span><br><span class="line">  .word  _estack                        <span class="comment">/* Top of Stack */</span></span><br><span class="line">  .word  Reset_Handler                  <span class="comment">/* Reset Handler */</span></span><br><span class="line">  .word  NMI_Handler                    <span class="comment">/* NMI Handler */</span></span><br><span class="line">  .word  HardFault_Handler              <span class="comment">/* Hard Fault Handler */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  SVC_Handler                    <span class="comment">/* SVCall Handler */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  Default_Handler                              <span class="comment">/* Reserved */</span></span><br><span class="line">  .word  PendSV_Handler                 <span class="comment">/* PendSV Handler */</span></span><br><span class="line">  .word  SysTick_Handler                <span class="comment">/* SysTick Handler */</span></span><br><span class="line"></span><br><span class="line">  .word WDT_IRQHandler            <span class="comment">/* 0 Watch Dog Timer Interrupt Handler         */</span></span><br><span class="line">  .word LVD_IRQHandler            <span class="comment">/* 1 Low Voltage Detect Interrupt Handler      */</span></span><br><span class="line">  .word RTC_IRQHandler            <span class="comment">/* 2 Real Time Clock Interrupt Handler         */</span></span><br><span class="line">  .word FLASHRAM_IRQHandler       <span class="comment">/* 3 Flash/RAM Interrupt Handler               */</span></span><br><span class="line">  .word SYSCTRL_IRQHandler        <span class="comment">/* 4 System Control Interrupt Handler          */</span></span><br><span class="line">  .word GPIOA_IRQHandler          <span class="comment">/* 5 GPIOA Interrupt Handler                   */</span></span><br><span class="line">  .word GPIOB_IRQHandler          <span class="comment">/* 6 GPIOB Interrupt Handler                   */</span></span><br><span class="line">  .word Default_Handler           <span class="comment">/* 7 Reserved                                  */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 8 Reserved                                  */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 9 Reserved                                  */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 10 Reserved                                 */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 11 Reserved                                 */</span></span><br><span class="line">  .word ADC_IRQHandler            <span class="comment">/* 12 ADC Interrupt Handler                    */</span></span><br><span class="line">  .word ATIM_IRQHandler           <span class="comment">/* 13 Advanced Timer Interrupt Handler         */</span></span><br><span class="line">  .word VC1_IRQHandler            <span class="comment">/* 14 Voltage Comparator 1 Interrupt Handler   */</span></span><br><span class="line">  .word VC2_IRQHandler            <span class="comment">/* 15 Voltage Comparator 2 Interrupt Handler   */</span></span><br><span class="line">  .word GTIM1_IRQHandler          <span class="comment">/* 16 General Timer1 Interrupt Handler         */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 17 Reserved                                 */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 18 Reserved                                 */</span></span><br><span class="line">  .word LPTIM_IRQHandler          <span class="comment">/* 19 Low Power Timer Interrupt Handler        */</span></span><br><span class="line">  .word BTIM1_IRQHandler          <span class="comment">/* 20 Base Timer1 Interrupt Handler            */</span></span><br><span class="line">  .word BTIM2_IRQHandler          <span class="comment">/* 21 Base Timer2 Interrupt Handler            */</span></span><br><span class="line">  .word BTIM3_IRQHandler          <span class="comment">/* 22 Base Timer3 Interrupt Handler            */</span></span><br><span class="line">  .word I2C1_IRQHandler           <span class="comment">/* 23 I2C1 Interrupt Handler                   */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 24 Reserved                                 */</span></span><br><span class="line">  .word SPI1_IRQHandler           <span class="comment">/* 25 SPI Interrupt Handler                    */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 26 Reserved                                 */</span></span><br><span class="line">  .word UART1_IRQHandler          <span class="comment">/* 27 UART1 Interrupt Handler                  */</span></span><br><span class="line">  .word UART2_IRQHandler          <span class="comment">/* 28 UART2 Interrupt Handler                  */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 29 Reserved                                 */</span></span><br><span class="line">  .word Default_Handler                         <span class="comment">/* 30 Reserved                                 */</span></span><br><span class="line">  .word CLKFAULT_IRQHandler       <span class="comment">/* 31 Clock Fault Interrupt Handler            */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="弱定义函数"><a href="#弱定义函数" class="headerlink" title="弱定义函数"></a>弱定义函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******************************************************************************</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*为Default_Handler的每个异常处理程序提供弱别名。</span></span><br><span class="line"><span class="comment">*由于它们是弱别名，任何同名的函数都将被覆盖</span></span><br><span class="line"><span class="comment">*这个定义。</span></span><br><span class="line"><span class="comment">*禁止在此重复弱定义Reset_Handler！！！</span></span><br><span class="line"><span class="comment">*******************************************************************************/</span></span><br><span class="line">  .weak      NMI_Handler</span><br><span class="line">  .thumb_set NMI_Handler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      HardFault_Handler</span><br><span class="line">  .thumb_set HardFault_Handler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      SVC_Handler</span><br><span class="line">  .thumb_set SVC_Handler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      PendSV_Handler</span><br><span class="line">  .thumb_set PendSV_Handler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      SysTick_Handler</span><br><span class="line">  .thumb_set SysTick_Handler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      WDT_IRQHandler</span><br><span class="line">  .thumb_set WDT_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      LVD_IRQHandler</span><br><span class="line">  .thumb_set LVD_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      RTC_IRQHandler</span><br><span class="line">  .thumb_set RTC_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      FLASHRAM_IRQHandler</span><br><span class="line">  .thumb_set FLASHRAM_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      SYSCTRL_IRQHandler</span><br><span class="line">  .thumb_set SYSCTRL_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      GPIOA_IRQHandler</span><br><span class="line">  .thumb_set GPIOA_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      GPIOB_IRQHandler</span><br><span class="line">  .thumb_set GPIOB_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      ADC_IRQHandler</span><br><span class="line">  .thumb_set ADC_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      ATIM_IRQHandler</span><br><span class="line">  .thumb_set ATIM_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      VC1_IRQHandler</span><br><span class="line">  .thumb_set VC1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      VC2_IRQHandler</span><br><span class="line">  .thumb_set VC2_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      GTIM1_IRQHandler</span><br><span class="line">  .thumb_set GTIM1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      LPTIM_IRQHandler</span><br><span class="line">  .thumb_set LPTIM_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      BTIM1_IRQHandler</span><br><span class="line">  .thumb_set BTIM1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      BTIM2_IRQHandler</span><br><span class="line">  .thumb_set BTIM2_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      BTIM3_IRQHandler</span><br><span class="line">  .thumb_set BTIM3_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      I2C1_IRQHandler</span><br><span class="line">  .thumb_set I2C1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      SPI1_IRQHandler</span><br><span class="line">  .thumb_set SPI1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      UART1_IRQHandler</span><br><span class="line">  .thumb_set UART1_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      UART2_IRQHandler</span><br><span class="line">  .thumb_set UART2_IRQHandler,Default_Handler</span><br><span class="line"></span><br><span class="line">  .weak      CLKFAULT_IRQHandler</span><br><span class="line">  .thumb_set CLKFAULT_IRQHandler,Default_Handler</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="CW32L010-EIDE-TEMPLATE"><a href="#CW32L010-EIDE-TEMPLATE" class="headerlink" title="CW32L010-EIDE-TEMPLATE"></a><a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/CW32L010-EIDE-template">CW32L010-EIDE-TEMPLATE</a></h2><h2 id="这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。-s启动文件也已经同步上传，可以参考。"><a href="#这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。-s启动文件也已经同步上传，可以参考。" class="headerlink" title="这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。.s启动文件也已经同步上传，可以参考。"></a>这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。.s启动文件也已经同步上传，可以参考。</h2>
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+      </div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+      <footer class="post__footer">
         
-  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" class="category-chain-item">嵌入式</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CW32L010/" class="category-chain-item">CW32L010</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/" class="print-no-link">#GNU启动文件</a>
-      
-        <a href="/tags/CW32L010/" class="print-no-link">#CW32L010</a>
-      
-        <a href="/tags/%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/" class="print-no-link">#启动文件解析</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>CW32L010适配GNU启动文件解析</div>
-      <div>http://ankali-aylina.github.io/2025/05/01/CW32L010适配GNU启动文件解析/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Ankali-Aylina</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年5月1日</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>更新于</div>
-          <div>2025年5月5日</div>
-        </div>
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+        <div class="post__tags">
+          <span class="post__tags-label">LABELS / 标签</span>
+          <div class="post__tags-list">
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
+            <a href="/tags/GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">#GNU启动文件</a>
+            
+            <a href="/tags/CW32L010/">#CW32L010</a>
+            
+            <a href="/tags/%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">#启动文件解析</a>
             
           </div>
         </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2025/05/05/IRSTB/" title="智能散热小桌板">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">智能散热小桌板</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2025/05/01/%E5%B9%B6%E9%9D%9EHelloWorld/" title="并非HelloWorld">
-                        <span class="hidden-mobile">并非HelloWorld</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
+        
+        <div class="post__fineprint">
+          
+          <span>UPDATED / 修订 <b>2025.05.05 18:35</b></span>
+          
+          
+          <span>FORMAT / 格式 <b>HTML · UTF-8</b></span>
         </div>
-      </div>
+        <div class="end-mark" aria-hidden="true">
+          <span>END OF DOCUMENT</span>
+          <i class="ruler"></i>
+          <span>ANIM-20250501-54</span>
+        </div>
+        
+        <nav class="adjacent" aria-label="上一篇 / 下一篇">
+          
+          <a class="adjacent__item" href="/2025/05/05/IRSTB/" rel="prev">
+            <span class="adjacent__label"><span aria-hidden="true">←</span> PREV / 上一份</span>
+            <span class="adjacent__title">智能散热小桌板</span>
+          </a>
+          
+          
+          <a class="adjacent__item adjacent__item--next" href="/2025/05/01/%E5%B9%B6%E9%9D%9EHelloWorld/" rel="next">
+            <span class="adjacent__label">NEXT / 下一份 <span aria-hidden="true">→</span></span>
+            <span class="adjacent__title">并非HelloWorld</span>
+          </a>
+          
+        </nav>
+        
+      </footer>
     </div>
 
-    <div class="side-col d-none d-lg-block col-lg-2">
+    <aside class="side" aria-label="文档信息">
       
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+      <section class="panel panel--toc">
+        <div class="panel__head"><span>CONTENTS</span><span>目录</span></div>
+        <div class="toc-wrap"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">GNU启动文件的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E9%9C%80%E8%A6%81%E5%AE%9A%E4%B9%89%E6%B1%87%E7%BC%96%E8%AF%AD%E6%B3%95%EF%BC%8C%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%8C%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97%EF%BC%8C%E6%8C%87%E4%BB%A4%E9%9B%86%E3%80%82"><span class="toc-text">首先需要定义汇编语法，定义处理器，浮点运算，指令集。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">定义全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">定义几个重要的地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Reset-Handler%E5%87%BD%E6%95%B0"><span class="toc-text">定义Reset_Handler函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Reset-Handler%E5%87%BD%E6%95%B0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">定义Reset_Handler函数的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B0%E8%BF%99%E9%87%8C%E5%8F%AF%E4%BB%A5%E8%AF%B4%E6%98%AF%E8%AE%BE%E7%BD%AE%E5%A5%BD%E4%BA%86%E6%95%B4%E4%B8%AAReset-Handler%E5%87%BD%E6%95%B0%EF%BC%8C%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%88%91%E4%BB%AC%E8%BF%98%E9%9C%80%E8%A6%81%E8%AE%BE%E7%BD%AEDefault-Handler%E5%87%BD%E6%95%B0%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%A4%84%E7%90%86%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8%EF%BC%88%E9%98%B2%E6%AD%A2%E7%A8%8B%E5%BA%8F%E8%B7%91%E9%A3%9E%EF%BC%89"><span class="toc-text">到这里可以说是设置好了整个Reset_Handler函数，接下来我们还需要设置Default_Handler函数，用于处理中断向量表中的异常（防止程序跑飞）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-text">设置中断函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%EF%BC%8C%E4%B8%8D%E5%90%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8%E5%B9%B6%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E8%BF%99%E4%B8%AA%E9%9C%80%E8%A6%81%E5%8F%82%E8%80%83%E5%AF%B9%E5%BA%94%E7%9A%84%E8%8A%AF%E7%89%87"><span class="toc-text">设置中断向量表，不同内核中断向量表并不一致，这个需要参考对应的芯片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%B1%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="toc-text">弱定义函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CW32L010-EIDE-TEMPLATE"><span class="toc-text">CW32L010-EIDE-TEMPLATE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8ECW32L010%E7%9A%84EIDE%E6%A8%A1%E6%9D%BF%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91%E5%9F%BA%E4%BA%8ECW32L010%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE%E3%80%82-s%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E4%B9%9F%E5%B7%B2%E7%BB%8F%E5%90%8C%E6%AD%A5%E4%B8%8A%E4%BC%A0%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%8F%82%E8%80%83%E3%80%82"><span class="toc-text">这是一个基于CW32L010的EIDE模板，用于快速开发基于CW32L010的嵌入式项目。.s启动文件也已经同步上传，可以参考。</span></a></li></ol></div>
+      </section>
+      
 
+      <section class="panel panel--readout" aria-label="阅读时长">
+        <div class="panel__head"><span>READOUT</span><span>阅读</span></div>
+        <div class="readout">
+          <em data-count="3" data-pad="2">03</em>
+          <span class="readout__unit">MIN</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="readout__note">823 WORDS / 字词</p>
+      </section>
 
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+      <section class="panel panel--meta">
+        <div class="panel__head"><span>DOCUMENT</span><span>文档</span></div>
+        <dl class="meta-list">
+          <div><dt>DOC NO.</dt><dd>ANIM-20250501-54</dd></div>
+          <div><dt>ISSUE</dt><dd>2025.05.01</dd></div>
+          <div><dt>CHANNEL</dt><dd>嵌入式</dd></div>
+          <div><dt>WORDS</dt><dd>823</dd></div>
+          <div><dt>ENCODING</dt><dd>UTF-8 / HTML</dd></div>
+        </dl>
+        <button class="copy-link" type="button" data-copy-link data-url="http://ankali-aylina.github.io/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/" data-copied="COPIED / 已复制">
+          <span data-copy-label>COPY PERMALINK</span>
+          <span aria-hidden="true">⧉</span>
         </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+      </section>
+    </aside>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
     </div>
   </div>
 </div>
 
-    
 
-    
-  </main>
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=1.0.0" defer></script>
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <img src="/img/loading.gif" data-original="/img/Icon.png" alt="" style="width: 20px;"> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    
-      <script  src="/js/img-lazyload.js" ></script>
-    
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 
         <style>
             [bg-lazy] {

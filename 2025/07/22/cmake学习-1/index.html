@@ -1,340 +1,210 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN" data-theme="light" data-motion="on">
 <head>
-  <meta charset="UTF-8">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/Icon.png">
-  <link rel="icon" href="/img/Icon.png">
   
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Ankali-Aylina">
-  <meta name="keywords" content="RNP, Rabbit Newspaper, 知识分享报社 嵌入式 CW32 Ankali-Aylina C C++">
-  
-    <meta name="description" content="cmake学习(1)目录 目录 简介  简介这里记录cmake的CMakeLists.txt编写的一些笔记，用于学习与记录，主要参考cmake官方文档。 例程与解析例程这里我们以之前的的000-CreateNewProject(创建新项目工具)的CMakeLists.txt为例，进行解析。 123456789101112131415161718192021222324252627282930313">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>cmake学习(1) · Anim</title>
+<meta name="description" content="Anim · 知识分享报社">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Anim">
 <meta property="og:title" content="cmake学习(1)">
-<meta property="og:url" content="http://ankali-aylina.github.io/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/index.html">
-<meta property="og:site_name" content="兔兔报社">
-<meta property="og:description" content="cmake学习(1)目录 目录 简介  简介这里记录cmake的CMakeLists.txt编写的一些笔记，用于学习与记录，主要参考cmake官方文档。 例程与解析例程这里我们以之前的的000-CreateNewProject(创建新项目工具)的CMakeLists.txt为例，进行解析。 123456789101112131415161718192021222324252627282930313">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:description" content="Anim · 知识分享报社">
+<meta property="og:url" content="http://ankali-aylina.github.io/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/">
+
 <meta property="article:published_time" content="2025-07-22T08:31:22.000Z">
+
 <meta property="article:modified_time" content="2025-09-09T01:28:56.297Z">
-<meta property="article:author" content="Ankali-Aylina">
+
+
 <meta property="article:tag" content="cmake">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>cmake学习(1) ◇ 兔兔报社</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cmake学习(1)">
+<meta name="twitter:description" content="Anim · 知识分享报社">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="/css/motion.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme';
+    var saved = localStorage.getItem(key);
+    var mode = "light";
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light') active = requested;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', mode);
+  } catch (error) {}
+})();
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"ankali-aylina.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":64,"cursorChar":"⌥","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2022-09-18T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 7.3.0"></head>
-
-
-<body>
-  
-
-  <header>
+<body class="is-post has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
     
-
-<div class="header-inner" style="height: 80vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Rabbit Newspaper</strong>
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.10.22 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
     </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
     </div>
   </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/Eternal-Frost.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="cmake学习(1)"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-author" aria-hidden="true"></i>
-        Ankali-Aylina
-      </span>
+  <nav class="nav" aria-label="主导航">
     
     
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-07-22 16:31" pubdate>
-          2025年7月22日 下午
-        </time>
-      </span>
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
     
-  </div>
-
-  <div class="mt-1">
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">02</span>
+      <span class="nav__name">归档</span>
+    </a>
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          1.7k 字
-        
-      </span>
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">分类</span>
+    </a>
     
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
 
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          14 分钟
-        
-      </span>
-    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>ANIM-20250722-3C</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">TRANSMISSION</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
 
-    
-    
+    <main class="main" id="main">
       
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
+<article class="post">
+  <header class="post__head">
+    <p class="post__kicker">
+      <span>TRANSMISSION</span>
+      <span class="post__kicker-sep" aria-hidden="true">/</span>
+      <span>ANIM-20250722-3C</span>
+    </p>
+    <h1 class="post__title">cmake学习(1)</h1>
     
-  </div>
-
-
-        
+    <div class="post__meta">
+      <div class="post__meta-cell">
+        <span class="post__meta-label">DATE / 发布</span>
+        <b><time datetime="2025-07-22T08:31:22.000Z">2025.07.22</time></b>
       </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
+      <div class="post__meta-cell">
+        <span class="post__meta-label">CHANNEL / 分类</span>
+        <b>UNFILED</b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">LABELS / 标签</span>
+        <b class="post__meta-tags">
+          
+          <a href="/tags/cmake/">#cmake</a>
+          
+        </b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">READOUT / 时长</span>
+        <b>5 MIN</b>
+      </div>
     </div>
-  </div>
-</div>
-
-</div>
-
   </header>
 
-  <main>
-    
+  <div class="post__grid">
+    <div class="post__main">
+      
+      <details class="toc-mobile" data-toc-mobile>
+        <summary><span>CONTENTS / 目录</span><span class="toc-mobile__count">1 LABELS</span></summary>
+        <div class="toc-mobile__body"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E7%A8%8B%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="toc-text">例程与解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E7%A8%8B"><span class="toc-text">例程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-text">解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div>
+      </details>
       
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">cmake学习(1)</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="cmake学习-1"><a href="#cmake学习-1" class="headerlink" title="cmake学习(1)"></a>cmake学习(1)</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+      <div class="post-body" id="post-body" data-post-body>
+        <h1 id="cmake学习-1"><a href="#cmake学习-1" class="headerlink" title="cmake学习(1)"></a>cmake学习(1)</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
 <li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
 </ul>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这里记录cmake的<code>CMakeLists.txt</code>编写的一些笔记，用于学习与记录，主要参考<a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/latest/index.html">cmake官方文档</a>。</p>
 <h2 id="例程与解析"><a href="#例程与解析" class="headerlink" title="例程与解析"></a>例程与解析</h2><h3 id="例程"><a href="#例程" class="headerlink" title="例程"></a>例程</h3><p>这里我们以之前的的<code>000-CreateNewProject</code>(创建新项目工具)的<code>CMakeLists.txt</code>为例，进行解析。</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># 设置最低 CMake 版本要求</span><br><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.10</span>)<br><br><span class="hljs-comment"># 创建排序算法项目</span><br><span class="hljs-keyword">project</span>(<span class="hljs-number">000</span>-CreateNewProject)<br><br><span class="hljs-comment"># 复制模板文件</span><br><span class="hljs-comment"># add_custom_target(CopyTemplate ALL</span><br><span class="hljs-comment">#     COMMAND $&#123;CMAKE_COMMAND&#125; -E copy_directory</span><br><span class="hljs-comment">#         $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/template</span><br><span class="hljs-comment">#         $&#123;CMAKE_CURRENT_BINARY_DIR&#125;/template</span><br><span class="hljs-comment">#     COMMENT &quot;Copying template files...&quot;</span><br><span class="hljs-comment"># )</span><br><br><span class="hljs-comment"># 设置C++标准</span><br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">17</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)<br><br><span class="hljs-comment"># 设置exe输出格式为GBK 解决中文乱码问题</span><br><span class="hljs-keyword">set</span>(CMAKE_C_FLAGS <span class="hljs-string">&quot;$&#123;CMAKE_C_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS <span class="hljs-string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)<br><br><span class="hljs-comment"># 设置构建类型（Debug/Release）</span><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">NOT</span> CMAKE_BUILD_TYPE)<br>    <span class="hljs-keyword">set</span>(CMAKE_BUILD_TYPE Debug)<br>    <span class="hljs-comment"># set(CMAKE_BUILD_TYPE Release)</span><br><span class="hljs-keyword">endif</span>()<br><br><span class="hljs-comment"># 添加包含目录</span><br><span class="hljs-keyword">include_directories</span>(<br>    <span class="hljs-variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/<span class="hljs-keyword">include</span><br>)<br><br><span class="hljs-comment"># 收集所有源文件</span><br><span class="hljs-keyword">file</span>(GLOB SOURCES <span class="hljs-string">&quot;src/*.cpp&quot;</span>)<br><br><span class="hljs-comment"># 创建可执行文件</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SOURCES&#125;</span>)<br><br><span class="hljs-comment"># 使可执行文件依赖复制操作</span><br><span class="hljs-comment"># add_dependencies($&#123;PROJECT_NAME&#125; CopyTemplate)</span><br><br><span class="hljs-comment"># 设置目标属性</span><br><span class="hljs-keyword">set_target_properties</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PROPERTIES<br>    OUTPUT_NAME <span class="hljs-string">&quot;$&#123;PROJECT_NAME&#125;&quot;</span><br>    RUNTIME_OUTPUT_DIRECTORY <span class="hljs-string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span><br>)<br><br><span class="hljs-comment"># 设置输出目录</span><br><span class="hljs-keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/bin)<br><span class="hljs-keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)<br><span class="hljs-keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)<br></code></pre></td></tr></table></figure>
-<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><h4 id="1-设置最低-CMake-版本要求"><a href="#1-设置最低-CMake-版本要求" class="headerlink" title="1. 设置最低 CMake 版本要求"></a>1. 设置最低 CMake 版本要求</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.10</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置最低 CMake 版本要求</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建排序算法项目</span></span><br><span class="line"><span class="keyword">project</span>(<span class="number">000</span>-CreateNewProject)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制模板文件</span></span><br><span class="line"><span class="comment"># add_custom_target(CopyTemplate ALL</span></span><br><span class="line"><span class="comment">#     COMMAND $&#123;CMAKE_COMMAND&#125; -E copy_directory</span></span><br><span class="line"><span class="comment">#         $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/template</span></span><br><span class="line"><span class="comment">#         $&#123;CMAKE_CURRENT_BINARY_DIR&#125;/template</span></span><br><span class="line"><span class="comment">#     COMMENT &quot;Copying template files...&quot;</span></span><br><span class="line"><span class="comment"># )</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置C++标准</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置exe输出格式为GBK 解决中文乱码问题</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_C_FLAGS <span class="string">&quot;$&#123;CMAKE_C_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置构建类型（Debug/Release）</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">NOT</span> CMAKE_BUILD_TYPE)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_BUILD_TYPE Debug)</span><br><span class="line">    <span class="comment"># set(CMAKE_BUILD_TYPE Release)</span></span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加包含目录</span></span><br><span class="line"><span class="keyword">include_directories</span>(</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 收集所有源文件</span></span><br><span class="line"><span class="keyword">file</span>(GLOB SOURCES <span class="string">&quot;src/*.cpp&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> <span class="variable">$&#123;SOURCES&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使可执行文件依赖复制操作</span></span><br><span class="line"><span class="comment"># add_dependencies($&#123;PROJECT_NAME&#125; CopyTemplate)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置目标属性</span></span><br><span class="line"><span class="keyword">set_target_properties</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> PROPERTIES</span><br><span class="line">    OUTPUT_NAME <span class="string">&quot;$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line">    RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置输出目录</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/bin)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)</span><br></pre></td></tr></table></figure>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><h4 id="1-设置最低-CMake-版本要求"><a href="#1-设置最低-CMake-版本要求" class="headerlink" title="1. 设置最低 CMake 版本要求"></a>1. 设置最低 CMake 版本要求</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>cmake_minimum_required</code>用于设置最低的CMake版本要求，这里设置为3.10。</li>
 </ul>
-<h4 id="2-创建排序算法项目"><a href="#2-创建排序算法项目" class="headerlink" title="2. 创建排序算法项目"></a>2. 创建排序算法项目</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">project</span>(<span class="hljs-number">000</span>-CreateNewProject)<br></code></pre></td></tr></table></figure>
+<h4 id="2-创建排序算法项目"><a href="#2-创建排序算法项目" class="headerlink" title="2. 创建排序算法项目"></a>2. 创建排序算法项目</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">project</span>(<span class="number">000</span>-CreateNewProject)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>project</code>用于创建一个项目，这里创建了一个名为<code>000-CreateNewProject</code>的项目。</li>
 </ul>
-<h4 id="3-复制模板文件"><a href="#3-复制模板文件" class="headerlink" title="3. 复制模板文件"></a>3. 复制模板文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_custom_target</span>(CopyTemplate ALL<br>    <span class="hljs-keyword">COMMAND</span> <span class="hljs-variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy_directory<br>        <span class="hljs-variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/template<br>        <span class="hljs-variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>/template<br>    COMMENT <span class="hljs-string">&quot;Copying template files...&quot;</span><br>)<br></code></pre></td></tr></table></figure>
+<h4 id="3-复制模板文件"><a href="#3-复制模板文件" class="headerlink" title="3. 复制模板文件"></a>3. 复制模板文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_custom_target</span>(CopyTemplate ALL</span><br><span class="line">    <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy_directory</span><br><span class="line">        <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/template</span><br><span class="line">        <span class="variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>/template</span><br><span class="line">    COMMENT <span class="string">&quot;Copying template files...&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>add_custom_target</code>用于添加一个自定义目标，这里添加了一个名为<code>CopyTemplate</code>的自定义目标，用于复制模板文件。</li>
 <li><code>COMMAND</code>用于指定要执行的命令，这里指定了要执行的命令为:<ul>
@@ -351,7 +221,7 @@
 </li>
 <li><code>COMMENT</code>用于指定要显示的注释，这里指定了要显示的注释为<code>Copying template files...</code>。</li>
 </ul>
-<h4 id="4-设置C-标准"><a href="#4-设置C-标准" class="headerlink" title="4. 设置C++标准"></a>4. 设置C++标准</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">17</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="4-设置C-标准"><a href="#4-设置C-标准" class="headerlink" title="4. 设置C++标准"></a>4. 设置C++标准</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>set</code>用于设置变量，这里设置了两个变量:<ul>
 <li><code>CMAKE_CXX_STANDARD</code>用于设置C++标准，这里设置为17。</li>
@@ -359,7 +229,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="5-设置exe输出格式为GBK-解决中文乱码问题"><a href="#5-设置exe输出格式为GBK-解决中文乱码问题" class="headerlink" title="5. 设置exe输出格式为GBK 解决中文乱码问题"></a>5. 设置exe输出格式为GBK 解决中文乱码问题</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">set</span>(CMAKE_C_FLAGS <span class="hljs-string">&quot;$&#123;CMAKE_C_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS <span class="hljs-string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="5-设置exe输出格式为GBK-解决中文乱码问题"><a href="#5-设置exe输出格式为GBK-解决中文乱码问题" class="headerlink" title="5. 设置exe输出格式为GBK 解决中文乱码问题"></a>5. 设置exe输出格式为GBK 解决中文乱码问题</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_FLAGS <span class="string">&quot;$&#123;CMAKE_C_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -Wall -fexec-charset=GBK&quot;</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>set</code>用于设置变量，这里设置了两个变量:<ul>
 <li><code>CMAKE_C_FLAGS</code>用于设置C编译选项，这里设置了<code>-Wall</code>和<code>-fexec-charset=GBK</code>。</li>
@@ -369,21 +239,21 @@
 </ul>
 </li>
 </ul>
-<h4 id="6-设置构建类型（Debug-Release）"><a href="#6-设置构建类型（Debug-Release）" class="headerlink" title="6. 设置构建类型（Debug&#x2F;Release）"></a>6. 设置构建类型（Debug&#x2F;Release）</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">if</span>(<span class="hljs-keyword">NOT</span> CMAKE_BUILD_TYPE)<br>    <span class="hljs-keyword">set</span>(CMAKE_BUILD_TYPE Debug)<br>    <span class="hljs-comment"># set(CMAKE_BUILD_TYPE Release)</span><br><span class="hljs-keyword">endif</span>()<br></code></pre></td></tr></table></figure>
+<h4 id="6-设置构建类型（Debug-Release）"><a href="#6-设置构建类型（Debug-Release）" class="headerlink" title="6. 设置构建类型（Debug&#x2F;Release）"></a>6. 设置构建类型（Debug&#x2F;Release）</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">NOT</span> CMAKE_BUILD_TYPE)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_BUILD_TYPE Debug)</span><br><span class="line">    <span class="comment"># set(CMAKE_BUILD_TYPE Release)</span></span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>if</code>用于判断条件，这里判断了<code>CMAKE_BUILD_TYPE</code>是否为空，如果为空，则设置<code>CMAKE_BUILD_TYPE</code>为Debug，否则不设置。<ul>
 <li><code>CMAKE_BUILD_TYPE</code>用于设置构建类型，这里设置为Debug。</li>
 </ul>
 </li>
 </ul>
-<h4 id="7-添加包含目录"><a href="#7-添加包含目录" class="headerlink" title="7. 添加包含目录"></a>7. 添加包含目录</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">include_directories</span>(<br>    <span class="hljs-variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/<span class="hljs-keyword">include</span><br>)<br></code></pre></td></tr></table></figure>
+<h4 id="7-添加包含目录"><a href="#7-添加包含目录" class="headerlink" title="7. 添加包含目录"></a>7. 添加包含目录</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>include_directories</code>用于添加包含目录，这里添加了<code>$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/include</code>目录。<ul>
 <li><code>CMAKE_CURRENT_SOURCE_DIR</code>表示当前CMakeLists.txt所在的目录。</li>
 </ul>
 </li>
 </ul>
-<h4 id="8-收集所有源文件"><a href="#8-收集所有源文件" class="headerlink" title="8. 收集所有源文件"></a>8. 收集所有源文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">file</span>(GLOB SOURCES <span class="hljs-string">&quot;src/*.cpp&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="8-收集所有源文件"><a href="#8-收集所有源文件" class="headerlink" title="8. 收集所有源文件"></a>8. 收集所有源文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB SOURCES <span class="string">&quot;src/*.cpp&quot;</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>file</code>用于执行文件操作，这里使用了<code>GLOB</code>命令，用于收集所有源文件，这里收集了<code>src</code>目录下的所有<code>.cpp</code>文件，并将结果保存在<code>SOURCES</code>变量中。<ul>
 <li><code>GLOB</code>命令用于收集文件，这里收集了<code>src</code>目录下的所有<code>.cpp</code>文件。</li>
@@ -391,7 +261,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="9-创建可执行文件"><a href="#9-创建可执行文件" class="headerlink" title="9. 创建可执行文件"></a>9. 创建可执行文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SOURCES&#125;</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="9-创建可执行文件"><a href="#9-创建可执行文件" class="headerlink" title="9. 创建可执行文件"></a>9. 创建可执行文件</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> <span class="variable">$&#123;SOURCES&#125;</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>add_executable</code>用于创建可执行文件，这里创建了一个名为<code>$&#123;PROJECT_NAME&#125;</code>的可执行文件，并将<code>$&#123;SOURCES&#125;</code>变量中的所有源文件添加到可执行文件中。<ul>
 <li><code>$&#123;PROJECT_NAME&#125;</code>表示当前项目名。</li>
@@ -399,7 +269,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="10-使可执行文件依赖复制操作-保证程序运行前文件已复制"><a href="#10-使可执行文件依赖复制操作-保证程序运行前文件已复制" class="headerlink" title="10. 使可执行文件依赖复制操作,保证程序运行前文件已复制"></a>10. 使可执行文件依赖复制操作,保证程序运行前文件已复制</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_dependencies</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> CopyTemplate)<br></code></pre></td></tr></table></figure>
+<h4 id="10-使可执行文件依赖复制操作-保证程序运行前文件已复制"><a href="#10-使可执行文件依赖复制操作-保证程序运行前文件已复制" class="headerlink" title="10. 使可执行文件依赖复制操作,保证程序运行前文件已复制"></a>10. 使可执行文件依赖复制操作,保证程序运行前文件已复制</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_dependencies</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> CopyTemplate)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>add_dependencies</code>用于添加依赖关系，这里将<code>CopyTemplate</code>添加为<code>$&#123;PROJECT_NAME&#125;</code>的依赖关系，即<code>$&#123;PROJECT_NAME&#125;</code>依赖于<code>CopyTemplate</code>。<ul>
 <li><code>CopyTemplate</code>表示自定义目标，即复制模板文件的目标。</li>
@@ -407,7 +277,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="11-设置目标属性"><a href="#11-设置目标属性" class="headerlink" title="11. 设置目标属性"></a>11. 设置目标属性</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">set_target_properties</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PROPERTIES<br>    OUTPUT_NAME <span class="hljs-string">&quot;$&#123;PROJECT_NAME&#125;&quot;</span><br>    RUNTIME_OUTPUT_DIRECTORY <span class="hljs-string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span><br>)<br></code></pre></td></tr></table></figure>
+<h4 id="11-设置目标属性"><a href="#11-设置目标属性" class="headerlink" title="11. 设置目标属性"></a>11. 设置目标属性</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_target_properties</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> PROPERTIES</span><br><span class="line">    OUTPUT_NAME <span class="string">&quot;$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line">    RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>set_target_properties</code>用于设置目标属性，这里设置了两个属性:<ul>
 <li><code>OUTPUT_NAME</code>用于设置输出文件名，这里设置为<code>$&#123;PROJECT_NAME&#125;</code>。</li>
@@ -418,7 +288,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="12-设置输出目录"><a href="#12-设置输出目录" class="headerlink" title="12. 设置输出目录"></a>12. 设置输出目录</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/bin)<br><span class="hljs-keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)<br><span class="hljs-keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="hljs-variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)<br></code></pre></td></tr></table></figure>
+<h4 id="12-设置输出目录"><a href="#12-设置输出目录" class="headerlink" title="12. 设置输出目录"></a>12. 设置输出目录</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/bin)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/lib)</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>set</code>用于设置变量，这里设置了三个变量:<ul>
 <li><code>CMAKE_RUNTIME_OUTPUT_DIRECTORY</code>用于设置可执行文件的输出目录，这里设置为<code>$&#123;CMAKE_BINARY_DIR&#125;/bin</code>。</li>
@@ -464,386 +334,154 @@
 <li><code>Release</code>表示发布模式。</li>
 </ul>
 
-                
-              </div>
+      </div>
+
+      <footer class="post__footer">
+        
+        <div class="post__tags">
+          <span class="post__tags-label">LABELS / 标签</span>
+          <div class="post__tags-list">
             
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/cmake/" class="print-no-link">#cmake</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>cmake学习(1)</div>
-      <div>http://ankali-aylina.github.io/2025/07/22/cmake学习-1/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Ankali-Aylina</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年7月22日</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>更新于</div>
-          <div>2025年9月9日</div>
-        </div>
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
+            <a href="/tags/cmake/">#cmake</a>
             
           </div>
         </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="C++算法学习-创建新项目工具">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C++算法学习-创建新项目工具</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2025/05/05/IRSTB/" title="智能散热小桌板">
-                        <span class="hidden-mobile">智能散热小桌板</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
+        
+        <div class="post__fineprint">
+          
+          <span>UPDATED / 修订 <b>2025.09.09 09:28</b></span>
+          
+          
+          <span>FORMAT / 格式 <b>HTML · UTF-8</b></span>
         </div>
-      </div>
+        <div class="end-mark" aria-hidden="true">
+          <span>END OF DOCUMENT</span>
+          <i class="ruler"></i>
+          <span>ANIM-20250722-3C</span>
+        </div>
+        
+        <nav class="adjacent" aria-label="上一篇 / 下一篇">
+          
+          <a class="adjacent__item" href="/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" rel="prev">
+            <span class="adjacent__label"><span aria-hidden="true">←</span> PREV / 上一份</span>
+            <span class="adjacent__title">C++算法学习-创建新项目工具</span>
+          </a>
+          
+          
+          <a class="adjacent__item adjacent__item--next" href="/2025/05/05/IRSTB/" rel="next">
+            <span class="adjacent__label">NEXT / 下一份 <span aria-hidden="true">→</span></span>
+            <span class="adjacent__title">智能散热小桌板</span>
+          </a>
+          
+        </nav>
+        
+      </footer>
     </div>
 
-    <div class="side-col d-none d-lg-block col-lg-2">
+    <aside class="side" aria-label="文档信息">
       
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+      <section class="panel panel--toc">
+        <div class="panel__head"><span>CONTENTS</span><span>目录</span></div>
+        <div class="toc-wrap"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E7%A8%8B%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="toc-text">例程与解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E7%A8%8B"><span class="toc-text">例程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-text">解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div>
+      </section>
+      
 
+      <section class="panel panel--readout" aria-label="阅读时长">
+        <div class="panel__head"><span>READOUT</span><span>阅读</span></div>
+        <div class="readout">
+          <em data-count="5" data-pad="2">05</em>
+          <span class="readout__unit">MIN</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="readout__note">1,287 WORDS / 字词</p>
+      </section>
 
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+      <section class="panel panel--meta">
+        <div class="panel__head"><span>DOCUMENT</span><span>文档</span></div>
+        <dl class="meta-list">
+          <div><dt>DOC NO.</dt><dd>ANIM-20250722-3C</dd></div>
+          <div><dt>ISSUE</dt><dd>2025.07.22</dd></div>
+          <div><dt>CHANNEL</dt><dd>UNFILED</dd></div>
+          <div><dt>WORDS</dt><dd>1,287</dd></div>
+          <div><dt>ENCODING</dt><dd>UTF-8 / HTML</dd></div>
+        </dl>
+        <button class="copy-link" type="button" data-copy-link data-url="http://ankali-aylina.github.io/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/" data-copied="COPIED / 已复制">
+          <span data-copy-label>COPY PERMALINK</span>
+          <span aria-hidden="true">⧉</span>
         </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+      </section>
+    </aside>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
     </div>
   </div>
 </div>
 
-    
 
-    
-  </main>
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=1.0.0" defer></script>
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <img src="/img/loading.gif" data-original="/img/Icon.png" alt="" style="width: 20px;"> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    
-      <script  src="/js/img-lazyload.js" ></script>
-    
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 
         <style>
             [bg-lazy] {

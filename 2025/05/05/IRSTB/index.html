@@ -1,356 +1,285 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN" data-theme="light" data-motion="on">
 <head>
-  <meta charset="UTF-8">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/Icon.png">
-  <link rel="icon" href="/img/Icon.png">
   
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Ankali-Aylina">
-  <meta name="keywords" content="RNP, Rabbit Newspaper, 知识分享报社 嵌入式 CW32 Ankali-Aylina C C++">
-  
-    <meta name="description" content="智能散热小桌板项目简介智能散热小桌板是一个软硬件结合的桌面散热系统：硬件端以 CW32L010 为主控，通过蓝牙接收电脑温度并驱动风扇；上位机软件（TCV3）实时监测电脑 CPU &#x2F; GPU 温度，根据温度自动调节风扇转速，为你带来清凉舒适的使用体验。 简单来说：电脑热了，小桌板自己就把风扇开大了。 下载与安装 GitHub Releases：https:&#x2F;&#x2F;github.com&#x2F;Ank">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>智能散热小桌板 · Anim</title>
+<meta name="description" content="TCV3 4.5.1 使用与更新：NASA 朋克主题、关机散热、固件 OTA，以及一套从 Windows 到 CW32L010 的桌面散热链路。">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/2025/05/05/IRSTB/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Anim">
 <meta property="og:title" content="智能散热小桌板">
-<meta property="og:url" content="http://ankali-aylina.github.io/2025/05/05/IRSTB/index.html">
-<meta property="og:site_name" content="兔兔报社">
-<meta property="og:description" content="智能散热小桌板项目简介智能散热小桌板是一个软硬件结合的桌面散热系统：硬件端以 CW32L010 为主控，通过蓝牙接收电脑温度并驱动风扇；上位机软件（TCV3）实时监测电脑 CPU &#x2F; GPU 温度，根据温度自动调节风扇转速，为你带来清凉舒适的使用体验。 简单来说：电脑热了，小桌板自己就把风扇开大了。 下载与安装 GitHub Releases：https:&#x2F;&#x2F;github.com&#x2F;Ank">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://ankali-aylina.github.io/images/001.jpg">
-<meta property="og:image" content="http://ankali-aylina.github.io/images/002.jpg">
-<meta property="og:image" content="http://ankali-aylina.github.io/images/ui-home.png">
+<meta property="og:description" content="TCV3 4.5.1 使用与更新：NASA 朋克主题、关机散热、固件 OTA，以及一套从 Windows 到 CW32L010 的桌面散热链路。">
+<meta property="og:url" content="http://ankali-aylina.github.io/2025/05/05/IRSTB/">
+
 <meta property="article:published_time" content="2025-05-05T05:45:41.000Z">
-<meta property="article:modified_time" content="2026-08-31T17:59:45.785Z">
-<meta property="article:author" content="Ankali-Aylina">
+
+<meta property="article:modified_time" content="2026-10-21T17:55:00.000Z">
+
+
 <meta property="article:tag" content="CW32L010">
+
 <meta property="article:tag" content="蓝牙">
+
 <meta property="article:tag" content="散热小桌板">
+
 <meta property="article:tag" content="Qt">
+
 <meta property="article:tag" content="WinUI">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://ankali-aylina.github.io/images/001.jpg">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>智能散热小桌板 ◇ 兔兔报社</title>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<meta property="article:tag" content="OTA">
+
+<meta property="article:tag" content="NASA朋克">
 
 
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="智能散热小桌板">
+<meta name="twitter:description" content="TCV3 4.5.1 使用与更新：NASA 朋克主题、关机散热、固件 OTA，以及一套从 Windows 到 CW32L010 的桌面散热链路。">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="/css/motion.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme';
+    var saved = localStorage.getItem(key);
+    var mode = "light";
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light') active = requested;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', mode);
+  } catch (error) {}
+})();
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"ankali-aylina.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":64,"cursorChar":"⌥","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2022-09-18T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 7.3.0"></head>
-
-
-<body>
-  
-
-  <header>
+<body class="is-post has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
     
-
-<div class="header-inner" style="height: 80vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Rabbit Newspaper</strong>
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.10.22 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
     </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
     </div>
   </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/Eternal-Frost.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="智能散热小桌板"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-author" aria-hidden="true"></i>
-        Ankali-Aylina
-      </span>
+  <nav class="nav" aria-label="主导航">
     
     
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-05-05 13:45" pubdate>
-          2025年5月5日 下午
-        </time>
-      </span>
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
     
-  </div>
-
-  <div class="mt-1">
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">02</span>
+      <span class="nav__name">归档</span>
+    </a>
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          2.2k 字
-        
-      </span>
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">分类</span>
+    </a>
     
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
 
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          19 分钟
-        
-      </span>
-    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>ANIM-20250505-C7</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">TRANSMISSION</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
 
-    
-    
+    <main class="main" id="main">
       
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
+<article class="post">
+  <header class="post__head">
+    <p class="post__kicker">
+      <span>TRANSMISSION</span>
+      <span class="post__kicker-sep" aria-hidden="true">/</span>
+      <span>ANIM-20250505-C7</span>
+    </p>
+    <h1 class="post__title">智能散热小桌板</h1>
     
-  </div>
-
-
-        
+    <p class="post__dek">TCV3 4.5.1 使用与更新：NASA 朋克主题、关机散热、固件 OTA，以及一套从 Windows 到 CW32L010 的桌面散热链路。</p>
+    
+    <div class="post__meta">
+      <div class="post__meta-cell">
+        <span class="post__meta-label">DATE / 发布</span>
+        <b><time datetime="2025-05-05T05:45:41.000Z">2025.05.05</time></b>
       </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
+      <div class="post__meta-cell">
+        <span class="post__meta-label">CHANNEL / 分类</span>
+        <b><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">LABELS / 标签</span>
+        <b class="post__meta-tags">
+          
+          <a href="/tags/CW32L010/">#CW32L010</a> <a href="/tags/%E8%93%9D%E7%89%99/">#蓝牙</a> <a href="/tags/%E6%95%A3%E7%83%AD%E5%B0%8F%E6%A1%8C%E6%9D%BF/">#散热小桌板</a>
+          <span class="muted">+4</span>
+        </b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">READOUT / 时长</span>
+        <b>10 MIN</b>
+      </div>
     </div>
-  </div>
-</div>
-
-</div>
-
   </header>
 
-  <main>
-    
+  <div class="post__grid">
+    <div class="post__main">
+      
+      <details class="toc-mobile" data-toc-mobile>
+        <summary><span>CONTENTS / 目录</span><span class="toc-mobile__count">7 LABELS</span></summary>
+        <div class="toc-mobile__body"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC%E4%B8%8E%E5%85%B3%E9%94%AE%E8%83%BD%E5%8A%9B"><span class="toc-text">当前版本与关键能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E5%93%81%E4%B8%8E%E7%A1%AC%E4%BB%B6"><span class="toc-text">成品与硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82"><span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99"><span class="toc-text">连接蓝牙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5"><span class="toc-text">首页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD"><span class="toc-text">关机散热</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE"><span class="toc-text">设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A1%B5%E4%B8%8E-OTA"><span class="toc-text">关于页与 OTA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NASA-%E6%9C%8B%E5%85%8B%E4%B8%BB%E9%A2%98"><span class="toc-text">NASA 朋克主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E6%90%9C%E7%B4%A2%E4%B8%8D%E5%88%B0%E6%A1%8C%E6%9D%BF-%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5"><span class="toc-text">蓝牙搜索不到桌板 / 连接失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%A9%E5%BA%A6%E6%98%BE%E7%A4%BA%E2%80%9C%E2%80%93%E2%80%9D"><span class="toc-text">温度显示“–”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E6%89%87%E4%B8%8D%E8%BD%AC%E6%88%96%E4%B8%8D%E5%8F%97%E6%8E%A7"><span class="toc-text">风扇不转或不受控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD%E6%B2%A1%E6%9C%89%E5%8F%8D%E5%BA%94"><span class="toc-text">点击关机散热没有反应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OTA-%E5%A4%B1%E8%B4%A5"><span class="toc-text">OTA 失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NASA-%E9%A3%8E%E6%A0%BC%E5%AD%97%E4%BD%93%E4%B8%8D%E5%AF%B9"><span class="toc-text">NASA 风格字体不对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%E7%95%8C%E9%9D%A2%E8%B5%B7%E4%B8%8D%E6%9D%A5"><span class="toc-text">安装后界面起不来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-text">技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8E%86%E5%8F%B2"><span class="toc-text">版本历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%E4%B8%8E%E8%AE%B8%E5%8F%AF"><span class="toc-text">反馈与许可</span></a></li></ol></div>
+      </details>
       
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+      <div class="post-body" id="post-body" data-post-body>
+        <blockquote>
+<p>一句话：电脑热了，小桌板自己把风扇开大；电脑关机，它还能按设定继续吹一会儿。</p>
+<p>当前桌面端 <strong>4.5.1.0</strong>，参考固件 <strong>1.2.4</strong> &#x2F; 协议 <strong>1.1</strong> &#x2F; 引导程序 <strong>0.1.4</strong>。</p>
+<p>固件侧的实现细节，见 <a href="/2026/10/22/desktop-temperature-firmware/">4KB RAM 里的三路风扇</a>。</p>
+</blockquote>
+<p>智能散热小桌板是一套软硬件结合的桌面散热系统。Windows 端 TCV3 读取 CPU &#x2F; GPU 温度，通过 BLE 把风扇档位发给桌板；桌板上的 CW32L010 控制三路 12V 风扇。</p>
+<p>它不追求“把风扇转起来”这么简单。现在这一版里，真正占分量的东西是：<strong>温度策略、断电后的独立倒计时、蓝牙状态回传，以及一条能安全把固件送进 20KB 应用区的 OTA 链路。</strong></p>
+<span id="more"></span>
 
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">智能散热小桌板</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="智能散热小桌板"><a href="#智能散热小桌板" class="headerlink" title="智能散热小桌板"></a>智能散热小桌板</h1><h2 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h2><p>智能散热小桌板是一个软硬件结合的桌面散热系统：<strong>硬件端</strong>以 CW32L010 为主控，通过蓝牙接收电脑温度并驱动风扇；<strong>上位机软件</strong>（TCV3）实时监测电脑 CPU &#x2F; GPU 温度，根据温度自动调节风扇转速，为你带来清凉舒适的使用体验。</p>
-<p>简单来说：<strong>电脑热了，小桌板自己就把风扇开大了。</strong></p>
-<h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><ul>
-<li><strong>GitHub Releases</strong>：<a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/releases">https://github.com/Ankali-Aylina/IRSTB/releases</a></li>
-<li>下载 <code>TemperatureControlV3_vX.X.X.X_Setup.exe</code> 安装包，一路下一步即可</li>
-<li>首次启动会自动提示安装所需驱动（Intel 需 PawnIO 驱动，AMD 需 AMDRyzenMaster 驱动）</li>
-<li>支持项目请前往 <a href="https://ankali-aylina.github.io/2025/05/05/IRSTB/">支持与文档</a></li>
-</ul>
-<h2 id="功能特点"><a href="#功能特点" class="headerlink" title="功能特点"></a>功能特点</h2><h3 id="硬件端（桌板）"><a href="#硬件端（桌板）" class="headerlink" title="硬件端（桌板）"></a>硬件端（桌板）</h3><ul>
-<li><strong>主控芯片</strong>：CW32L010（ARM Cortex-M0+，低功耗高性能）</li>
-<li><strong>蓝牙无线通信</strong>：DX-BT24-T 模块（BLE 4.2），与上位机无线连接，免布线</li>
-<li><strong>风扇自动调速</strong>：12V 直流风扇，PWM 调速，安静又清凉</li>
-<li><strong>状态感知</strong>：实时监测桌面温湿度与风扇运行状态</li>
-</ul>
-<h3 id="上位机-TCV3（软件）"><a href="#上位机-TCV3（软件）" class="headerlink" title="上位机 TCV3（软件）"></a>上位机 TCV3（软件）</h3><ul>
-<li><strong>全平台温度监测</strong>：Intel CPU（PawnIO&#x2F;MSR 直读）、AMD CPU（RyzenMaster 驱动）、NVIDIA GPU，开机即测</li>
-<li><strong>智能调速算法</strong>：多级温度策略 + 滑动窗口加权平均 + 滞后防抖（温度下降需连续确认，避免风扇频繁跳变）</li>
-<li><strong>三种风扇模式</strong>：自动（温度驱动）&#x2F; 静音 &#x2F; 全速，一键切换</li>
-<li><strong>现代化 WinUI 风格界面</strong>：基于 Qt Quick (QML) 重写，圆角卡片、流畅动画</li>
-<li><strong>Windows 11 背景材质</strong>：云母 (Mica) &#x2F; 亚克力 (Acrylic) 原生质感</li>
-<li><strong>浅色 &#x2F; 深色双主题</strong>：跟随系统自动切换，或手动指定；图标随主题自动着色</li>
-<li><strong>便捷使用</strong>：开机自启、最小化到系统托盘、蓝牙断线重连、更新日志内嵌</li>
-</ul>
-<h2 id="硬件设计"><a href="#硬件设计" class="headerlink" title="硬件设计"></a>硬件设计</h2><table>
+<h2 id="当前版本与关键能力"><a href="#当前版本与关键能力" class="headerlink" title="当前版本与关键能力"></a>当前版本与关键能力</h2><table>
+<thead>
+<tr>
+<th>层</th>
+<th>当前版本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TCV3 桌面端</td>
+<td><strong>4.5.1.0</strong></td>
+<td>本文对应的上位机版本</td>
+</tr>
+<tr>
+<td>下位机固件</td>
+<td><strong>1.2.4</strong></td>
+<td>风扇、关机散热、状态回传</td>
+</tr>
+<tr>
+<td>通信协议</td>
+<td><strong>1.1</strong></td>
+<td>模式指令、版本查询、关机散热</td>
+</tr>
+<tr>
+<td>引导程序</td>
+<td><strong>0.1.4</strong></td>
+<td>负责 OTA 写入、校验与启动闸门</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>现在的状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>温度监测</td>
+<td>Intel &#x2F; AMD CPU + NVIDIA GPU；读取失败时显示占位，不崩</td>
+</tr>
+<tr>
+<td>风扇控制</td>
+<td>自动 &#x2F; 静音 &#x2F; 全速三档；自动模式按温度平滑调速</td>
+</tr>
+<tr>
+<td>关机散热</td>
+<td>1–10 分钟；倒计时由下位机独立完成</td>
+</tr>
+<tr>
+<td>固件升级</td>
+<td>关于页 OTA；逐帧传输 + 双道校验</td>
+</tr>
+<tr>
+<td>界面</td>
+<td>Qt Quick &#x2F; QML；默认风格 + NASA 朋克风格</td>
+</tr>
+<tr>
+<td>桌面集成</td>
+<td>系统托盘、开机自启、系统通知</td>
+</tr>
+<tr>
+<td>蓝牙</td>
+<td>WinRT BLE，DX-BT24-T 透传模块</td>
+</tr>
+</tbody></table>
+<h2 id="成品与硬件"><a href="#成品与硬件" class="headerlink" title="成品与硬件"></a>成品与硬件</h2><p><img src="/img/loading.gif" data-original="/images/001.jpg" alt="小桌板成品"></p>
+<p><img src="/img/loading.gif" data-original="/images/002.jpg" alt="温度控制板"></p>
+<table>
 <thead>
 <tr>
 <th>组件</th>
@@ -358,24 +287,23 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>主控芯片</td>
-<td>CW32L010</td>
+<td>主控</td>
+<td>CW32L010F8（Cortex-M0+，8MHz，4KB RAM &#x2F; 64KB Flash）</td>
 </tr>
 <tr>
-<td>蓝牙模块</td>
-<td>DX-BT24-T（BLE 4.2）</td>
+<td>蓝牙</td>
+<td>DX-BT24-T 透传模块</td>
 </tr>
 <tr>
 <td>风扇</td>
-<td>12V 直流风扇（利民 TL-C12 12025）</td>
+<td>12V 直流风扇（利民 TL-C12）</td>
+</tr>
+<tr>
+<td>上位机</td>
+<td>Windows 10 &#x2F; 11 x64，C++20 + Qt 6.11.1 &#x2F; QML</td>
 </tr>
 </tbody></table>
-<h2 id="成品展示"><a href="#成品展示" class="headerlink" title="成品展示"></a>成品展示</h2><p><img src="/img/loading.gif" data-original="/images/001.jpg" srcset="/img/loading.gif" lazyload alt="小桌板成品"></p>
-<p><img src="/img/loading.gif" data-original="/images/002.jpg" srcset="/img/loading.gif" lazyload alt="温度控制板"></p>
-<h2 id="设计图展示"><a href="#设计图展示" class="headerlink" title="设计图展示"></a>设计图展示</h2><!-- 在此插入设计图（原理图 / PCB 图 / 外壳结构图等） -->
-
-<hr>
-<h2 id="上位机系统要求（TCV3）"><a href="#上位机系统要求（TCV3）" class="headerlink" title="上位机系统要求（TCV3）"></a>上位机系统要求（TCV3）</h2><table>
+<h2 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h2><table>
 <thead>
 <tr>
 <th>要求</th>
@@ -387,18 +315,150 @@
 <td>Windows 10 &#x2F; 11 64-bit</td>
 </tr>
 <tr>
-<td>运行时</td>
-<td><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x64.exe">VC++ Redistributable x64</a></td>
+<td>运行库</td>
+<td>VC++ Redistributable x64</td>
 </tr>
 <tr>
-<td>CPU</td>
-<td>Intel（需 PawnIO 驱动）&#x2F; AMD（需 AMDRyzenMaster 驱动）</td>
+<td>CPU 温度</td>
+<td>Intel 需要 PawnIO 驱动；AMD 需要 AMDRyzenMaster 驱动</td>
 </tr>
 <tr>
-<td>GPU</td>
-<td>NVIDIA</td>
+<td>GPU 温度</td>
+<td>NVIDIA，通过随程序释放的 nv_dll</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>程序需要管理员权限读取温度传感器，首次启动会触发 UAC</td>
+</tr>
+<tr>
+<td>硬件</td>
+<td>已烧录固件的桌板 + 已配对好的蓝牙模块</td>
 </tr>
 </tbody></table>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li>打开 <a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/releases/latest">GitHub Releases</a>，下载最新的 <strong>TemperatureControlV3_v4.5.1.0_Setup.exe</strong> 或更新版本。</li>
+<li>运行安装包，按提示完成安装；安装和启动都需要管理员权限。</li>
+<li>首次启动会释放运行时 DLL、检查驱动。Intel 平台按提示安装 PawnIO；AMD 平台按提示部署 RyzenMaster 驱动；NVIDIA 不需要额外安装。</li>
+<li>先在 Windows 设置里把桌板的 <strong>BT24-T</strong> 配对，再启动 TCV3。首次配对必须在系统里完成，程序只负责连接。</li>
+<li>打开程序的「关于」页，确认桌面端版本与下位机固件版本。</li>
+</ol>
+<blockquote>
+<p>从旧版本升级时建议直接覆盖安装；配置会保留。如果安装后界面起不来，先确认不是 4.5.0 的安装包——那一版曾漏掉 QtQuick.Shapes，4.5.1 已修复。</p>
+</blockquote>
+<h2 id="连接蓝牙"><a href="#连接蓝牙" class="headerlink" title="连接蓝牙"></a>连接蓝牙</h2><ol>
+<li>桌板上电，Windows 蓝牙里找到 <strong>BT24-T</strong> 并完成配对。</li>
+<li>启动 TCV3，程序会自动扫描并连接；连接成功后首页会显示“蓝牙连接”状态。</li>
+<li>如果连接失败，点首页右侧的「重连」；仍然失败时，先关闭手机或其他主机上占用该设备的连接。</li>
+<li>连接后程序会订阅 FFE1 特征值，并自动查询下位机固件版本；版本回传会显示在「关于」页。</li>
+</ol>
+<p>服务与特征：</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设备名</td>
+<td>BT24-T</td>
+</tr>
+<tr>
+<td>Service UUID</td>
+<td>FFE0</td>
+</tr>
+<tr>
+<td>Characteristic UUID</td>
+<td>FFE1</td>
+</tr>
+</tbody></table>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h3><ul>
+<li><strong>实时温度</strong>：CPU、GPU 两张卡片。超过警告阈值后读数与图标会变色；失败时显示占位，不会让界面卡住。</li>
+<li><strong>风扇模式</strong>：自动、静音、全速。自动模式由温度驱动；静音固定低转速；全速固定满转。切换模式会同时取消正在进行的关机散热。</li>
+<li><strong>数据发送延时</strong>：1–10 秒，点「应用」生效。温度不需要每秒上报一次，延时越长，BLE 写入越少。</li>
+<li><strong>关机散热</strong>：选择 1–10 分钟，点「开始散热」，风扇立即满速，倒计时由桌板自己完成。</li>
+</ul>
+<h3 id="关机散热"><a href="#关机散热" class="headerlink" title="关机散热"></a>关机散热</h3><p>这个功能解决的是一个很具体的场景：用户点了关机散热之后，Windows 开始关机，TCV3 退出，蓝牙断开——但风扇不能立刻停。</p>
+<p>所以上位机只负责下发一次指令，倒计时在 MCU 里走：</p>
+<ul>
+<li>断电、退出程序、蓝牙断开，都不会中断；</li>
+<li>结束后下位机回 <strong>FIN</strong>，上位机自动切回自动模式；</li>
+<li>中途重新选择风扇模式，会取消散热（回 <strong>CAN</strong>）；</li>
+<li>成功结束或指令下发失败，会弹系统通知；窗口最小化到托盘也可见；</li>
+<li>需要下位机固件支持（1.2.0 起）；版本过旧时「关于」页会提示。</li>
+</ul>
+<p>界面当前开放 1–10 分钟；下位机协议上限是 60 分钟，但日常使用没有把更长的档位放出来。</p>
+<h3 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h3><ul>
+<li><strong>主题模式</strong>：跟随系统 &#x2F; 浅色 &#x2F; 深色。</li>
+<li><strong>风格</strong>：默认 &#x2F; NASA 朋克。风格和明暗是两个独立维度——选 NASA 后，亮暗仍由主题模式决定。</li>
+<li><strong>背景材质</strong>：云母 &#x2F; 亚克力 &#x2F; 无。Windows 11 22H2 及以上效果最好，远程桌面或虚拟机可能自动降级。</li>
+<li><strong>开机自启</strong>：写入当前用户的自启动项。</li>
+<li><strong>系统通知</strong>：关机散热结束、指令下发失败时在右下角提醒。</li>
+<li><strong>重置设置</strong>：删除配置文件并重启；适合排查配置问题。</li>
+</ul>
+<h3 id="关于页与-OTA"><a href="#关于页与-OTA" class="headerlink" title="关于页与 OTA"></a>关于页与 OTA</h3><p>「关于」页集中放了三类信息：</p>
+<ul>
+<li>桌面端版本、下位机固件版本与协议版本；</li>
+<li>更新日志；</li>
+<li>支持与文档、固件升级入口。</li>
+</ul>
+<p>固件升级（OTA）在 4.4.0.0 加入。流程是：应用受理升级请求 → 软复位 → 常驻引导程序接管 → 分帧传输 → 逐帧 CRC16 + 整镜像 CRC32 校验 → 激活。</p>
+<p>升级时注意：</p>
+<ol>
+<li>保持桌板供电和蓝牙连接，不要中途退出程序；</li>
+<li>选择与硬件匹配的固件文件；</li>
+<li>下位机必须已经烧录引导程序，应用运行在 0x5000；没有引导程序时 OTA 不会工作；</li>
+<li>传输期间界面会显示阶段与百分比，可以取消；但进入“等待复位&#x2F;激活”阶段后再取消，设备可能仍会进入升级模式，这是安全的，但需要重新连接确认状态；</li>
+<li>升级完成后程序会自动重新查询固件版本，不需要手动重连。</li>
+</ol>
+<blockquote>
+<p>OTA 的协议、暂存区、启动闸门与失败恢复设计，见 <a href="/2026/10/22/desktop-temperature-firmware/">4KB RAM 里的三路风扇</a>。</p>
+</blockquote>
+<h2 id="NASA-朋克主题"><a href="#NASA-朋克主题" class="headerlink" title="NASA 朋克主题"></a>NASA 朋克主题</h2><p>4.5.0.0 加入了 NASA 朋克风格：烤漆白底、NASA 蓝、金属灰细边、方角、深色仪表板标题栏、文档控制条与蓝图网格。它和本站现在的视觉语言是同一套。</p>
+<p>几点实际使用上的说明：</p>
+<ul>
+<li><strong>NASA 亮 &#x2F; NASA 暗不是两个独立模式</strong>。在「设置 → 风格」选 NASA，再用「主题模式」决定跟随系统、浅色或深色。</li>
+<li><strong>字体按已安装才用</strong>：拉丁使用 Nasalization，中文使用 MapleMono。没有安装时自动回退系统字体，不影响功能。</li>
+<li>4.5.1.0 修正了字体族名识别：之前把族名写成 Nasalization Rg，而实际族名是 Nasalization，导致 NASA 主题的 Nasalization 一直没有真正生效；现在会从已安装字体里按候选名解析。</li>
+<li>温度与蓝牙图标已经改为 QML 矢量绘制，报警态直接换描边颜色，不再依赖位图着色。</li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="蓝牙搜索不到桌板-连接失败"><a href="#蓝牙搜索不到桌板-连接失败" class="headerlink" title="蓝牙搜索不到桌板 &#x2F; 连接失败"></a>蓝牙搜索不到桌板 &#x2F; 连接失败</h3><ul>
+<li>确认桌板已上电，BT24-T 在范围内；</li>
+<li>先在 Windows 蓝牙设置里完成配对，再打开 TCV3；</li>
+<li>检查是否被手机或其他电脑占用；</li>
+<li>仍失败时重启桌板电源，再点「重连」；</li>
+<li>若提示服务或特征值错误，确认设备使用 FFE0 &#x2F; FFE1。</li>
+</ul>
+<h3 id="温度显示“–”"><a href="#温度显示“–”" class="headerlink" title="温度显示“–”"></a>温度显示“–”</h3><ul>
+<li>Intel：确认 PawnIO 驱动已安装，程序以管理员权限运行；</li>
+<li>AMD：确认 RyzenMaster 驱动部署成功，系统为 Windows 10 及以上；</li>
+<li>NVIDIA：nv_dll 会随程序释放，不需要单独安装；</li>
+<li>偶发读取失败会自动恢复，不必反复重启。</li>
+</ul>
+<h3 id="风扇不转或不受控"><a href="#风扇不转或不受控" class="headerlink" title="风扇不转或不受控"></a>风扇不转或不受控</h3><ol>
+<li>确认首页蓝牙状态为已连接；</li>
+<li>确认处于「自动」或手动模式，而不是正在关机散热；</li>
+<li>检查「数据发送延时」是否已点「应用」；</li>
+<li>切换一次模式，确认下位机没有停在旧的关机散热收尾状态。</li>
+</ol>
+<h3 id="点击关机散热没有反应"><a href="#点击关机散热没有反应" class="headerlink" title="点击关机散热没有反应"></a>点击关机散热没有反应</h3><ul>
+<li>多数是下位机固件过旧，不支持关机散热指令；</li>
+<li>连接后在「关于」页看固件版本，低于 1.2.0 会提示；</li>
+<li>未连接、正在连接时程序会提示指令没有发出，不会静默失败；</li>
+<li>需要先升级固件，再试。</li>
+</ul>
+<h3 id="OTA-失败"><a href="#OTA-失败" class="headerlink" title="OTA 失败"></a>OTA 失败</h3><ul>
+<li>确认下位机有引导程序，且应用运行在 0x5000；</li>
+<li>确认固件文件匹配当前硬件，不是错误项目的镜像；</li>
+<li>保持蓝牙连接，失败后可按提示重试；</li>
+<li>如果进入升级模式后无法退出，重新上电通常会回到引导程序或旧应用，具体取决于引导程序状态。</li>
+</ul>
+<h3 id="NASA-风格字体不对"><a href="#NASA-风格字体不对" class="headerlink" title="NASA 风格字体不对"></a>NASA 风格字体不对</h3><ul>
+<li>NASA 风格优先使用系统已安装的 Nasalization 与 MapleMono；</li>
+<li>没有安装时会回退，不会报错，但字形会变成系统字体；</li>
+<li>安装字体后重启 TCV3 再切换风格。</li>
+</ul>
+<h3 id="安装后界面起不来"><a href="#安装后界面起不来" class="headerlink" title="安装后界面起不来"></a>安装后界面起不来</h3><p>优先使用 <strong>4.5.1.0 或更新版本</strong>。4.5.0 的安装包曾因 QtQuick.Shapes 被错误排除，导致安装版启动失败；便携版不受影响。当前版本已在打包脚本里加入 QML import 与 Excludes 的交叉校验。</p>
 <h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><table>
 <thead>
 <tr>
@@ -407,649 +467,226 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>主控</td>
-<td>CW32L010（C 语言，低功耗嵌入式）</td>
+<td>语言 &#x2F; 框架</td>
+<td>C++20 + Qt 6.11.1（QML &#x2F; Quick &#x2F; Widgets &#x2F; Concurrent &#x2F; Network &#x2F; Svg）</td>
 </tr>
 <tr>
-<td>上位机语言</td>
-<td>C++20</td>
+<td>界面</td>
+<td>QML 拆分组件，AppTheme 单例统一色板与样式令牌</td>
 </tr>
 <tr>
-<td>上位机框架</td>
-<td>Qt 6.11.1（Qt Quick &#x2F; QML + Widgets）</td>
+<td>线程</td>
+<td>TCCore 温度采集线程 + BLEThread 蓝牙线程，QmlBridge 做唯一信号&#x2F;槽中枢</td>
 </tr>
 <tr>
 <td>蓝牙</td>
-<td>WinRT BLE（Windows 11 原生 API）</td>
+<td>WinRT BLE DLL，FFE1 写入 + 通知订阅</td>
+</tr>
+<tr>
+<td>固件</td>
+<td>CW32L010，纯中断驱动 + 主循环休眠，详见固件篇</td>
 </tr>
 <tr>
 <td>打包</td>
-<td>Inno Setup 安装程序 &#x2F; 一键打包脚本</td>
+<td>Inno Setup 7；内嵌 DLL 启动时提取并做 Authenticode 校验</td>
 </tr>
 </tbody></table>
-<h2 id="界面展示"><a href="#界面展示" class="headerlink" title="界面展示"></a>界面展示</h2><p><img src="/img/loading.gif" data-original="/images/ui-home.png" srcset="/img/loading.gif" lazyload alt="TCV3 软件首页（深色主题）"></p>
-<blockquote>
-<p>首页一览：实时温度监测（CPU &#x2F; GPU）、蓝牙连接状态、风扇模式切换（自动 &#x2F; 静音 &#x2F; 全速）、数据发送延时调节。</p>
-</blockquote>
-<h2 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h2><h3 id="1-安装与驱动"><a href="#1-安装与驱动" class="headerlink" title="1. 安装与驱动"></a>1. 安装与驱动</h3><ol>
-<li>下载 <a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/releases">安装包</a> 并安装（需 <a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x64.exe">VC++ 运行库</a>）</li>
-<li>首次启动会检测硬件驱动，按提示安装即可：<ul>
-<li><strong>Intel CPU</strong>：需安装 PawnIO 驱动（程序内置安装器，自动静默安装）</li>
-<li><strong>AMD CPU</strong>：需安装 AMDRyzenMaster 驱动（程序启动时自动部署）</li>
-</ul>
-</li>
-<li>程序以管理员权限运行（读取 CPU 温度需要系统权限）</li>
-</ol>
-<h3 id="2-连接蓝牙桌板"><a href="#2-连接蓝牙桌板" class="headerlink" title="2. 连接蓝牙桌板"></a>2. 连接蓝牙桌板</h3><ol>
-<li>确保桌板已通电，蓝牙模块（DX-BT24-T）处于可发现状态</li>
-<li>打开 Windows 设置 → 蓝牙和其他设备 → <strong>先与”BT24-T”配对</strong>（首次使用必须）</li>
-<li>启动 TCV3，程序会自动扫描并连接桌板；首次连接成功后会自动记住设备地址，下次开机自动连接</li>
-<li>连接成功后首页显示”连接完成”，风扇开始受控</li>
-</ol>
-<blockquote>
-<p>如果一直提示”搜索超时”，检查：桌板是否开机、是否已在 Windows 蓝牙中配对、设备是否在 10 米范围内。</p>
-</blockquote>
-<h3 id="3-界面使用"><a href="#3-界面使用" class="headerlink" title="3. 界面使用"></a>3. 界面使用</h3><table>
+<h2 id="版本历史"><a href="#版本历史" class="headerlink" title="版本历史"></a>版本历史</h2><table>
 <thead>
 <tr>
-<th>区域</th>
-<th>说明</th>
+<th>版本</th>
+<th>主要变化</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>首页 - 温度卡片</td>
-<td>实时 CPU &#x2F; GPU 温度，超过警告阈值（默认 CPU 80℃ &#x2F; GPU 75℃）图标与进度条变红</td>
+<td><strong>v4.5.1.0</strong></td>
+<td>NASA 字体族名修正；安装包补回 QtQuick.Shapes；打包期交叉校验</td>
 </tr>
 <tr>
-<td>首页 - 蓝牙面板</td>
-<td>连接状态、重连按钮</td>
+<td><strong>v4.5.0.0</strong></td>
+<td>NASA 朋克主题；主题设置拆成「模式 + 风格」；QML 矢量温度&#x2F;蓝牙图标</td>
 </tr>
 <tr>
-<td>首页 - 风扇模式</td>
-<td><strong>自动</strong>（温度驱动调速）&#x2F; <strong>静音</strong>（低转速）&#x2F; <strong>全速</strong> 一键切换</td>
+<td><strong>v4.4.0.0</strong></td>
+<td>固件 OTA；QML 拆分；通知、图标与关闭对话框修复</td>
 </tr>
 <tr>
-<td>首页 - 延时</td>
-<td>数据发送间隔（1-10 秒），点”应用”生效</td>
+<td><strong>v4.3.0.0</strong></td>
+<td>关机散热、系统通知、下位机状态回传、蓝牙写入结果查询</td>
 </tr>
 <tr>
-<td>设置 - 外观</td>
-<td>主题模式（跟随系统 &#x2F; 浅色 &#x2F; 深色）、背景材质（云母 &#x2F; 亚克力 &#x2F; 无）</td>
-</tr>
-<tr>
-<td>设置 - 开机自启</td>
-<td>开机自动运行（写入注册表）</td>
-</tr>
-<tr>
-<td>设置 - 重置设置</td>
-<td>删除配置文件并重启</td>
+<td><strong>v4.0.0.0</strong></td>
+<td>UI 迁移到 Qt Quick &#x2F; QML；Mica &#x2F; Acrylic；深浅主题；资源提取安全加固</td>
 </tr>
 </tbody></table>
-<h3 id="4-主题与背景材质"><a href="#4-主题与背景材质" class="headerlink" title="4. 主题与背景材质"></a>4. 主题与背景材质</h3><ul>
-<li><strong>浅色 &#x2F; 深色主题</strong>：跟随 Windows 系统自动切换，也可手动指定</li>
-<li><strong>云母 (Mica) &#x2F; 亚克力 (Acrylic)</strong>：Windows 11 22H2 及以上系统生效；旧系统自动降级为半透明纯色</li>
+<p>更早的版本和逐条修复记录，在程序内「关于 → 更新日志」里；这里不再维护一份容易过期的完整 changelog。</p>
+<h2 id="反馈与许可"><a href="#反馈与许可" class="headerlink" title="反馈与许可"></a>反馈与许可</h2><ul>
+<li>下载：<a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/releases/latest">GitHub Releases</a></li>
+<li>问题反馈：<a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/issues">GitHub Issues</a></li>
+<li>反馈时请附上：Windows 版本、CPU &#x2F; GPU 型号、TCV3 版本、固件版本，以及日志文件。</li>
 </ul>
-<hr>
-<h2 id="常见问题（FAQ）"><a href="#常见问题（FAQ）" class="headerlink" title="常见问题（FAQ）"></a>常见问题（FAQ）</h2><h3 id="蓝牙搜索不到桌板-连接失败"><a href="#蓝牙搜索不到桌板-连接失败" class="headerlink" title="蓝牙搜索不到桌板 &#x2F; 连接失败"></a>蓝牙搜索不到桌板 &#x2F; 连接失败</h3><p>程序内的错误提示会附带排查建议，常见原因对照：</p>
-<table>
-<thead>
-<tr>
-<th>提示</th>
-<th>解决方法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>设备未找到</td>
-<td>确认桌板已开机且在范围内；Windows 蓝牙设置中先配对”BT24-T”</td>
-</tr>
-<tr>
-<td>访问被拒绝</td>
-<td>在 Windows 蓝牙设置中先配对设备后再连接</td>
-</tr>
-<tr>
-<td>设备不可达</td>
-<td>设备可能已连接至其他主机，或超出范围，关闭其他设备的连接后重试</td>
-</tr>
-<tr>
-<td>服务未找到</td>
-<td>检查配置中 ServiceUUID（默认 0xFFE0）</td>
-</tr>
-<tr>
-<td>特征值未找到</td>
-<td>检查配置中 CharacteristicUUID（默认 0xFFE1）</td>
-</tr>
-<tr>
-<td>写入失败</td>
-<td>确认特征值支持写入操作</td>
-</tr>
-<tr>
-<td>GATT 通信异常</td>
-<td>尝试重新连接，或重启桌板电源</td>
-</tr>
-</tbody></table>
-<h3 id="温度不显示或显示错误"><a href="#温度不显示或显示错误" class="headerlink" title="温度不显示或显示错误"></a>温度不显示或显示错误</h3><ul>
-<li><strong>Intel CPU</strong>：确认 PawnIO 驱动已安装（程序启动时检测，未安装会提示）；日志提示”IntelTemp初始化失败”时检查驱动与 MSR 权限</li>
-<li><strong>AMD CPU</strong>：确认 AMDRyzenMaster 驱动安装成功；amd_init 失败可能原因：系统版本过低（需 Win10+）、非 AMD CPU、驱动文件缺失、CPU 型号不支持</li>
-<li><strong>NVIDIA GPU</strong>：nv_dll 自动加载，无需额外驱动</li>
-<li>温度显示 “–”：当前读取失败（传感器暂时不可用），会自动恢复</li>
-</ul>
-<h3 id="风扇不转-不调速"><a href="#风扇不转-不调速" class="headerlink" title="风扇不转 &#x2F; 不调速"></a>风扇不转 &#x2F; 不调速</h3><ol>
-<li>确认蓝牙已连接（首页显示”连接完成”）</li>
-<li>确认处于<strong>自动</strong>模式（静音模式下转速固定为低档）</li>
-<li>确认数据发送延时已应用（设置后点”应用”按钮）</li>
-</ol>
-<h3 id="开机自启不生效"><a href="#开机自启不生效" class="headerlink" title="开机自启不生效"></a>开机自启不生效</h3><ul>
-<li>开机自启通过注册表实现（HKCU 下的 Run 键），部分安全软件会拦截，请允许放行</li>
-<li>移动安装目录后需要重新开启一次自启动</li>
-</ul>
-<h3 id="界面主题与系统不一致"><a href="#界面主题与系统不一致" class="headerlink" title="界面主题与系统不一致"></a>界面主题与系统不一致</h3><ul>
-<li>检查”设置 → 外观 → 主题模式”是否选择了”跟随系统”</li>
-<li>切换系统深浅色后程序会在数秒内自动跟随</li>
-</ul>
-<h3 id="云母-亚克力材质不显示"><a href="#云母-亚克力材质不显示" class="headerlink" title="云母 &#x2F; 亚克力材质不显示"></a>云母 &#x2F; 亚克力材质不显示</h3><ul>
-<li>需要 Windows 11 22H2 及以上系统</li>
-<li>部分远程桌面 &#x2F; 虚拟机环境不支持 DWM 材质，会自动降级为半透明纯色</li>
-</ul>
-<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><ul>
-<li>使用安装程序卸载，会清理注册表自启动项；config.ini 默认保留（可在卸载后手动删除）</li>
-</ul>
-<hr>
-<h2 id="问题反馈"><a href="#问题反馈" class="headerlink" title="问题反馈"></a>问题反馈</h2><p>遇到问题请先查看程序内”更新日志”与本文档；仍无法解决时，欢迎反馈：</p>
-<ul>
-<li><strong>GitHub Issues</strong>：<a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/IRSTB/issues">https://github.com/Ankali-Aylina/IRSTB/issues</a></li>
-<li>反馈时请附带：系统版本、CPU&#x2F;GPU 型号、程序版本、以及安装目录下的 app.log 日志文件，便于快速定位</li>
-</ul>
-<h2 id="TCV3更新日志"><a href="#TCV3更新日志" class="headerlink" title="TCV3更新日志"></a>TCV3更新日志</h2><h3 id="V4-0-0-0"><a href="#V4-0-0-0" class="headerlink" title="V4.0.0.0"></a>V4.0.0.0</h3><ul>
-<li>UI 全面迁移至 Qt Quick (QML)，现代化 WinUI 风格界面</li>
-<li>新增 Windows 11 云母 (Mica) &#x2F; 亚克力 (Acrylic) 背景材质</li>
-<li>新增浅色 &#x2F; 深色双主题：支持跟随系统、手动切换，图标随主题自动着色</li>
-<li>安全加固：资源提取目录迁移至用户目录，新增数字签名校验</li>
-<li>修复：重置配置失效、开机自启写入错误、线程数据竞争等问题</li>
-</ul>
-<h3 id="V3-4-1-0"><a href="#V3-4-1-0" class="headerlink" title="V3.4.1.0"></a>V3.4.1.0</h3><ul>
-<li>蓝牙底层库更换为 WinRT_BLE_DLL（基于 C++&#x2F;WinRT），支持 Windows 11 原生 BLE API</li>
-<li>优化蓝牙错误日志，新增针对性排查建议</li>
-<li>版本号统一由 resource.h 管理</li>
-</ul>
-<h3 id="V3-4-0-1"><a href="#V3-4-0-1" class="headerlink" title="V3.4.0.1"></a>V3.4.0.1</h3><ul>
-<li>安装器支持保留配置文件升级</li>
-<li>修复恢复默认设置导致的 Bug</li>
-</ul>
-<h3 id="V3-4-0-0"><a href="#V3-4-0-0" class="headerlink" title="V3.4.0.0"></a>V3.4.0.0</h3><ul>
-<li>修复大量 Bug，更换 Intel 温度读取驱动，更新 UI 页面</li>
-</ul>
-<h3 id="V3-3-2-3"><a href="#V3-3-2-3" class="headerlink" title="V3.3.2.3"></a>V3.3.2.3</h3><ul>
-<li>修复了UI图标显示错误的问题。</li>
-</ul>
-<hr>
-<h3 id="V3-3-2-2"><a href="#V3-3-2-2" class="headerlink" title="V3.3.2.2"></a>V3.3.2.2</h3><ul>
-<li>重新调整了UI界面。</li>
-<li>优化了设备检测逻辑。</li>
-<li>修复了一些已知的BUG。</li>
-</ul>
-<hr>
-<h3 id="V3-3-2-1"><a href="#V3-3-2-1" class="headerlink" title="V3.3.2.1"></a>V3.3.2.1</h3><ul>
-<li>添加了更新日志页面。</li>
-</ul>
-<hr>
-<h3 id="V3-3-2-0"><a href="#V3-3-2-0" class="headerlink" title="V3.3.2.0"></a>V3.3.2.0</h3><ul>
-<li>优化温度检测和风扇控制逻辑。</li>
-</ul>
-<hr>
-<h3 id="V3-3-1-0"><a href="#V3-3-1-0" class="headerlink" title="V3.3.1.0"></a>V3.3.1.0</h3><ul>
-<li>添加了安装程序，方便部署。</li>
-</ul>
-<hr>
-<h3 id="V3-3-0-0"><a href="#V3-3-0-0" class="headerlink" title="V3.3.0.0"></a>V3.3.0.0</h3><ul>
-<li>重构了BLE蓝牙库，实现轻量化运行。</li>
-</ul>
-<hr>
-<h3 id="V3-2-0-0"><a href="#V3-2-0-0" class="headerlink" title="V3.2.0.0"></a>V3.2.0.0</h3><ul>
-<li>添加了AMD驱动兼容AMD CPU设备。</li>
-</ul>
-<hr>
-<h3 id="V3-1-0-0"><a href="#V3-1-0-0" class="headerlink" title="V3.1.0.0"></a>V3.1.0.0</h3><ul>
-<li>移除了LibreHardwareMonitor</li>
-<li>添加了CPU类型识别逻辑，更好的针对不同的CPU进行温度检测。</li>
-<li>添加了WinRing0用于获取IntelCPU温度。</li>
-</ul>
-<hr>
-<h3 id="V3-0-0-0"><a href="#V3-0-0-0" class="headerlink" title="V3.0.0.0"></a>V3.0.0.0</h3><ul>
-<li>再次重构项目，更新项目框架为QT6框架。</li>
-</ul>
-<hr>
-<h3 id="V2-0-0-0"><a href="#V2-0-0-0" class="headerlink" title="V2.0.0.0"></a>V2.0.0.0</h3><ul>
-<li>添加UI界面使用C#语言重构了整个项目，添加开源的LibreHardwareMonitor用于更好的监测CPU与GPU温度。</li>
-</ul>
-<hr>
-<h3 id="V1-0-0-0"><a href="#V1-0-0-0" class="headerlink" title="V1.0.0.0"></a>V1.0.0.0</h3><ul>
-<li>使用命令行完成基础控制。</li>
-</ul>
-<hr>
+<p>本项目代码使用 MIT 许可证；Qt 库按 LGPLv3 动态链接分发。</p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+      </div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+      <footer class="post__footer">
         
-  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" class="category-chain-item">嵌入式</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CW32L010/" class="category-chain-item">CW32L010</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/CW32L010/%E6%99%BA%E8%83%BD%E6%95%A3%E7%83%AD%E5%B0%8F%E6%A1%8C%E6%9D%BF/" class="category-chain-item">智能散热小桌板</a>
-  
-  
-
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/CW32L010/" class="print-no-link">#CW32L010</a>
-      
-        <a href="/tags/%E8%93%9D%E7%89%99/" class="print-no-link">#蓝牙</a>
-      
-        <a href="/tags/%E6%95%A3%E7%83%AD%E5%B0%8F%E6%A1%8C%E6%9D%BF/" class="print-no-link">#散热小桌板</a>
-      
-        <a href="/tags/Qt/" class="print-no-link">#Qt</a>
-      
-        <a href="/tags/WinUI/" class="print-no-link">#WinUI</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>智能散热小桌板</div>
-      <div>http://ankali-aylina.github.io/2025/05/05/IRSTB/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Ankali-Aylina</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年5月5日</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>更新于</div>
-          <div>2026年9月1日</div>
-        </div>
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+        <div class="post__tags">
+          <span class="post__tags-label">LABELS / 标签</span>
+          <div class="post__tags-list">
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
+            <a href="/tags/CW32L010/">#CW32L010</a>
+            
+            <a href="/tags/%E8%93%9D%E7%89%99/">#蓝牙</a>
+            
+            <a href="/tags/%E6%95%A3%E7%83%AD%E5%B0%8F%E6%A1%8C%E6%9D%BF/">#散热小桌板</a>
+            
+            <a href="/tags/Qt/">#Qt</a>
+            
+            <a href="/tags/WinUI/">#WinUI</a>
+            
+            <a href="/tags/OTA/">#OTA</a>
+            
+            <a href="/tags/NASA%E6%9C%8B%E5%85%8B/">#NASA朋克</a>
             
           </div>
         </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/" title="cmake学习(1)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">cmake学习(1)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/" title="CW32L010适配GNU启动文件解析">
-                        <span class="hidden-mobile">CW32L010适配GNU启动文件解析</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
+        
+        <div class="post__fineprint">
+          
+          <span>UPDATED / 修订 <b>2026.10.22 01:55</b></span>
+          
+          
+          <span>FORMAT / 格式 <b>HTML · UTF-8</b></span>
         </div>
-      </div>
+        <div class="end-mark" aria-hidden="true">
+          <span>END OF DOCUMENT</span>
+          <i class="ruler"></i>
+          <span>ANIM-20250505-C7</span>
+        </div>
+        
+        <nav class="adjacent" aria-label="上一篇 / 下一篇">
+          
+          <a class="adjacent__item" href="/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/" rel="prev">
+            <span class="adjacent__label"><span aria-hidden="true">←</span> PREV / 上一份</span>
+            <span class="adjacent__title">cmake学习(1)</span>
+          </a>
+          
+          
+          <a class="adjacent__item adjacent__item--next" href="/2025/05/01/CW32L010%E9%80%82%E9%85%8DGNU%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/" rel="next">
+            <span class="adjacent__label">NEXT / 下一份 <span aria-hidden="true">→</span></span>
+            <span class="adjacent__title">CW32L010适配GNU启动文件解析</span>
+          </a>
+          
+        </nav>
+        
+      </footer>
     </div>
 
-    <div class="side-col d-none d-lg-block col-lg-2">
+    <aside class="side" aria-label="文档信息">
       
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+      <section class="panel panel--toc">
+        <div class="panel__head"><span>CONTENTS</span><span>目录</span></div>
+        <div class="toc-wrap"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC%E4%B8%8E%E5%85%B3%E9%94%AE%E8%83%BD%E5%8A%9B"><span class="toc-text">当前版本与关键能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E5%93%81%E4%B8%8E%E7%A1%AC%E4%BB%B6"><span class="toc-text">成品与硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82"><span class="toc-text">系统要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99"><span class="toc-text">连接蓝牙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5"><span class="toc-text">首页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD"><span class="toc-text">关机散热</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE"><span class="toc-text">设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A1%B5%E4%B8%8E-OTA"><span class="toc-text">关于页与 OTA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NASA-%E6%9C%8B%E5%85%8B%E4%B8%BB%E9%A2%98"><span class="toc-text">NASA 朋克主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E6%90%9C%E7%B4%A2%E4%B8%8D%E5%88%B0%E6%A1%8C%E6%9D%BF-%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5"><span class="toc-text">蓝牙搜索不到桌板 / 连接失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%A9%E5%BA%A6%E6%98%BE%E7%A4%BA%E2%80%9C%E2%80%93%E2%80%9D"><span class="toc-text">温度显示“–”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E6%89%87%E4%B8%8D%E8%BD%AC%E6%88%96%E4%B8%8D%E5%8F%97%E6%8E%A7"><span class="toc-text">风扇不转或不受控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD%E6%B2%A1%E6%9C%89%E5%8F%8D%E5%BA%94"><span class="toc-text">点击关机散热没有反应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OTA-%E5%A4%B1%E8%B4%A5"><span class="toc-text">OTA 失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NASA-%E9%A3%8E%E6%A0%BC%E5%AD%97%E4%BD%93%E4%B8%8D%E5%AF%B9"><span class="toc-text">NASA 风格字体不对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%E7%95%8C%E9%9D%A2%E8%B5%B7%E4%B8%8D%E6%9D%A5"><span class="toc-text">安装后界面起不来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-text">技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8E%86%E5%8F%B2"><span class="toc-text">版本历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%E4%B8%8E%E8%AE%B8%E5%8F%AF"><span class="toc-text">反馈与许可</span></a></li></ol></div>
+      </section>
+      
 
+      <section class="panel panel--readout" aria-label="阅读时长">
+        <div class="panel__head"><span>READOUT</span><span>阅读</span></div>
+        <div class="readout">
+          <em data-count="10" data-pad="2">10</em>
+          <span class="readout__unit">MIN</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="readout__note">2,808 WORDS / 字词</p>
+      </section>
 
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+      <section class="panel panel--meta">
+        <div class="panel__head"><span>DOCUMENT</span><span>文档</span></div>
+        <dl class="meta-list">
+          <div><dt>DOC NO.</dt><dd>ANIM-20250505-C7</dd></div>
+          <div><dt>ISSUE</dt><dd>2025.05.05</dd></div>
+          <div><dt>CHANNEL</dt><dd>嵌入式</dd></div>
+          <div><dt>WORDS</dt><dd>2,808</dd></div>
+          <div><dt>ENCODING</dt><dd>UTF-8 / HTML</dd></div>
+        </dl>
+        <button class="copy-link" type="button" data-copy-link data-url="http://ankali-aylina.github.io/2025/05/05/IRSTB/" data-copied="COPIED / 已复制">
+          <span data-copy-label>COPY PERMALINK</span>
+          <span aria-hidden="true">⧉</span>
         </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+      </section>
+    </aside>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
     </div>
   </div>
 </div>
 
-    
 
-    
-  </main>
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=1.0.0" defer></script>
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <img src="/img/loading.gif" data-original="/img/Icon.png" alt="" style="width: 20px;"> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    
-      <script  src="/js/img-lazyload.js" ></script>
-    
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 
         <style>
             [bg-lazy] {

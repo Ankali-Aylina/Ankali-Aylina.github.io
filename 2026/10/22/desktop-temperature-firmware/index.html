@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-motion="on">
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4KB RAM 里的三路风扇：Desktop_Temperature 固件拆解 · Anim</title>
+<meta name="description" content="从纯中断架构、关机散热状态机到 20KB 应用区的 OTA，记录 CW32L010 散热固件如何把失败路径也算进设计里。">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/2026/10/22/desktop-temperature-firmware/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Anim">
+<meta property="og:title" content="4KB RAM 里的三路风扇：Desktop_Temperature 固件拆解">
+<meta property="og:description" content="从纯中断架构、关机散热状态机到 20KB 应用区的 OTA，记录 CW32L010 散热固件如何把失败路径也算进设计里。">
+<meta property="og:url" content="http://ankali-aylina.github.io/2026/10/22/desktop-temperature-firmware/">
+
+<meta property="article:published_time" content="2026-10-21T17:50:00.000Z">
+
+<meta property="article:modified_time" content="2026-10-21T17:52:13.312Z">
+
+
+<meta property="article:tag" content="CW32L010">
+
+<meta property="article:tag" content="OTA">
+
+<meta property="article:tag" content="固件">
+
+<meta property="article:tag" content="状态机">
+
+<meta property="article:tag" content="BLE">
+
+<meta property="article:tag" content="低功耗">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4KB RAM 里的三路风扇：Desktop_Temperature 固件拆解">
+<meta name="twitter:description" content="从纯中断架构、关机散热状态机到 20KB 应用区的 OTA，记录 CW32L010 散热固件如何把失败路径也算进设计里。">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=4.5.1">
+
+<link rel="stylesheet" href="/css/motion.css?v=4.5.1">
+
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme';
+    var saved = localStorage.getItem(key);
+    var mode = "light";
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light') active = requested;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', mode);
+  } catch (error) {}
+})();
+</script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="is-post has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
+    
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
+    </a>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.10.22 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
+    </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
+
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
+    </div>
+  </div>
+  <nav class="nav" aria-label="主导航">
+    
+    
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
+    
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">02</span>
+      <span class="nav__name">归档</span>
+    </a>
+    
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">分类</span>
+    </a>
+    
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
+
+    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>ANIM-20261022-4A</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">TRANSMISSION</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
+
+    <main class="main" id="main">
+      
+<article class="post">
+  <header class="post__head">
+    <p class="post__kicker">
+      <span>TRANSMISSION</span>
+      <span class="post__kicker-sep" aria-hidden="true">/</span>
+      <span>ANIM-20261022-4A</span>
+    </p>
+    <h1 class="post__title">4KB RAM 里的三路风扇：Desktop_Temperature 固件拆解</h1>
+    
+    <p class="post__dek">从纯中断架构、关机散热状态机到 20KB 应用区的 OTA，记录 CW32L010 散热固件如何把失败路径也算进设计里。</p>
+    
+    <div class="post__meta">
+      <div class="post__meta-cell">
+        <span class="post__meta-label">DATE / 发布</span>
+        <b><time datetime="2026-10-21T17:50:00.000Z">2026.10.22</time></b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">CHANNEL / 分类</span>
+        <b><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">LABELS / 标签</span>
+        <b class="post__meta-tags">
+          
+          <a href="/tags/CW32L010/">#CW32L010</a> <a href="/tags/OTA/">#OTA</a> <a href="/tags/%E5%9B%BA%E4%BB%B6/">#固件</a>
+          <span class="muted">+3</span>
+        </b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">READOUT / 时长</span>
+        <b>14 MIN</b>
+      </div>
+    </div>
+  </header>
+
+  <div class="post__grid">
+    <div class="post__main">
+      
+      <details class="toc-mobile" data-toc-mobile>
+        <summary><span>CONTENTS / 目录</span><span class="toc-mobile__count">6 LABELS</span></summary>
+        <div class="toc-mobile__body"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%8A%8A%E7%BA%A6%E6%9D%9F%E9%92%89%E6%AD%BB"><span class="toc-text">先把约束钉死</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%BE%AA%E7%8E%AF%E5%8F%AA%E5%81%9A%E4%B8%A4%E4%BB%B6%E4%BA%8B"><span class="toc-text">主循环只做两件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%B7%AF-PWM%EF%BC%9A2kHz-%E4%B8%8E-1000-%E7%BA%A7"><span class="toc-text">三路 PWM：2kHz 与 1000 级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA-TurnOff-%E7%95%99%E4%B8%8B%E7%9A%84%E5%9D%91"><span class="toc-text">一个 TurnOff 留下的坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%9D%A1-UART%EF%BC%8C%E5%9B%9B%E4%B8%AA%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-text">一条 UART，四个解析器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8A%E5%B8%A7%E4%B8%8D%E8%83%BD%E6%8A%8A%E6%95%B4%E6%9D%A1%E9%93%BE%E8%B7%AF%E5%8D%A1%E6%AD%BB"><span class="toc-text">半帧不能把整条链路卡死</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD%EF%BC%9A%E7%94%B5%E8%84%91%E5%85%B3%E4%BA%86%EF%BC%8C%E9%A3%8E%E6%89%87%E8%BF%98%E8%A6%81%E5%86%8D%E5%90%B9%E4%B8%80%E4%BC%9A%E5%84%BF"><span class="toc-text">关机散热：电脑关了，风扇还要再吹一会儿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E5%BF%85%E9%A1%BB%E5%86%99%E5%AF%B9%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-text">几个必须写对的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%B5%8B"><span class="toc-text">实测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OTA%EF%BC%9A%E8%AE%A9-20KB-%E5%BA%94%E7%94%A8%E5%8C%BA%E5%8F%AF%E4%BB%A5%E8%87%AA%E6%88%91%E6%9B%B4%E6%96%B0"><span class="toc-text">OTA：让 20KB 应用区可以自我更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%82%E5%AD%98%E5%8C%BA%EF%BC%9A%E5%85%88%E5%88%AB%E5%8A%A8%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">暂存区：先别动正在运行的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%A0%87%E5%BF%97%EF%BC%9A%E6%94%BE%E5%9C%A8-SRAM-%E9%A1%B6%E9%83%A8"><span class="toc-text">请求标志：放在 SRAM 顶部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%97%B8%E9%97%A8%EF%BC%9A%E5%9D%8F%E5%9B%BA%E4%BB%B6%E4%B8%8D%E8%83%BD%E6%8A%8A%E8%AE%BE%E5%A4%87%E9%94%81%E6%AD%BB"><span class="toc-text">启动闸门：坏固件不能把设备锁死</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OTA-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E6%8E%A7%E5%88%B6%E5%B8%A7-%E6%95%B0%E6%8D%AE%E5%B8%A7-%E9%80%90%E5%B8%A7%E5%BA%94%E7%AD%94"><span class="toc-text">OTA 协议：控制帧 + 数据帧 + 逐帧应答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%B7%E4%B8%8D%E6%98%AF%E8%A3%85%E9%A5%B0"><span class="toc-text">版本号不是装饰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%EF%BC%9A%E6%8A%8A%E7%8A%B6%E6%80%81%E6%9C%BA%E4%BB%8E%E6%9D%BF%E5%AD%90%E4%B8%8A%E6%8B%BF%E4%B8%8B%E6%9D%A5"><span class="toc-text">测试：把状态机从板子上拿下来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%9B%98"><span class="toc-text">复盘</span></a></li></ol></div>
+      </details>
+      
+
+      <div class="post-body" id="post-body" data-post-body>
+        <blockquote>
+<p>这是《智能散热小桌板》的固件篇。硬件、上位机与安装说明在 <a href="/2025/05/05/IRSTB/">智能散热小桌板</a>；这篇只看一块 CW32L010 里的代码。</p>
+<p>固件快照：应用 <strong>1.2.4</strong>、协议 <strong>1.1</strong>、引导程序 <strong>0.1.4</strong>。下面提到的行为都以这份代码为准。</p>
+</blockquote>
+<p>小桌板的风扇控制，表面上看很简单：电脑把温度算好，通过蓝牙发一个字符，单片机设置三路 PWM。</p>
+<p>但把需求往后推一步，问题就变了：</p>
+<ul>
+<li>电脑关机了，蓝牙断了，风扇还要继续吹三分钟；</li>
+<li>串口收到半条指令，后面的所有指令不能跟着失效；</li>
+<li>固件升级到一半掉电，设备不能只剩一个刷不回去的引导程序；</li>
+<li>4KB RAM、20KB 应用区，没有 RTOS，也没有动态内存。</li>
+</ul>
+<p>这篇文章拆的就是这些“往后一步”的问题。</p>
+<span id="more"></span>
+
+<h2 id="先把约束钉死"><a href="#先把约束钉死" class="headerlink" title="先把约束钉死"></a>先把约束钉死</h2><p>这块板子的主控是武汉芯源的 <strong>CW32L010F8</strong>，Cortex-M0+，8MHz。资源表比功能列表更能解释代码为什么长这样：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+<th>对设计的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Flash</td>
+<td>64KB</td>
+<td>引导程序、应用、暂存区、元数据都要提前分区</td>
+</tr>
+<tr>
+<td>应用区</td>
+<td>20KB</td>
+<td>当前镜像约 16.6KB，余量不到 4KB</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>4KB</td>
+<td>全局变量按字节算，不能有动态分配</td>
+</tr>
+<tr>
+<td>堆 &#x2F; 栈</td>
+<td>512B &#x2F; 1024B</td>
+<td>栈顶还要专门留 16B 给 OTA 标志</td>
+</tr>
+<tr>
+<td>主频</td>
+<td>8MHz</td>
+<td>没有 FPU，也没有硬件除法器</td>
+</tr>
+<tr>
+<td>PWM</td>
+<td>2kHz &#x2F; 1000 级</td>
+<td>比较值直接等于协议里的 0–1000</td>
+</tr>
+</tbody></table>
+<p>“没有硬件除法器”不是一句性能备注。它意味着任何一次 <code>/</code> 或 <code>%</code> 都会拉进 <code>__aeabi_uidiv</code> 之类的库函数；在中断里做这件事，时间和代码体积都要重新算。</p>
+<p><img src="/img/loading.gif" data-original="/images/002.jpg" alt="温度控制板"></p>
+<h2 id="主循环只做两件事"><a href="#主循环只做两件事" class="headerlink" title="主循环只做两件事"></a>主循环只做两件事</h2><p>初始化顺序是固定的：时钟、BLE 串口、BLE 连接检测、风扇电源、PWM、版本查询、OTA 入口、关机散热、NVIC。之后进入一个几乎没有逻辑的主循环：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    ShutdownCooling_Poll();</span><br><span class="line">    __WFI();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>__WFI()</code> 让 CPU 进入 Sleep。注意是 Sleep，不是 Deep Sleep：PWM、UART、GPIO 都还要继续工作，风扇不能因为 CPU 睡了就停。</p>
+<p>真正的事情分散在中断里：</p>
+<table>
+<thead>
+<tr>
+<th>中断</th>
+<th>优先级</th>
+<th>负责什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UART2</td>
+<td>0（最高）</td>
+<td>接收 BLE 透传字节，分发给四个解析器</td>
+</tr>
+<tr>
+<td>GPIOB</td>
+<td>默认</td>
+<td>PB4 双边沿，检测 BLE 连接 &#x2F; 断开</td>
+</tr>
+<tr>
+<td>BTIM1</td>
+<td>默认</td>
+<td>关机散热的 1 秒倒计时</td>
+</tr>
+<tr>
+<td>SysTick</td>
+<td>默认</td>
+<td>1ms 时基，只用于指令帧的接收超时</td>
+</tr>
+</tbody></table>
+<p>中断只做短操作：减一个计数、置一个标志、收一个字节。关风扇、回传、Flash 操作这类可能耗时的事情，统一放到主循环的 <code>ShutdownCooling_Poll()</code> 里。这样做的代价是主循环不能省，但换来了中断响应时间和逻辑边界的可控。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TCV3 上位机</span><br><span class="line">   │ BLE</span><br><span class="line">   ▼</span><br><span class="line">BT24-T 透传模块</span><br><span class="line">   │ UART2 / 115200</span><br><span class="line">   ▼</span><br><span class="line">CW32L010</span><br><span class="line">   ├── GTIM1 CH2/3/4 ──&gt; PA3/PA4/PA5 ──&gt; 三路 PWM</span><br><span class="line">   ├── PB1/PB2/PB3   ──&gt; 三路风扇电源</span><br><span class="line">   └── PB4           &lt;── BLE 连接状态</span><br></pre></td></tr></table></figure>
+
+<h2 id="三路-PWM：2kHz-与-1000-级"><a href="#三路-PWM：2kHz-与-1000-级" class="headerlink" title="三路 PWM：2kHz 与 1000 级"></a>三路 PWM：2kHz 与 1000 级</h2><p>三路风扇分别接在 PA3、PA4、PA5，对应 GTIM1 的 CH4、CH3、CH2。PWM 初始化里有两个关键数字：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GTIM_InitStruct.Prescaler   = <span class="number">4</span> - <span class="number">1</span>;</span><br><span class="line">GTIM_InitStruct.ReloadValue = <span class="number">1000</span> - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>8MHz ÷ 4 ÷ 1000 &#x3D; <strong>2kHz</strong>，同时得到 <strong>1000 级</strong>分辨率，也就是 0.1%。</p>
+<p>这里有一个很舒服的巧合：<code>ARR + 1</code> 正好是 1000，所以比较值可以直接写成协议里的 0–1000，不需要做 <code>duty × 分辨率 ÷ 1000</code> 的换算。对没有硬件除法器的 M0+ 来说，这不只是省一条指令，而是让中断路径里少一个不确定因素。</p>
+<p>代价是 2kHz 落在人耳比较敏感的频段，低速档可能听到轻微啸叫。项目里试过把 PWM 提到 25kHz（<code>PSC=0</code>、<code>ARR=319</code>），啸叫会消失，但 320 级分辨率和“0–1000”的协议语义对不上，需要额外换算；最后为了不扩大改动面，还是回到了 2kHz。这是一个典型的取舍：<strong>听得见的噪声、控制精度、协议一致性，只能选两个。</strong></p>
+<h3 id="一个-TurnOff-留下的坑"><a href="#一个-TurnOff-留下的坑" class="headerlink" title="一个 TurnOff 留下的坑"></a>一个 <code>TurnOff</code> 留下的坑</h3><p><code>FanPWM_TurnOff()</code> 不只是把占空比写成 0，它还会禁用三个输出通道，并停掉整个 GTIM1。而 <code>FanPWM_SetMode()</code> 只写比较寄存器，<code>FanPWM_SetDutyCycle()</code> 只负责使能通道——它们都不会重新启动定时器。</p>
+<p>于是第一版关机散热收尾后再点模式按钮，风扇不会转：定时器已经停了。</p>
+<p>后来补了一个显式的恢复函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">FanPWM_Restore</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    GTIM_Cmd(CW_GTIM1, ENABLE);</span><br><span class="line">    GTIM_OC4Cmd(CW_GTIM1, ENABLE);</span><br><span class="line">    GTIM_OC3Cmd(CW_GTIM1, ENABLE);</span><br><span class="line">    GTIM_OC2Cmd(CW_GTIM1, ENABLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这类问题很难靠读主路径发现，只有把“关机散热结束 → 再发模式指令”这条路径真的走一遍，才会暴露。</p>
+<h2 id="一条-UART，四个解析器"><a href="#一条-UART，四个解析器" class="headerlink" title="一条 UART，四个解析器"></a>一条 UART，四个解析器</h2><p>BLE 模块是透传的，所有字节原样落到 UART2。但同一条字节流上跑着四种东西：</p>
+<ul>
+<li>单字符风扇模式：<code>&#39;0&#39;</code> ~ <code>&#39;6&#39;</code></li>
+<li>版本查询：<code>V\n</code></li>
+<li>关机散热帧：<code>T&lt;分钟&gt;\n</code></li>
+<li>OTA 请求：<code>OTA\n</code></li>
+</ul>
+<p>每个解析器都必须遵守同一个规则：<strong>只有收到自己的帧头，才消费后续字节。</strong></p>
+<p>原因很直接：<code>T1\n</code> 里的 <code>&#39;1&#39;</code> 同时也是一个合法的风扇模式。如果分发顺序写错，启动满速散热的同一条指令会顺手把风扇设成 25%，甚至在倒计时中误判成“用户切换模式”，回一个 <code>CAN</code> 把散热取消掉。</p>
+<p>UART 中断里的实际顺序是这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FwVersion_InputByte(mode);</span><br><span class="line">OtaApp_InputByte(mode);</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">uint8_t</span> in_shutdown_frame = ShutdownCooling_ParserBusy();</span><br><span class="line">ShutdownCooling_InputByte(mode);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!in_shutdown_frame &amp;&amp; mode &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; mode &lt;= <span class="string">&#x27;6&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (ShutdownCooling_IsRunning()) &#123;</span><br><span class="line">        ShutdownCooling_Cancel();</span><br><span class="line">    &#125;</span><br><span class="line">    FanPWM_Restore();</span><br><span class="line">    FanPWM_SetMode((<span class="type">int8_t</span>)mode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意 <code>in_shutdown_frame</code> 是在喂入当前字节<strong>之前</strong>读取的。<code>ParserBusy()</code> 也没有使用“上一个字节是否被消费”的遗留标志，而是直接看解析器的当前状态。早期版本用的是遗留标志，结果整帧处理完后标志还停在 1，紧跟 <code>T1\n</code> 后面的第一个模式字符会被误判成散热帧的延续，直接丢掉。这个 bug 不影响主路径，却会让“先设置散热、再点模式”这种真实操作偶发失灵。</p>
+<h3 id="半帧不能把整条链路卡死"><a href="#半帧不能把整条链路卡死" class="headerlink" title="半帧不能把整条链路卡死"></a>半帧不能把整条链路卡死</h3><p>BLE 通知可能被拆成多条，<code>T3\n</code> 可能只到了 <code>T3</code>。如果解析器一直停在“等待数字”的状态，后面的所有指令都会被当成它的延续。</p>
+<p>所以关机散热解析器有一个 1 秒超时：帧头之后超过 1 秒没有新字节，就回 <code>TO.&lt;已解析位数&gt;.&lt;秒数&gt;\n</code>，然后复位到空闲。上位机收到 <code>TO</code> 会自动重发一次；不需要用户知道发生过什么。</p>
+<h2 id="关机散热：电脑关了，风扇还要再吹一会儿"><a href="#关机散热：电脑关了，风扇还要再吹一会儿" class="headerlink" title="关机散热：电脑关了，风扇还要再吹一会儿"></a>关机散热：电脑关了，风扇还要再吹一会儿</h2><p>这个功能的场景很具体：用户点击“关机散热”，Windows 开始关机，TCV3 退出，BLE 断开。此时风扇必须继续全速运行 N 分钟，然后自己断电。</p>
+<p>所以倒计时不能放在上位机，也不能依赖蓝牙心跳。它必须在 MCU 里独立完成。</p>
+<p>协议是一条带结束符的 ASCII 帧：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T3\n     → 全速散热 3 分钟后停风扇</span><br><span class="line">T60\n    → 上限 60 分钟</span><br><span class="line">T0\n     → 拒绝（WAIT）；取消请重新选择模式</span><br></pre></td></tr></table></figure>
+
+<p>收到合法帧后，<code>ScBegin()</code> 做四件事：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FanPower_On();</span><br><span class="line">FanPWM_Restore();</span><br><span class="line">FanPWM_SetMode(FAN_PWM_MODE_6);   <span class="comment">/* 全速 */</span></span><br><span class="line"></span><br><span class="line">s_remaining_sec = total_sec;</span><br><span class="line">s_finished = <span class="number">0</span>;</span><br><span class="line">shutdown_cooling_active = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">ScStartSecondTick();              <span class="comment">/* BTIM1: 1 秒节拍 */</span></span><br><span class="line">ScSend(<span class="string">&quot;OK.&quot;</span>);</span><br><span class="line">ScSendUint(total_sec);</span><br><span class="line">ScSend(<span class="string">&quot;\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>计时资源分得很清楚：</p>
+<ul>
+<li><strong>BTIM1</strong>：PSC&#x3D;7999、ARR&#x3D;999，8MHz → 1Hz，负责倒计时。GTIM1 已经被 PWM 占用，基本定时器正好做纯计时。</li>
+<li><strong>SysTick</strong>：HAL 的 1ms 时基，只负责帧接收超时。1 秒粒度对“半帧”来说太粗了。</li>
+</ul>
+<p>状态变量只有十几个字节：剩余秒数、解析状态、已解析分钟数、位数、帧起始 tick、完成标志。没有数组，没有动态内存。</p>
+<h3 id="几个必须写对的状态"><a href="#几个必须写对的状态" class="headerlink" title="几个必须写对的状态"></a>几个必须写对的状态</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>倒计时中收到模式指令</td>
+<td>取消散热，回 <code>CAN</code>，随后按新模式运行</td>
+</tr>
+<tr>
+<td>倒计时中收到新的 <code>T&lt;n&gt;\n</code></td>
+<td>以新时长重新计时，不会出现两套倒计时</td>
+</tr>
+<tr>
+<td>倒计时中 BLE 断开</td>
+<td><strong>不关风扇</strong>，散热继续走完</td>
+</tr>
+<tr>
+<td>正常结束</td>
+<td>停 BTIM1，先关 PWM，再关风扇电源，回 <code>FIN</code></td>
+</tr>
+<tr>
+<td>结束后再发模式指令</td>
+<td>立即恢复，不锁定</td>
+</tr>
+<tr>
+<td>帧被截断</td>
+<td>1 秒后回 <code>TO</code>，解析器复位</td>
+</tr>
+</tbody></table>
+<p>其中“倒计时中 BLE 断开”需要特别小心。BLE 断开中断平时会关风扇电源；如果这里无条件执行，关机散热会被提前中止。所以断开分支先看一眼 <code>ShutdownCooling_IsRunning()</code>，正在散热就跳过关风扇动作。这是 v1.2.4 修掉的问题——之前的版本会在蓝牙断开时把散热打断。</p>
+<p>结束收尾也有顺序：<strong>先停 PWM，再断风扇电源</strong>。反过来的话，电源断开瞬间 PWM 可能仍为高电平，风扇会在掉电过程中被灌入一段无效驱动。</p>
+<p>还有一个容易忽略的细节：<code>ScFinish()</code> 回完 <code>FIN</code> 后，如果 BLE 仍然连接，会把风扇电源重新打开、PWM 设为 0%，让风扇处于“待命”状态；如果 BLE 已经断开，就保持断电。这样上位机收到 <code>FIN</code> 切回自动模式时，下一帧模式指令可以立即生效。</p>
+<h3 id="实测"><a href="#实测" class="headerlink" title="实测"></a>实测</h3><p>关机散热用直连探针验证过：<code>OK.60</code> 到 <code>FIN</code> 相隔约 <strong>60.5 秒</strong>，误差约 0.9%；中途主动断开 BLE 80 秒，倒计时仍然走完并自行关风扇，重连后设备正常。</p>
+<p>这比“功能能跑”更重要：它证明倒计时真的没有偷偷依赖上位机。</p>
+<h2 id="OTA：让-20KB-应用区可以自我更新"><a href="#OTA：让-20KB-应用区可以自我更新" class="headerlink" title="OTA：让 20KB 应用区可以自我更新"></a>OTA：让 20KB 应用区可以自我更新</h2><p>当应用区只有一份时，原地升级是危险的：传输到一半掉电，设备就只剩引导程序，连“重新升级”的入口都可能没有。</p>
+<p>这个项目把 Flash 拆成了四块：</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>大小</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0x0000</code> – <code>0x4FFF</code></td>
+<td>20KB</td>
+<td>引导程序，常驻，日常不重烧</td>
+</tr>
+<tr>
+<td><code>0x5000</code> – <code>0x9FFF</code></td>
+<td>20KB</td>
+<td>应用镜像</td>
+</tr>
+<tr>
+<td><code>0xA000</code> – <code>0xEFFF</code></td>
+<td>20KB</td>
+<td>OTA 暂存区</td>
+</tr>
+<tr>
+<td><code>0xF000</code> – <code>0xF1FF</code></td>
+<td>512B</td>
+<td>元数据页（升级结果）</td>
+</tr>
+</tbody></table>
+<h3 id="暂存区：先别动正在运行的应用"><a href="#暂存区：先别动正在运行的应用" class="headerlink" title="暂存区：先别动正在运行的应用"></a>暂存区：先别动正在运行的应用</h3><p>数据帧先写到 <code>0xA000</code> 的暂存区，不碰 <code>0x5000</code>。传输期间设备照常运行旧固件；掉电只会损坏暂存区，旧应用毫发无损。只有整镜像 CRC32 校验通过后，引导程序才把暂存区搬到应用槽。</p>
+<p>这不能消除风险，但把风险窗口从“整个传输过程”缩短到了“校验通过后的搬运过程”。这是很典型的嵌入式取舍：<strong>不是让失败不发生，而是让失败发生在损失最小的位置。</strong></p>
+<h3 id="请求标志：放在-SRAM-顶部"><a href="#请求标志：放在-SRAM-顶部" class="headerlink" title="请求标志：放在 SRAM 顶部"></a>请求标志：放在 SRAM 顶部</h3><p>应用收到 <code>OTA\n</code> 后，不自己擦 Flash，而是往 SRAM 顶部写一个请求标志，回 <code>OTAOK\n</code>，然后软复位：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">req-&gt;magic  = OTA_REQ_MAGIC;      <span class="comment">/* &quot;OTA1&quot; */</span></span><br><span class="line">req-&gt;invert = ~OTA_REQ_MAGIC;     <span class="comment">/* 双重校验 */</span></span><br><span class="line">SendString(<span class="string">&quot;OTAOK\n&quot;</span>);</span><br><span class="line">NVIC_SystemReset();</span><br></pre></td></tr></table></figure>
+
+<p>为什么不用 Flash 标志？因为写 Flash 要开时钟、解锁、擦页，任何一步失败，外部表现都只是“点了升级没反应”。写 SRAM 没有这些失败模式；而 Cortex-M0+ 的软复位不会清 SRAM，标志能活到引导程序。</p>
+<p>这个标志放在 <code>0x20000FF0</code>，栈顶在 <code>0x20000FF0</code>，栈向下生长，永远不会踩到它。这个不变量在两个链接脚本里都有 <code>ASSERT</code> 兜底。项目曾经把标志放在会被栈覆盖的位置，现象就是“命令发了、设备复位了、但照常启动旧应用”——看起来像升级入口失效，实际是标志已经被栈踩掉了。</p>
+<h3 id="启动闸门：坏固件不能把设备锁死"><a href="#启动闸门：坏固件不能把设备锁死" class="headerlink" title="启动闸门：坏固件不能把设备锁死"></a>启动闸门：坏固件不能把设备锁死</h3><p>暂存区解决了传输安全，但还有一种更隐蔽的失败：固件结构合法、CRC 也正确，但初始化到一半就崩了。设备每次启动都进这个坏固件，OTA 入口也进不去，只能拆机。</p>
+<p>所以引导程序在跳转应用之前，把 <code>0x20000FF8</code> 置为 <code>PENDING</code>；应用初始化完成后写 <code>DONE</code>。如果下一次启动看到的还是 <code>PENDING</code>，就累计一次启动失败。连续 3 次失败，引导程序不再跳转，停在 OTA 模式等重刷。</p>
+<p>应用侧这一行很简单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*(<span class="keyword">volatile</span> <span class="type">uint32_t</span> *)OTA_BOOT_FLAG_ADDR = OTA_BOOT_FLAG_DONE;</span><br></pre></td></tr></table></figure>
+
+<p>它必须放在所有外设初始化完成之后、进入主循环之前：太早，坏固件也会被确认；太晚，正常固件要等很久才算数。</p>
+<p>配套地，<code>HardFault_Handler</code> 从原来的 <code>while (1)</code> 改成了 <code>NVIC_SystemReset()</code>。死循环不会产生“下一次启动”，闸门永远不会计数；复位后才有“重启 → 计数 → 停 OTA”的恢复路径。偶发 HardFault 也可能靠复位自愈。</p>
+<h3 id="OTA-协议：控制帧-数据帧-逐帧应答"><a href="#OTA-协议：控制帧-数据帧-逐帧应答" class="headerlink" title="OTA 协议：控制帧 + 数据帧 + 逐帧应答"></a>OTA 协议：控制帧 + 数据帧 + 逐帧应答</h3><p>控制指令是 ASCII，数据是二进制：</p>
+<table>
+<thead>
+<tr>
+<th>发送</th>
+<th>回传</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>OTA\n</code></td>
+<td><code>OTAOK\n</code></td>
+<td>进入升级模式</td>
+</tr>
+<tr>
+<td><code>&lt;数据帧&gt;</code></td>
+<td><code>A.XX\n</code> &#x2F; <code>E.XX\n</code></td>
+<td>逐帧 ACK &#x2F; NAK</td>
+</tr>
+<tr>
+<td><code>OTAE\n</code></td>
+<td><code>OTAOK\n</code> &#x2F; <code>OTAFAIL\n</code></td>
+<td>结束传输、校验并激活</td>
+</tr>
+<tr>
+<td><code>OTAQ\n</code></td>
+<td><code>OTAQOK\n</code></td>
+<td>放弃升级，回到原应用</td>
+</tr>
+<tr>
+<td><code>V\n</code></td>
+<td><code>V&lt;版本&gt;\n</code></td>
+<td>查询当前运行的程序版本</td>
+</tr>
+</tbody></table>
+<p>数据帧是 <code>0xA5 + 序号 + 长度 + 负载 + CRC16</code>，负载最多 128 字节；CRC16 使用 CCITT-FALSE，覆盖序号、长度和负载。每帧都等应答，而不是一口气连发——BLE 透传模块有内部缓冲，无应答连发必然会丢帧，而丢一帧，整镜像 CRC 就必然失败。</p>
+<p>另外两个时间参数也很关键：</p>
+<ul>
+<li><strong>500ms</strong>：帧内字节间隔超时。半帧超时后丢弃并回到等待控制指令的状态，否则后续字节都会被当成它的延续；</li>
+<li><strong>300ms</strong>：OTA 成功应答发出后、复位前的等待。BLE 模块转发需要时间，发完立刻复位，上位机可能收不到那条 <code>OTAOK</code>，把一次成功的升级误判为失败。</li>
+</ul>
+<h3 id="版本号不是装饰"><a href="#版本号不是装饰" class="headerlink" title="版本号不是装饰"></a>版本号不是装饰</h3><p>这里有三个版本号，各管各的：</p>
+<ul>
+<li><strong>应用版本</strong> <code>1.2.4</code>：固件功能变化时递增；</li>
+<li><strong>协议版本</strong> <code>1.1</code>：上位机需要同步适配时才递增；</li>
+<li><strong>引导程序版本</strong> <code>0.1.4</code>：独立于应用。</li>
+</ul>
+<p><code>V\n</code> 的答案取决于当前跑的是哪个程序：应用回 <code>V1.2.4.1.1</code>，引导程序回 <code>V0.1.4</code>。上位机通过 <code>V0.</code> 前缀判断“现在是引导程序在说话”，从而知道升级请求真的被接管了。</p>
+<p>同一版本号只能对应一份固件。已烧录的版本号不能复用，否则无法判断设备里到底是哪一版。版本号、协议号、文档三者对不上，比功能少一个更麻烦——因为你会开始怀疑设备。</p>
+<h2 id="测试：把状态机从板子上拿下来"><a href="#测试：把状态机从板子上拿下来" class="headerlink" title="测试：把状态机从板子上拿下来"></a>测试：把状态机从板子上拿下来</h2><p>这类固件最难测的不是“正常发一条指令”，而是边界：半帧、超时、取消、断开、掉电、坏固件。</p>
+<p>项目里做了两层验证：</p>
+<ol>
+<li><strong>宿主机逻辑测试</strong>：把真实的 <code>shutdown_cooling.c</code> 编译到 PC 上，HAL 全部打桩，直接断言它发出的 <code>OK / WAIT / TO / FIN / CAN</code>。覆盖 <code>T0</code>、<code>T60</code>、<code>T61</code>、<code>T123</code>、半帧超时、重复取消、倒计时中重新下发等边界；</li>
+<li><strong>硬件在环</strong>：直连 BLE 探针，验证真实定时器、真实 UART、真实风扇电源。</li>
+</ol>
+<p>OTA 也做了端到端升级验证：应用受理请求 → 软复位 → 引导程序接管 → 传镜像 → 校验 → 搬移 → 新应用启动并自报版本。应用镜像目前约 16.6KB，20KB 的应用区已经用掉 80% 左右；下次再加功能，先要考虑的是 Flash 分区，而不是先写代码。</p>
+<h2 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h2><p>写完这块固件，我最大的感受不是“4KB 真小”，而是：<strong>资源限制最终会变成行为约束。</strong></p>
+<ul>
+<li>没有硬件除法器，所以 PWM 分辨率最好取 2 的幂，或者让比较值直接等于协议值；</li>
+<li>RAM 只有 4KB，所以状态机不能保存历史，只能保存“下一步做什么”；</li>
+<li>应用区只有 20KB，所以 OTA 不能做双备份，只能用暂存区 + 启动闸门，把风险压缩到可接受的范围；</li>
+<li>中断栈只有 1KB，所以中断里不能做 Flash 操作和长回传，必须把收尾放到主循环。</li>
+</ul>
+<p>另一个体会是：<strong>回传不是日志，是协议的一部分。</strong> 上位机收到 <code>WAIT</code> &#x2F; <code>TO</code> 会自动重发，所以这两个回传必须准确；<code>FIN</code> 会触发自动模式，所以收尾必须只执行一次；<code>V</code> 会被用来判断版本兼容性，所以版本号不能写死在文档里，只能来自 <code>main.h</code> 和 <code>boot/ota.h</code>。</p>
+<p>小桌板最终只是一个会吹风的小物件。但在这块 4KB 的芯片里，风扇、定时器、串口、Flash 和失败恢复被压进了同一套状态机。它不神奇，只是把每一条“如果这时断了怎么办”提前写进了代码。</p>
+<hr>
+<p>固件版本：<strong>1.2.4</strong> &#x2F; 协议：<strong>1.1</strong> &#x2F; 引导程序：<strong>0.1.4</strong>。<br>产品与上位机说明：<a href="/2025/05/05/IRSTB/">智能散热小桌板</a></p>
+
+      </div>
+
+      <footer class="post__footer">
+        
+        <div class="post__tags">
+          <span class="post__tags-label">LABELS / 标签</span>
+          <div class="post__tags-list">
+            
+            <a href="/tags/CW32L010/">#CW32L010</a>
+            
+            <a href="/tags/OTA/">#OTA</a>
+            
+            <a href="/tags/%E5%9B%BA%E4%BB%B6/">#固件</a>
+            
+            <a href="/tags/%E7%8A%B6%E6%80%81%E6%9C%BA/">#状态机</a>
+            
+            <a href="/tags/BLE/">#BLE</a>
+            
+            <a href="/tags/%E4%BD%8E%E5%8A%9F%E8%80%97/">#低功耗</a>
+            
+          </div>
+        </div>
+        
+        <div class="post__fineprint">
+          
+          <span>UPDATED / 修订 <b>2026.10.22 01:52</b></span>
+          
+          
+          <span>FORMAT / 格式 <b>HTML · UTF-8</b></span>
+        </div>
+        <div class="end-mark" aria-hidden="true">
+          <span>END OF DOCUMENT</span>
+          <i class="ruler"></i>
+          <span>ANIM-20261022-4A</span>
+        </div>
+        
+        <nav class="adjacent" aria-label="上一篇 / 下一篇">
+          <span class="adjacent__item is-empty"><span class="adjacent__label">PREV / 上一份</span><span class="adjacent__title">NO PRIOR RECORD</span></span>
+          
+          <a class="adjacent__item adjacent__item--next" href="/2025/07/25/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E9%80%92%E5%BD%92/" rel="next">
+            <span class="adjacent__label">NEXT / 下一份 <span aria-hidden="true">→</span></span>
+            <span class="adjacent__title">C++算法学习-递归</span>
+          </a>
+          
+        </nav>
+        
+      </footer>
+    </div>
+
+    <aside class="side" aria-label="文档信息">
+      
+      <section class="panel panel--toc">
+        <div class="panel__head"><span>CONTENTS</span><span>目录</span></div>
+        <div class="toc-wrap"><ol class="toc toc--flat"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%8A%8A%E7%BA%A6%E6%9D%9F%E9%92%89%E6%AD%BB"><span class="toc-text">先把约束钉死</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%BE%AA%E7%8E%AF%E5%8F%AA%E5%81%9A%E4%B8%A4%E4%BB%B6%E4%BA%8B"><span class="toc-text">主循环只做两件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%B7%AF-PWM%EF%BC%9A2kHz-%E4%B8%8E-1000-%E7%BA%A7"><span class="toc-text">三路 PWM：2kHz 与 1000 级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA-TurnOff-%E7%95%99%E4%B8%8B%E7%9A%84%E5%9D%91"><span class="toc-text">一个 TurnOff 留下的坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%9D%A1-UART%EF%BC%8C%E5%9B%9B%E4%B8%AA%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-text">一条 UART，四个解析器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8A%E5%B8%A7%E4%B8%8D%E8%83%BD%E6%8A%8A%E6%95%B4%E6%9D%A1%E9%93%BE%E8%B7%AF%E5%8D%A1%E6%AD%BB"><span class="toc-text">半帧不能把整条链路卡死</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E6%9C%BA%E6%95%A3%E7%83%AD%EF%BC%9A%E7%94%B5%E8%84%91%E5%85%B3%E4%BA%86%EF%BC%8C%E9%A3%8E%E6%89%87%E8%BF%98%E8%A6%81%E5%86%8D%E5%90%B9%E4%B8%80%E4%BC%9A%E5%84%BF"><span class="toc-text">关机散热：电脑关了，风扇还要再吹一会儿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E5%BF%85%E9%A1%BB%E5%86%99%E5%AF%B9%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-text">几个必须写对的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%B5%8B"><span class="toc-text">实测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OTA%EF%BC%9A%E8%AE%A9-20KB-%E5%BA%94%E7%94%A8%E5%8C%BA%E5%8F%AF%E4%BB%A5%E8%87%AA%E6%88%91%E6%9B%B4%E6%96%B0"><span class="toc-text">OTA：让 20KB 应用区可以自我更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%82%E5%AD%98%E5%8C%BA%EF%BC%9A%E5%85%88%E5%88%AB%E5%8A%A8%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">暂存区：先别动正在运行的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%A0%87%E5%BF%97%EF%BC%9A%E6%94%BE%E5%9C%A8-SRAM-%E9%A1%B6%E9%83%A8"><span class="toc-text">请求标志：放在 SRAM 顶部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%97%B8%E9%97%A8%EF%BC%9A%E5%9D%8F%E5%9B%BA%E4%BB%B6%E4%B8%8D%E8%83%BD%E6%8A%8A%E8%AE%BE%E5%A4%87%E9%94%81%E6%AD%BB"><span class="toc-text">启动闸门：坏固件不能把设备锁死</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OTA-%E5%8D%8F%E8%AE%AE%EF%BC%9A%E6%8E%A7%E5%88%B6%E5%B8%A7-%E6%95%B0%E6%8D%AE%E5%B8%A7-%E9%80%90%E5%B8%A7%E5%BA%94%E7%AD%94"><span class="toc-text">OTA 协议：控制帧 + 数据帧 + 逐帧应答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%B7%E4%B8%8D%E6%98%AF%E8%A3%85%E9%A5%B0"><span class="toc-text">版本号不是装饰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%EF%BC%9A%E6%8A%8A%E7%8A%B6%E6%80%81%E6%9C%BA%E4%BB%8E%E6%9D%BF%E5%AD%90%E4%B8%8A%E6%8B%BF%E4%B8%8B%E6%9D%A5"><span class="toc-text">测试：把状态机从板子上拿下来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%9B%98"><span class="toc-text">复盘</span></a></li></ol></div>
+      </section>
+      
+
+      <section class="panel panel--readout" aria-label="阅读时长">
+        <div class="panel__head"><span>READOUT</span><span>阅读</span></div>
+        <div class="readout">
+          <em data-count="14" data-pad="2">14</em>
+          <span class="readout__unit">MIN</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="readout__note">4,044 WORDS / 字词</p>
+      </section>
+
+      <section class="panel panel--meta">
+        <div class="panel__head"><span>DOCUMENT</span><span>文档</span></div>
+        <dl class="meta-list">
+          <div><dt>DOC NO.</dt><dd>ANIM-20261022-4A</dd></div>
+          <div><dt>ISSUE</dt><dd>2026.10.22</dd></div>
+          <div><dt>CHANNEL</dt><dd>嵌入式</dd></div>
+          <div><dt>WORDS</dt><dd>4,044</dd></div>
+          <div><dt>ENCODING</dt><dd>UTF-8 / HTML</dd></div>
+        </dl>
+        <button class="copy-link" type="button" data-copy-link data-url="http://ankali-aylina.github.io/2026/10/22/desktop-temperature-firmware/" data-copied="COPIED / 已复制">
+          <span data-copy-label>COPY PERMALINK</span>
+          <span aria-hidden="true">⧉</span>
+        </button>
+      </section>
+    </aside>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
+    </div>
+  </div>
+</div>
+
+
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=1.0.0" defer></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

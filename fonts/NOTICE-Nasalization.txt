@@ -1,0 +1,12 @@
+Nasalization Rg
+==============
+
+Font file: nasalization-rg.otf
+Supplied by: site owner (Ankali-Aylina / Anim)
+Original typeface: Nasalization, designed by Ray Larabie / Typodermic Fonts.
+License: not OFL. Use and redistribution are subject to the original
+Typodermic Fonts license for this typeface.
+
+Upstream: https://www.typodermicfonts.com/nasalization/
+
+This notice does not grant any additional rights to the typeface.

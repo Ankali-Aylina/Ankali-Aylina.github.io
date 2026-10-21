@@ -1,328 +1,197 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN" data-theme="light" data-motion="on">
 <head>
-  <meta charset="UTF-8">
-
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/Icon.png">
-  <link rel="icon" href="/img/Icon.png">
   
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Ankali-Aylina">
-  <meta name="keywords" content="RNP, Rabbit Newspaper, 知识分享报社 嵌入式 CW32 Ankali-Aylina C C++">
-  
-    <meta name="description" content="C++算法学习这是一个记录C++算法学习的博客，记录一些算法的代码实现，算法的思路，算法的时间复杂度，算法的空间复杂度，算法的稳定性等等。该项目使用VScode编写，使用C++编写，使用CMake构建项目，使用Git进行版本控制，使用GitHub进行代码托管。 点击前往CPlusAlgo目录 创建新项目工具 简介 使用方法 代码解析    创建新项目工具简介这是一个用于创建新项目的工具，它可以帮助">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C++算法学习-创建新项目工具 · Anim</title>
+<meta name="description" content="Anim · 知识分享报社">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Anim">
 <meta property="og:title" content="C++算法学习-创建新项目工具">
-<meta property="og:url" content="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/index.html">
-<meta property="og:site_name" content="兔兔报社">
-<meta property="og:description" content="C++算法学习这是一个记录C++算法学习的博客，记录一些算法的代码实现，算法的思路，算法的时间复杂度，算法的空间复杂度，算法的稳定性等等。该项目使用VScode编写，使用C++编写，使用CMake构建项目，使用Git进行版本控制，使用GitHub进行代码托管。 点击前往CPlusAlgo目录 创建新项目工具 简介 使用方法 代码解析    创建新项目工具简介这是一个用于创建新项目的工具，它可以帮助">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A01.png">
+<meta property="og:description" content="Anim · 知识分享报社">
+<meta property="og:url" content="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/">
+
 <meta property="article:published_time" content="2025-07-22T08:40:52.000Z">
+
 <meta property="article:modified_time" content="2025-09-09T01:27:44.471Z">
-<meta property="article:author" content="Ankali-Aylina">
+
+
 <meta property="article:tag" content="C++">
+
 <meta property="article:tag" content="算法">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A01.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>C++算法学习-创建新项目工具 ◇ 兔兔报社</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++算法学习-创建新项目工具">
+<meta name="twitter:description" content="Anim · 知识分享报社">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+<link rel="stylesheet" href="/css/motion.css?v=4.5.1">
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme';
+    var saved = localStorage.getItem(key);
+    var mode = "light";
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = (saved === 'dark' || saved === 'light') ? saved : (mode === 'auto' ? (system ? 'dark' : 'light') : mode);
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light') active = requested;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', mode);
+  } catch (error) {}
+})();
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"ankali-aylina.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":64,"cursorChar":"⌥","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2022-09-18T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 7.3.0"></head>
-
-
-<body>
-  
-
-  <header>
+<body class="is-post has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
     
-
-<div class="header-inner" style="height: 80vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Rabbit Newspaper</strong>
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.10.22 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
     </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
     </div>
   </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/Eternal-Frost.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="C++算法学习-创建新项目工具"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-author" aria-hidden="true"></i>
-        Ankali-Aylina
-      </span>
+  <nav class="nav" aria-label="主导航">
     
     
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-07-22 16:40" pubdate>
-          2025年7月22日 下午
-        </time>
-      </span>
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
     
-  </div>
-
-  <div class="mt-1">
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">02</span>
+      <span class="nav__name">归档</span>
+    </a>
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          6.5k 字
-        
-      </span>
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">分类</span>
+    </a>
     
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
 
     
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          55 分钟
-        
-      </span>
-    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>ANIM-20250722-0A</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">TRANSMISSION</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
 
-    
-    
+    <main class="main" id="main">
       
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-
-      
+<article class="post">
+  <header class="post__head">
+    <p class="post__kicker">
+      <span>TRANSMISSION</span>
+      <span class="post__kicker-sep" aria-hidden="true">/</span>
+      <span>ANIM-20250722-0A</span>
+    </p>
+    <h1 class="post__title">C++算法学习-创建新项目工具</h1>
     
-  </div>
-
-
-        
+    <div class="post__meta">
+      <div class="post__meta-cell">
+        <span class="post__meta-label">DATE / 发布</span>
+        <b><time datetime="2025-07-22T08:40:52.000Z">2025.07.22</time></b>
       </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
+      <div class="post__meta-cell">
+        <span class="post__meta-label">CHANNEL / 分类</span>
+        <b><a href="/categories/%E7%AE%97%E6%B3%95/">算法</a></b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">LABELS / 标签</span>
+        <b class="post__meta-tags">
+          
+          <a href="/tags/C/">#C++</a> <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+          
+        </b>
+      </div>
+      <div class="post__meta-cell">
+        <span class="post__meta-label">READOUT / 时长</span>
+        <b>15 MIN</b>
+      </div>
     </div>
-  </div>
-</div>
-
-</div>
-
   </header>
 
-  <main>
-    
+  <div class="post__grid">
+    <div class="post__main">
+      
+      <details class="toc-mobile" data-toc-mobile>
+        <summary><span>CONTENTS / 目录</span><span class="toc-mobile__count">2 LABELS</span></summary>
+        <div class="toc-mobile__body"><ol class="toc toc--flat"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E5%89%8D%E5%BE%80CPlusAlgo"><span class="toc-text">点击前往CPlusAlgo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%B7%A5%E5%85%B7"><span class="toc-text">创建新项目工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-text">代码解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bool-createFolder-const-fs-path-parent-path-const-string-folderName-%E5%87%BD%E6%95%B0"><span class="toc-text">bool createFolder(const fs::path &amp;parent_path, const string &amp;folderName); 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#optional-findAimFolder-const-fs-path-start-path-const-string-target-name-bool-find-all-false-bool-stop-at-first-false-%E5%87%BD%E6%95%B0"><span class="toc-text">optional&lt;fs::path&gt; findAimFolder(const fs::path &amp;start_path, const string &amp;target_name, bool find_all = false, bool stop_at_first = false); 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-copyFiles-const-fs-path-src-const-fs-path-dst-%E5%87%BD%E6%95%B0"><span class="toc-text">void copyFiles(const fs::path &amp;src, const fs::path &amp;dst) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createFile-const-fs-path-path-const-std-string-content-%E5%87%BD%E6%95%B0"><span class="toc-text">void createFile(const fs::path &amp;path, const std::string &amp;content) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createCMakeLists-const-fs-path-parent-path-const-string-projectName-%E5%87%BD%E6%95%B0"><span class="toc-text">void createCMakeLists(const fs::path &amp;parent_path, const string &amp;projectName) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createReadme-const-fs-path-parent-path-const-string-projectName-%E5%87%BD%E6%95%B0"><span class="toc-text">void createReadme(const fs::path &amp;parent_path, const string &amp;projectName) 函数</span></a></li></ol></div>
+      </details>
       
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">C++算法学习-创建新项目工具</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="C-算法学习"><a href="#C-算法学习" class="headerlink" title="C++算法学习"></a>C++算法学习</h1><p>这是一个记录C++算法学习的博客，记录一些算法的代码实现，算法的思路，算法的时间复杂度，算法的空间复杂度，算法的稳定性等等。<br>该项目使用VScode编写，使用C++编写，使用CMake构建项目，使用Git进行版本控制，使用GitHub进行代码托管。</p>
+      <div class="post-body" id="post-body" data-post-body>
+        <h1 id="C-算法学习"><a href="#C-算法学习" class="headerlink" title="C++算法学习"></a>C++算法学习</h1><p>这是一个记录C++算法学习的博客，记录一些算法的代码实现，算法的思路，算法的时间复杂度，算法的空间复杂度，算法的稳定性等等。<br>该项目使用VScode编写，使用C++编写，使用CMake构建项目，使用Git进行版本控制，使用GitHub进行代码托管。</p>
 <h3 id="点击前往CPlusAlgo"><a href="#点击前往CPlusAlgo" class="headerlink" title="点击前往CPlusAlgo"></a><a target="_blank" rel="noopener" href="https://github.com/Ankali-Aylina/CplusAlgo">点击前往CPlusAlgo</a></h3><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%B7%A5%E5%85%B7">创建新项目工具</a><ul>
 <li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
@@ -334,15 +203,15 @@
 <h2 id="创建新项目工具"><a href="#创建新项目工具" class="headerlink" title="创建新项目工具"></a>创建新项目工具</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>这是一个用于创建新项目的工具，它可以帮助你快速地创建一个新的项目，并且可以自动生成项目的目录结构，包括源代码文件、头文件、测试文件等等。</p>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
 <li><p>首先使用cmake生成项目文件</p>
- <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake">cd <span class="hljs-number">000</span>-CreateNewProject<br>cmake -G <span class="hljs-string">&quot;MinGW Makefiles&quot;</span> -B build -S .<br>cd build &amp;&amp; cmake --build .<br></code></pre></td></tr></table></figure></li>
+ <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="number">000</span>-CreateNewProject</span><br><span class="line">cmake -G <span class="string">&quot;MinGW Makefiles&quot;</span> -B build -S .</span><br><span class="line">cd build &amp;&amp; cmake --build .</span><br></pre></td></tr></table></figure></li>
 <li><p>运行生成的<code>000-CreateNewProject.exe</code>文件。</p>
- <figure class="highlight pwsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pwsh">.\build\<span class="hljs-number">000</span><span class="hljs-literal">-CreateNewProject</span>\<span class="hljs-number">000</span><span class="hljs-literal">-CreateNewProject</span>.exe<br></code></pre></td></tr></table></figure>
+ <figure class="highlight pwsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\build\<span class="number">000</span><span class="literal">-CreateNewProject</span>\<span class="number">000</span><span class="literal">-CreateNewProject</span>.exe</span><br></pre></td></tr></table></figure>
 <p> 目录结构如下：</p>
- <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-number">000</span>-CreateNewProject<br>├── <span class="hljs-keyword">build</span><br><span class="hljs-keyword"></span>│   └──<span class="hljs-built_in">Debug</span><br>│       ├── <span class="hljs-keyword">bin</span><br><span class="hljs-keyword"></span>│           ├── <span class="hljs-number">000</span>-CreateNewProject.exe<br>└<br></code></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">000-CreateNewProject</span><br><span class="line">├── build</span><br><span class="line">│   └──Debug</span><br><span class="line">│       ├── bin</span><br><span class="line">│           ├── 000-CreateNewProject.exe</span><br><span class="line">└</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>根据提示输入项目名称，例如<code>000-CreateNewProject</code>。</p>
 <ul>
-<li>ps:项目名称不能包含空格，不能包含特殊字符，不能包含中文。<br> <img src="/img/loading.gif" data-original="%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A01.png" srcset="/img/loading.gif" lazyload alt="程序演示"></li>
+<li>ps:项目名称不能包含空格，不能包含特殊字符，不能包含中文。<br> <img src="/img/loading.gif" data-original="%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A01.png" alt="程序演示"></li>
 </ul>
 </li>
 </ol>
@@ -355,14 +224,14 @@
 <ol>
 <li>判断项目名称是否为空，如果为空，则返回false。</li>
 </ol>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (name.<span class="hljs-built_in">empty</span>())<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;文件夹名称不能为空！\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (name.<span class="built_in">empty</span>())</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;文件夹名称不能为空！\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>name.empty()</code>函数用于判断字符串是否为空，如果为空，则返回true，否则返回false。</li>
 </ul>
 <ol start="2">
 <li>检查非法字符，如果项目名称包含非法字符，则返回false。</li>
 </ol>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> std::string invalid_chars = <span class="hljs-string">&quot;&lt;&gt;:\&quot;/\\|?*&quot;</span>;<br><span class="hljs-comment">// 遍历name中的每个字符</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : name)<br>&#123;<br>    <span class="hljs-keyword">if</span> (invalid_chars.<span class="hljs-built_in">find</span>(c) != std::string::npos)<br>    &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;名称包含非法字符: &#x27;&quot;</span> &lt;&lt; c &lt;&lt; <span class="hljs-string">&quot;&#x27;\n&quot;</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 控制字符检查</span><br>    <span class="hljs-keyword">if</span> (std::<span class="hljs-built_in">iscntrl</span>(<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>&gt;(c)))<br>    &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;名称包含控制字符！\n&quot;</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> std::string invalid_chars = <span class="string">&quot;&lt;&gt;:\&quot;/\\|?*&quot;</span>;</span><br><span class="line"><span class="comment">// 遍历name中的每个字符</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">char</span> c : name)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (invalid_chars.<span class="built_in">find</span>(c) != std::string::npos)</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;名称包含非法字符: &#x27;&quot;</span> &lt;&lt; c &lt;&lt; <span class="string">&quot;&#x27;\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制字符检查</span></span><br><span class="line">    <span class="keyword">if</span> (std::<span class="built_in">iscntrl</span>(<span class="built_in">static_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span>&gt;(c)))</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;名称包含控制字符！\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>const std::string invalid_chars = &quot;&lt;&gt;:\&quot;/\\|?*&quot;</code> 定义了一个字符串，包含了所有非法字符。</li>
 <li><code>for (char c : name)&#123;&#125;</code> 是一个范围for循环，用于遍历<code>name</code>中的每个字符<code>c</code>。</li>
@@ -388,7 +257,7 @@
 <ol start="3">
 <li>检查项目名称是否是系统保留名称</li>
 </ol>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 检查保留名称 (Windows)</span><br><span class="hljs-type">const</span> std::vector&lt;std::string&gt; reserved_names = &#123;<br>    <span class="hljs-string">&quot;CON&quot;</span>, <span class="hljs-string">&quot;PRN&quot;</span>, <span class="hljs-string">&quot;AUX&quot;</span>, <span class="hljs-string">&quot;NUL&quot;</span>,<br>    <span class="hljs-string">&quot;COM1&quot;</span>, <span class="hljs-string">&quot;COM2&quot;</span>, <span class="hljs-string">&quot;COM3&quot;</span>, <span class="hljs-string">&quot;COM4&quot;</span>, <span class="hljs-string">&quot;COM5&quot;</span>, <span class="hljs-string">&quot;COM6&quot;</span>, <span class="hljs-string">&quot;COM7&quot;</span>, <span class="hljs-string">&quot;COM8&quot;</span>, <span class="hljs-string">&quot;COM9&quot;</span>,<br>    <span class="hljs-string">&quot;LPT1&quot;</span>, <span class="hljs-string">&quot;LPT2&quot;</span>, <span class="hljs-string">&quot;LPT3&quot;</span>, <span class="hljs-string">&quot;LPT4&quot;</span>, <span class="hljs-string">&quot;LPT5&quot;</span>, <span class="hljs-string">&quot;LPT6&quot;</span>, <span class="hljs-string">&quot;LPT7&quot;</span>, <span class="hljs-string">&quot;LPT8&quot;</span>, <span class="hljs-string">&quot;LPT9&quot;</span>&#125;;<br><br><span class="hljs-comment">// 转换为大写以检查保留名称</span><br>std::string upper_name = name;<br>std::<span class="hljs-built_in">transform</span>(upper_name.<span class="hljs-built_in">begin</span>(), upper_name.<span class="hljs-built_in">end</span>(), upper_name.<span class="hljs-built_in">begin</span>(), ::toupper);<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;reserved : reserved_names)<br>&#123;<br>    <span class="hljs-keyword">if</span> (upper_name == reserved)<br>    &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;名称 &#x27;&quot;</span> &lt;&lt; name &lt;&lt; <span class="hljs-string">&quot;&#x27; 是系统保留名称！\n&quot;</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查保留名称 (Windows)</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;std::string&gt; reserved_names = &#123;</span><br><span class="line">    <span class="string">&quot;CON&quot;</span>, <span class="string">&quot;PRN&quot;</span>, <span class="string">&quot;AUX&quot;</span>, <span class="string">&quot;NUL&quot;</span>,</span><br><span class="line">    <span class="string">&quot;COM1&quot;</span>, <span class="string">&quot;COM2&quot;</span>, <span class="string">&quot;COM3&quot;</span>, <span class="string">&quot;COM4&quot;</span>, <span class="string">&quot;COM5&quot;</span>, <span class="string">&quot;COM6&quot;</span>, <span class="string">&quot;COM7&quot;</span>, <span class="string">&quot;COM8&quot;</span>, <span class="string">&quot;COM9&quot;</span>,</span><br><span class="line">    <span class="string">&quot;LPT1&quot;</span>, <span class="string">&quot;LPT2&quot;</span>, <span class="string">&quot;LPT3&quot;</span>, <span class="string">&quot;LPT4&quot;</span>, <span class="string">&quot;LPT5&quot;</span>, <span class="string">&quot;LPT6&quot;</span>, <span class="string">&quot;LPT7&quot;</span>, <span class="string">&quot;LPT8&quot;</span>, <span class="string">&quot;LPT9&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换为大写以检查保留名称</span></span><br><span class="line">std::string upper_name = name;</span><br><span class="line">std::<span class="built_in">transform</span>(upper_name.<span class="built_in">begin</span>(), upper_name.<span class="built_in">end</span>(), upper_name.<span class="built_in">begin</span>(), ::toupper);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span> &amp;reserved : reserved_names)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (upper_name == reserved)</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;名称 &#x27;&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;&#x27; 是系统保留名称！\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>const std::vector&lt;std::string&gt; reserved_names = &#123;&quot;CON&quot;, &quot;PRN&quot;, &quot;AUX&quot;, &quot;NUL&quot;, &quot;COM1&quot;, &quot;COM2&quot;, &quot;COM3&quot;, &quot;COM4&quot;, &quot;COM5&quot;, &quot;COM6&quot;, &quot;COM7&quot;, &quot;COM8&quot;, &quot;COM9&quot;, &quot;LPT1&quot;, &quot;LPT2&quot;, &quot;LPT3&quot;, &quot;LPT4&quot;, &quot;LPT5&quot;, &quot;LPT6&quot;, &quot;LPT7&quot;, &quot;LPT8&quot;, &quot;LPT9&quot;&#125;;</code> 定义了一个字符串向量，包含了所有系统保留名称。</li>
 <li><code>std::string upper_name = name;</code> 将项目名称转换为小写。</li>
@@ -404,14 +273,14 @@
 <ol start="4">
 <li>检查项目名称开头和结尾是否</li>
 </ol>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 检查开头和结尾的非法字符</span><br><span class="hljs-keyword">if</span> (name.<span class="hljs-built_in">front</span>() == <span class="hljs-string">&#x27; &#x27;</span> || name.<span class="hljs-built_in">front</span>() == <span class="hljs-string">&#x27;.&#x27;</span>)<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;名称不能以空格或点开头！\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (name.<span class="hljs-built_in">back</span>() == <span class="hljs-string">&#x27; &#x27;</span> || name.<span class="hljs-built_in">back</span>() == <span class="hljs-string">&#x27;.&#x27;</span>)<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;名称不能以空格或点结尾！\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查开头和结尾的非法字符</span></span><br><span class="line"><span class="keyword">if</span> (name.<span class="built_in">front</span>() == <span class="string">&#x27; &#x27;</span> || name.<span class="built_in">front</span>() == <span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;名称不能以空格或点开头！\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (name.<span class="built_in">back</span>() == <span class="string">&#x27; &#x27;</span> || name.<span class="built_in">back</span>() == <span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;名称不能以空格或点结尾！\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>name.front()</code>和<code>name.back()</code>分别表示项目名称的第一个字符和最后一个字符。</li>
 </ul>
 <ol start="5">
 <li>检查名称长度</li>
 </ol>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 检查名称长度</span><br><span class="hljs-keyword">if</span> (name.<span class="hljs-built_in">length</span>() &gt; <span class="hljs-number">255</span>)<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;名称过长（最大255字符）！\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查名称长度</span></span><br><span class="line"><span class="keyword">if</span> (name.<span class="built_in">length</span>() &gt; <span class="number">255</span>)</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;名称过长（最大255字符）！\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>name.length()</code>函数用于获取项目名称的长度。</li>
 </ul>
@@ -427,7 +296,7 @@
 <ol>
 <li>拼接父路径和文件夹名称，得到创建路径，如果文件夹已存在，输出提示信息并返回false。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 拼接父路径和文件夹名称，得到创建路径</span><br>fs::path createPath = parent_path / folderName;<br><span class="hljs-comment">// 如果文件夹已存在，输出提示信息并返回false</span><br><span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">exists</span>(createPath))<br>&#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;文件夹已存在&quot;</span> &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拼接父路径和文件夹名称，得到创建路径</span></span><br><span class="line">fs::path createPath = parent_path / folderName;</span><br><span class="line"><span class="comment">// 如果文件夹已存在，输出提示信息并返回false</span></span><br><span class="line"><span class="keyword">if</span> (fs::<span class="built_in">exists</span>(createPath))</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;文件夹已存在&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>fs::path</code>是C++17中引入的文件系统库中的类，用于表示文件路径。</li>
 <li><code>parent_path / folderName</code>表示将父路径和文件夹名称拼接起来，得到创建路径。</li>
@@ -436,7 +305,7 @@
 <ol start="2">
 <li>尝试创建文件夹，如果创建文件夹成功，输出成功信息并返回true，否则输出失败信息并返回false。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 如果创建文件夹成功，输出成功信息并返回true</span><br><span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">create_directory</span>(createPath))<br>&#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;成功创建文件夹: &quot;</span> &lt;&lt; createPath &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><span class="hljs-comment">// 如果创建文件夹失败，输出失败信息并返回false</span><br>cerr &lt;&lt; <span class="hljs-string">&quot;无法创建文件夹: &quot;</span> &lt;&lt; createPath &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br><span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果创建文件夹成功，输出成功信息并返回true</span></span><br><span class="line"><span class="keyword">if</span> (fs::<span class="built_in">create_directory</span>(createPath))</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;成功创建文件夹: &quot;</span> &lt;&lt; createPath &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 如果创建文件夹失败，输出失败信息并返回false</span></span><br><span class="line">cerr &lt;&lt; <span class="string">&quot;无法创建文件夹: &quot;</span> &lt;&lt; createPath &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>fs::create_directory(createPath)</code>函数用于创建文件夹，如果创建成功返回true，否则返回false。</li>
 <li><code>cerr</code>是C++标准库中的错误输出流，用于输出错误信息。</li>
@@ -444,7 +313,7 @@
 <ol start="3">
 <li>捕获文件系统错误，输出错误信息并返回false。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 捕获文件系统错误，输出错误信息并返回false</span><br><span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> fs::filesystem_error &amp;e)<br>&#123;<br>    cerr &lt;&lt; <span class="hljs-string">&quot;文件系统错误: &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 捕获文件系统错误，输出错误信息并返回false</span></span><br><span class="line"><span class="built_in">catch</span> (<span class="type">const</span> fs::filesystem_error &amp;e)</span><br><span class="line">&#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;文件系统错误: &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>catch (const fs::filesystem_error &amp;e)</code>用于捕获文件系统错误，<code>e.what()</code>函数用于获取错误信息。</li>
 </ul>
@@ -466,7 +335,7 @@
 <ol>
 <li>先创建存储文件路径的动态数组容器，然后获取当前路径的绝对路径，记录根路径用于终止循环，限制最大向上搜索层数，初始化当前搜索层数。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 存储所有匹配路径的容器</span><br>vector&lt;fs::path&gt; matches;<br><br><span class="hljs-comment">// 获取绝对路径确保路径解析正确</span><br>fs::path current = fs::<span class="hljs-built_in">absolute</span>(start_path);<br><br><span class="hljs-comment">// 记录根路径用于终止循环</span><br><span class="hljs-type">const</span> fs::path root = current.<span class="hljs-built_in">root_path</span>();<br><br><span class="hljs-comment">// 最大向上搜索层数，限制深度</span><br><span class="hljs-type">int</span> max_depth = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> current_depth = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 存储所有匹配路径的容器</span></span><br><span class="line">vector&lt;fs::path&gt; matches;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取绝对路径确保路径解析正确</span></span><br><span class="line">fs::path current = fs::<span class="built_in">absolute</span>(start_path);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录根路径用于终止循环</span></span><br><span class="line"><span class="type">const</span> fs::path root = current.<span class="built_in">root_path</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最大向上搜索层数，限制深度</span></span><br><span class="line"><span class="type">int</span> max_depth = <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> current_depth = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>vector&lt;fs::path&gt; matches;</code>创建了一个动态数组容器，用于存储所有匹配的路径。<ul>
 <li><code>vector&lt;元素类型&gt; 向量名</code> C++ 的动态数组容器，可自动扩容，<code>元素类型</code>指的是数组中元素的类型，<code>向量名</code>是数组的名字。</li>
@@ -484,7 +353,7 @@
 <ol start="2">
 <li>循环向上遍历目录树，检查当前目录名是否匹配目标，如果匹配则将匹配路径添加到结果集，如果设置了找到即停止且不需要所有结果，则返回第一个匹配项，到达根目录时停止遍历，如果无法继续向上，则停止遍历，移动到父目录继续搜索。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-comment">// 循环向上遍历目录树</span><br><span class="hljs-keyword">while</span> (current_depth++ &lt; max_depth &amp;&amp; current != root)<br>&#123;<br>    <span class="hljs-comment">// 调试输出当前检查的路径 (实际使用时可以移除)</span><br>    <span class="hljs-comment">// std::cout &lt;&lt; &quot;检查: &quot; &lt;&lt; current &lt;&lt; std::endl;</span><br><br>    <span class="hljs-comment">// 检查当前目录名是否匹配目标</span><br>    <span class="hljs-keyword">if</span> (current.<span class="hljs-built_in">filename</span>() == target_name)<br>    &#123;<br>        <span class="hljs-comment">// 将匹配路径添加到结果集</span><br>        matches.<span class="hljs-built_in">push_back</span>(current);<br><br>        <span class="hljs-comment">// 如果设置了找到即停止且不需要所有结果</span><br>        <span class="hljs-keyword">if</span> (stop_at_first &amp;&amp; !matches.<span class="hljs-built_in">empty</span>())<br>        &#123;<br>            <span class="hljs-keyword">return</span> matches.<span class="hljs-built_in">front</span>(); <span class="hljs-comment">// 返回第一个匹配项</span><br>        &#125;<br>    &#125;<br>            <span class="hljs-comment">// 到达根目录时停止遍历 (防止无限循环)</span><br>    <span class="hljs-keyword">if</span> (current == root)<br>    &#123;<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 获取父目录 (当已经是根目录时，parent_path()返回自身)</span><br>    fs::path parent = current.<span class="hljs-built_in">parent_path</span>();<br><br>    <span class="hljs-comment">// 检查是否无法继续向上 (文件系统保护机制)</span><br>    <span class="hljs-keyword">if</span> (parent == current)<br>    &#123;<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 移动到父目录继续搜索</span><br>    current = parent;<br>&#125;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 循环向上遍历目录树</span></span><br><span class="line"><span class="keyword">while</span> (current_depth++ &lt; max_depth &amp;&amp; current != root)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 调试输出当前检查的路径 (实际使用时可以移除)</span></span><br><span class="line">    <span class="comment">// std::cout &lt;&lt; &quot;检查: &quot; &lt;&lt; current &lt;&lt; std::endl;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查当前目录名是否匹配目标</span></span><br><span class="line">    <span class="keyword">if</span> (current.<span class="built_in">filename</span>() == target_name)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 将匹配路径添加到结果集</span></span><br><span class="line">        matches.<span class="built_in">push_back</span>(current);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果设置了找到即停止且不需要所有结果</span></span><br><span class="line">        <span class="keyword">if</span> (stop_at_first &amp;&amp; !matches.<span class="built_in">empty</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> matches.<span class="built_in">front</span>(); <span class="comment">// 返回第一个匹配项</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">            <span class="comment">// 到达根目录时停止遍历 (防止无限循环)</span></span><br><span class="line">    <span class="keyword">if</span> (current == root)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取父目录 (当已经是根目录时，parent_path()返回自身)</span></span><br><span class="line">    fs::path parent = current.<span class="built_in">parent_path</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查是否无法继续向上 (文件系统保护机制)</span></span><br><span class="line">    <span class="keyword">if</span> (parent == current)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 移动到父目录继续搜索</span></span><br><span class="line">    current = parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>while (current_depth++ &lt; max_depth &amp;&amp; current != root)</code>循环向上遍历目录树，直到到达根目录或达到最大搜索层数。</li>
 <li><code>if (current.filename() == target_name)</code>检查当前目录名是否匹配目标。<ul>
@@ -510,7 +379,7 @@
 <ol start="3">
 <li>根据查找结果返回相应的值。</li>
 </ol>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 处理查找结果</span><br><span class="hljs-keyword">if</span> (matches.<span class="hljs-built_in">empty</span>())<br>&#123;<br>    <span class="hljs-comment">// 没有找到匹配项</span><br>    <span class="hljs-keyword">return</span> std::<span class="hljs-literal">nullopt</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (find_all)<br>&#123;<br>    <span class="hljs-comment">// 返回所有匹配路径 (实际实现需要修改返回类型)</span><br>    <span class="hljs-comment">// 此处简化处理返回最近的一个匹配项</span><br>    <span class="hljs-keyword">return</span> matches.<span class="hljs-built_in">back</span>(); <span class="hljs-comment">// 最近的祖先目录</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// 默认返回最近(最上层)的匹配项</span><br>    <span class="hljs-keyword">return</span> matches.<span class="hljs-built_in">back</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理查找结果</span></span><br><span class="line"><span class="keyword">if</span> (matches.<span class="built_in">empty</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 没有找到匹配项</span></span><br><span class="line">    <span class="keyword">return</span> std::<span class="literal">nullopt</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (find_all)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 返回所有匹配路径 (实际实现需要修改返回类型)</span></span><br><span class="line">    <span class="comment">// 此处简化处理返回最近的一个匹配项</span></span><br><span class="line">    <span class="keyword">return</span> matches.<span class="built_in">back</span>(); <span class="comment">// 最近的祖先目录</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 默认返回最近(最上层)的匹配项</span></span><br><span class="line">    <span class="keyword">return</span> matches.<span class="built_in">back</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>if (matches.empty())</code>如果没有找到匹配项，则返回空值。<ul>
 <li><code>std::nullopt</code>表示空值。</li>
@@ -534,7 +403,7 @@
 <li><code>dst</code> : 目标文件夹路径</li>
 <li>该函数的实现如下：</li>
 </ul>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs cpp">std::vector&lt;std::future&lt;<span class="hljs-type">void</span>&gt;&gt; futures; <span class="hljs-comment">// 存储异步任务的结果</span><br><br><span class="hljs-comment">// 原子计数器：用于线程安全的进度跟踪</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; filesCopied = <span class="hljs-number">0</span>;       <span class="hljs-comment">// 已复制的文件数</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; directoriesCopied = <span class="hljs-number">0</span>; <span class="hljs-comment">// 已复制的目录数</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; tasksCompleted = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 新增：跟踪完成的任务数（含失败）</span><br>std::atomic&lt;<span class="hljs-type">int</span>&gt; copyErrors = <span class="hljs-number">0</span>;        <span class="hljs-comment">// 新增：错误计数器</span><br>std::mutex errorMutex;                  <span class="hljs-comment">// 新增：保护错误输出</span><br><br>    <span class="hljs-comment">// 获取开始时间（用于计算速度）</span><br><span class="hljs-keyword">auto</span> startTime = std::chrono::steady_clock::<span class="hljs-built_in">now</span>();<br><br><span class="hljs-keyword">auto</span> showProgress = [&amp;]()<br>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> totalTasks = futures.<span class="hljs-built_in">size</span>();<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> completed = tasksCompleted; <span class="hljs-comment">// 使用tasksCompleted替代filesCopied+directoriesCopied</span><br><br>    <span class="hljs-keyword">auto</span> duration = std::chrono::steady_clock::<span class="hljs-built_in">now</span>() - startTime;<br>    <span class="hljs-type">double</span> seconds = std::chrono::<span class="hljs-built_in">duration</span>&lt;<span class="hljs-type">double</span>&gt;(duration).<span class="hljs-built_in">count</span>();<br>    <span class="hljs-type">double</span> progress = (totalTasks &gt; <span class="hljs-number">0</span>) ? (<span class="hljs-number">100.0</span> * completed / totalTasks) : <span class="hljs-number">0.0</span>;<br>    <span class="hljs-type">double</span> speed = (seconds &gt; <span class="hljs-number">0.1</span>) ? (filesCopied / seconds) : <span class="hljs-number">0.0</span>;<br><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;\r进度: &quot;</span> &lt;&lt; std::fixed &lt;&lt; std::<span class="hljs-built_in">setprecision</span>(<span class="hljs-number">1</span>)<br>              &lt;&lt; progress &lt;&lt; <span class="hljs-string">&quot;% | &quot;</span><br>              &lt;&lt; <span class="hljs-string">&quot;文件: &quot;</span> &lt;&lt; filesCopied<br>              &lt;&lt; <span class="hljs-string">&quot; | 目录: &quot;</span> &lt;&lt; directoriesCopied<br>              &lt;&lt; <span class="hljs-string">&quot; | 错误: &quot;</span> &lt;&lt; copyErrors <span class="hljs-comment">// 显示错误计数</span><br>              &lt;&lt; <span class="hljs-string">&quot; | 速度: &quot;</span> &lt;&lt; std::<span class="hljs-built_in">setprecision</span>(<span class="hljs-number">1</span>) &lt;&lt; speed &lt;&lt; <span class="hljs-string">&quot; 文件/秒&quot;</span><br>              &lt;&lt; <span class="hljs-string">&quot; | 任务: &quot;</span> &lt;&lt; completed &lt;&lt; <span class="hljs-string">&quot;/&quot;</span> &lt;&lt; totalTasks<br>              &lt;&lt; std::flush;<br>&#125;;<br><br><span class="hljs-comment">// 确保目标目录存在（加入异常处理）</span><br><span class="hljs-keyword">try</span><br>&#123;<br>    fs::<span class="hljs-built_in">create_directories</span>(dst);    <span class="hljs-comment">// 创建目标目录</span><br>&#125;<br><span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>&#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span> &amp;entry : fs::<span class="hljs-built_in">directory_iterator</span>(src))<br>&#123;<br>    <span class="hljs-keyword">auto</span> target = dst / entry.<span class="hljs-built_in">path</span>().<span class="hljs-built_in">filename</span>();    <span class="hljs-comment">// 目标路径</span><br><br>    <span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">is_directory</span>(entry))<br>    &#123;<br>        futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                     &#123;<br>                                         <span class="hljs-keyword">try</span><br>                                         &#123;<br>                                             <span class="hljs-comment">// 尝试创建子目录</span><br>                                             fs::<span class="hljs-built_in">create_directories</span>(target);<br>                                             <span class="hljs-comment">// 递归复制（可能抛出异常）</span><br>                                             fs::<span class="hljs-built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);<br>                                             directoriesCopied++;<br>                                         &#125;<br>                                         <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                         &#123;<br>                                             std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                             std::cerr &lt;&lt; <span class="hljs-string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                       &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                             copyErrors++;<br>                                         &#125;<br>                                         tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                     &#125;));<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fs::<span class="hljs-built_in">is_regular_file</span>(entry))<br>    &#123;<br>        futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                     &#123;<br>                                         <span class="hljs-keyword">try</span><br>                                         &#123;<br>                                            <span class="hljs-comment">// 尝试复制文件</span><br>                                             fs::<span class="hljs-built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);<br>                                             filesCopied++;<br>                                         &#125;<br>                                         <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                         &#123;<br>                                             std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                             std::cerr &lt;&lt; <span class="hljs-string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                       &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                             copyErrors++;<br>                                         &#125;<br>                                         tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                     &#125;));<br>    &#125;<br>&#125;<br><br>std::cout &lt;&lt; <span class="hljs-string">&quot;开始复制，总任务数: &quot;</span> &lt;&lt; futures.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br><br><span class="hljs-comment">// 修改循环条件：基于tasksCompleted而非成功计数</span><br><span class="hljs-keyword">while</span> (tasksCompleted &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(futures.<span class="hljs-built_in">size</span>()))<br>&#123;<br>    <span class="hljs-built_in">showProgress</span>();<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">milliseconds</span>(<span class="hljs-number">200</span>));<br>&#125;<br><br><span class="hljs-built_in">showProgress</span>();<br>std::cout &lt;&lt; <span class="hljs-string">&quot;\n复制完成! &quot;</span>;<br><br><span class="hljs-comment">// 处理异步任务中的异常（防止未捕获异常传播）</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;f : futures)<br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        f.<span class="hljs-built_in">get</span>(); <span class="hljs-comment">// 获取异步结果（可能重新抛出异常）</span><br>    &#125;<br>    <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>    &#123;<br>        <span class="hljs-comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">auto</span> endTime = std::chrono::steady_clock::<span class="hljs-built_in">now</span>();<br><span class="hljs-keyword">auto</span> duration = std::chrono::<span class="hljs-built_in">duration_cast</span>&lt;std::chrono::milliseconds&gt;(endTime - startTime);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;总耗时: &quot;</span> &lt;&lt; duration.<span class="hljs-built_in">count</span>() / <span class="hljs-number">1000.0</span> &lt;&lt; <span class="hljs-string">&quot; 秒 | 错误总数: &quot;</span> &lt;&lt; copyErrors &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br></code></pre></td></tr></table></figure>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::future&lt;<span class="type">void</span>&gt;&gt; futures; <span class="comment">// 存储异步任务的结果</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 原子计数器：用于线程安全的进度跟踪</span></span><br><span class="line">std::atomic&lt;<span class="type">int</span>&gt; filesCopied = <span class="number">0</span>;       <span class="comment">// 已复制的文件数</span></span><br><span class="line">std::atomic&lt;<span class="type">int</span>&gt; directoriesCopied = <span class="number">0</span>; <span class="comment">// 已复制的目录数</span></span><br><span class="line">std::atomic&lt;<span class="type">int</span>&gt; tasksCompleted = <span class="number">0</span>;    <span class="comment">// 新增：跟踪完成的任务数（含失败）</span></span><br><span class="line">std::atomic&lt;<span class="type">int</span>&gt; copyErrors = <span class="number">0</span>;        <span class="comment">// 新增：错误计数器</span></span><br><span class="line">std::mutex errorMutex;                  <span class="comment">// 新增：保护错误输出</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取开始时间（用于计算速度）</span></span><br><span class="line"><span class="keyword">auto</span> startTime = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> showProgress = [&amp;]()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> totalTasks = futures.<span class="built_in">size</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> completed = tasksCompleted; <span class="comment">// 使用tasksCompleted替代filesCopied+directoriesCopied</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> duration = std::chrono::steady_clock::<span class="built_in">now</span>() - startTime;</span><br><span class="line">    <span class="type">double</span> seconds = std::chrono::<span class="built_in">duration</span>&lt;<span class="type">double</span>&gt;(duration).<span class="built_in">count</span>();</span><br><span class="line">    <span class="type">double</span> progress = (totalTasks &gt; <span class="number">0</span>) ? (<span class="number">100.0</span> * completed / totalTasks) : <span class="number">0.0</span>;</span><br><span class="line">    <span class="type">double</span> speed = (seconds &gt; <span class="number">0.1</span>) ? (filesCopied / seconds) : <span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;\r进度: &quot;</span> &lt;&lt; std::fixed &lt;&lt; std::<span class="built_in">setprecision</span>(<span class="number">1</span>)</span><br><span class="line">              &lt;&lt; progress &lt;&lt; <span class="string">&quot;% | &quot;</span></span><br><span class="line">              &lt;&lt; <span class="string">&quot;文件: &quot;</span> &lt;&lt; filesCopied</span><br><span class="line">              &lt;&lt; <span class="string">&quot; | 目录: &quot;</span> &lt;&lt; directoriesCopied</span><br><span class="line">              &lt;&lt; <span class="string">&quot; | 错误: &quot;</span> &lt;&lt; copyErrors <span class="comment">// 显示错误计数</span></span><br><span class="line">              &lt;&lt; <span class="string">&quot; | 速度: &quot;</span> &lt;&lt; std::<span class="built_in">setprecision</span>(<span class="number">1</span>) &lt;&lt; speed &lt;&lt; <span class="string">&quot; 文件/秒&quot;</span></span><br><span class="line">              &lt;&lt; <span class="string">&quot; | 任务: &quot;</span> &lt;&lt; completed &lt;&lt; <span class="string">&quot;/&quot;</span> &lt;&lt; totalTasks</span><br><span class="line">              &lt;&lt; std::flush;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 确保目标目录存在（加入异常处理）</span></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    fs::<span class="built_in">create_directories</span>(dst);    <span class="comment">// 创建目标目录</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">&#123;</span><br><span class="line">    std::cerr &lt;&lt; <span class="string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span> &amp;entry : fs::<span class="built_in">directory_iterator</span>(src))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> target = dst / entry.<span class="built_in">path</span>().<span class="built_in">filename</span>();    <span class="comment">// 目标路径</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (fs::<span class="built_in">is_directory</span>(entry))</span><br><span class="line">    &#123;</span><br><span class="line">        futures.<span class="built_in">push_back</span>(std::<span class="built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]</span><br><span class="line">                                     &#123;</span><br><span class="line">                                         <span class="keyword">try</span></span><br><span class="line">                                         &#123;</span><br><span class="line">                                             <span class="comment">// 尝试创建子目录</span></span><br><span class="line">                                             fs::<span class="built_in">create_directories</span>(target);</span><br><span class="line">                                             <span class="comment">// 递归复制（可能抛出异常）</span></span><br><span class="line">                                             fs::<span class="built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);</span><br><span class="line">                                             directoriesCopied++;</span><br><span class="line">                                         &#125;</span><br><span class="line">                                         <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">                                         &#123;</span><br><span class="line">                                             std::lock_guard&lt;std::mutex&gt; <span class="built_in">lock</span>(errorMutex);</span><br><span class="line">                                             std::cerr &lt;&lt; <span class="string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="built_in">path</span>() &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; target</span><br><span class="line">                                                       &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">                                             copyErrors++;</span><br><span class="line">                                         &#125;</span><br><span class="line">                                         tasksCompleted++; <span class="comment">// 无论成功失败都标记任务完成</span></span><br><span class="line">                                     &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (fs::<span class="built_in">is_regular_file</span>(entry))</span><br><span class="line">    &#123;</span><br><span class="line">        futures.<span class="built_in">push_back</span>(std::<span class="built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]</span><br><span class="line">                                     &#123;</span><br><span class="line">                                         <span class="keyword">try</span></span><br><span class="line">                                         &#123;</span><br><span class="line">                                            <span class="comment">// 尝试复制文件</span></span><br><span class="line">                                             fs::<span class="built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);</span><br><span class="line">                                             filesCopied++;</span><br><span class="line">                                         &#125;</span><br><span class="line">                                         <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">                                         &#123;</span><br><span class="line">                                             std::lock_guard&lt;std::mutex&gt; <span class="built_in">lock</span>(errorMutex);</span><br><span class="line">                                             std::cerr &lt;&lt; <span class="string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="built_in">path</span>() &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; target</span><br><span class="line">                                                       &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">                                             copyErrors++;</span><br><span class="line">                                         &#125;</span><br><span class="line">                                         tasksCompleted++; <span class="comment">// 无论成功失败都标记任务完成</span></span><br><span class="line">                                     &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;开始复制，总任务数: &quot;</span> &lt;&lt; futures.<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改循环条件：基于tasksCompleted而非成功计数</span></span><br><span class="line"><span class="keyword">while</span> (tasksCompleted &lt; <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(futures.<span class="built_in">size</span>()))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">showProgress</span>();</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">milliseconds</span>(<span class="number">200</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">showProgress</span>();</span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;\n复制完成! &quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理异步任务中的异常（防止未捕获异常传播）</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;f : futures)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        f.<span class="built_in">get</span>(); <span class="comment">// 获取异步结果（可能重新抛出异常）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> endTime = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line"><span class="keyword">auto</span> duration = std::chrono::<span class="built_in">duration_cast</span>&lt;std::chrono::milliseconds&gt;(endTime - startTime);</span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;总耗时: &quot;</span> &lt;&lt; duration.<span class="built_in">count</span>() / <span class="number">1000.0</span> &lt;&lt; <span class="string">&quot; 秒 | 错误总数: &quot;</span> &lt;&lt; copyErrors &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>std::vector&lt;std::future&lt;void&gt;&gt; futures;</code>用于存储异步任务的结果。<ul>
 <li><code>std::future&lt;void&gt;</code>表示一个异步操作的状态。</li>
@@ -557,7 +426,7 @@
 </li>
 <li><p><code>double seconds = std::chrono::duration&lt;double&gt;(duration).count();</code>将耗时转换为秒。</p>
 <ul>
-<li><h4 id="duration模板的基本结构："><a href="#duration模板的基本结构：" class="headerlink" title="duration模板的基本结构："></a><code>duration</code>模板的基本结构：</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Rep</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">Period</span> = std::ratio&lt;<span class="hljs-number">1</span>&gt;&gt;<br><span class="hljs-keyword">class</span> duration;<br></code></pre></td></tr></table></figure>
+<li><h4 id="duration模板的基本结构："><a href="#duration模板的基本结构：" class="headerlink" title="duration模板的基本结构："></a><code>duration</code>模板的基本结构：</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Rep</span>, <span class="keyword">class</span> <span class="title class_">Period</span> = std::ratio&lt;<span class="number">1</span>&gt;&gt;</span><br><span class="line"><span class="keyword">class</span> duration;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><h4 id="Rep-数值类型（如int-double等）"><a href="#Rep-数值类型（如int-double等）" class="headerlink" title="Rep:数值类型（如int, double等）"></a><code>Rep</code>:数值类型（如int, double等）</h4></li>
 <li><h4 id="Period-时间单位（默认秒），使用std-ratio表示分数单位"><a href="#Period-时间单位（默认秒），使用std-ratio表示分数单位" class="headerlink" title="Period:时间单位（默认秒），使用std::ratio表示分数单位"></a><code>Period</code>:时间单位（默认秒），使用std::ratio表示分数单位</h4></li>
@@ -635,7 +504,7 @@
 </ul>
 </li>
 <li><p>创建目录异常处理</p>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"> <span class="hljs-keyword">try</span><br>&#123;<br>    fs::<span class="hljs-built_in">create_directories</span>(dst);<br>&#125;<br><span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>&#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    fs::<span class="built_in">create_directories</span>(dst);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">&#123;</span><br><span class="line">    std::cerr &lt;&lt; <span class="string">&quot;创建目标目录失败: &quot;</span> &lt;&lt; dst &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>fs::create_directories(dst);</code> 创建目标目录</li>
 <li><code>catch (const std::exception &amp;e)</code> 捕获异常</li>
@@ -665,7 +534,7 @@
 <li>创建目标目录</li>
 </ul>
 </li>
-<li><h4 id="创建异步任务复制子目录"><a href="#创建异步任务复制子目录" class="headerlink" title="创建异步任务复制子目录"></a>创建异步任务复制子目录</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp">futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                        &#123;<br>                                            <span class="hljs-keyword">try</span><br>                                            &#123;<br>                                                <span class="hljs-comment">// 尝试创建子目录</span><br>                                                fs::<span class="hljs-built_in">create_directories</span>(target);<br>                                                <span class="hljs-comment">// 递归复制（可能抛出异常）</span><br>                                                fs::<span class="hljs-built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);<br>                                                directoriesCopied++;<br>                                            &#125;<br>                                            <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                            &#123;<br>                                                std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                                std::cerr &lt;&lt; <span class="hljs-string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                        &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                                copyErrors++;<br>                                            &#125;<br>                                            tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                        &#125;));<br></code></pre></td></tr></table></figure>
+<li><h4 id="创建异步任务复制子目录"><a href="#创建异步任务复制子目录" class="headerlink" title="创建异步任务复制子目录"></a>创建异步任务复制子目录</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">futures.<span class="built_in">push_back</span>(std::<span class="built_in">async</span>(std::launch::async, [=, &amp;directoriesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]</span><br><span class="line">                                        &#123;</span><br><span class="line">                                            <span class="keyword">try</span></span><br><span class="line">                                            &#123;</span><br><span class="line">                                                <span class="comment">// 尝试创建子目录</span></span><br><span class="line">                                                fs::<span class="built_in">create_directories</span>(target);</span><br><span class="line">                                                <span class="comment">// 递归复制（可能抛出异常）</span></span><br><span class="line">                                                fs::<span class="built_in">copy</span>(entry, target, fs::copy_options::recursive | fs::copy_options::overwrite_existing);</span><br><span class="line">                                                directoriesCopied++;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                            <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">                                            &#123;</span><br><span class="line">                                                std::lock_guard&lt;std::mutex&gt; <span class="built_in">lock</span>(errorMutex);</span><br><span class="line">                                                std::cerr &lt;&lt; <span class="string">&quot;\n目录复制错误: &quot;</span> &lt;&lt; entry.<span class="built_in">path</span>() &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; target</span><br><span class="line">                                                        &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">                                                copyErrors++;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                            tasksCompleted++; <span class="comment">// 无论成功失败都标记任务完成</span></span><br><span class="line">                                        &#125;));</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>futures.push_back(...);</code> 将异步任务的结果存储在<code>futures</code>向量中，以便稍后处理。</li>
 <li><code>std::async(std::launch::async, [=, &amp;directoriesCopied] &#123;...&#125;);</code> 创建一个异步任务<ul>
@@ -697,7 +566,7 @@
 </li>
 <li><p><code>else if (fs::is_regular_file(entry))</code><br>  -<code>判断条目是否为普通文件。</code></p>
 </li>
-<li><h4 id="创建异步任务复制文件"><a href="#创建异步任务复制文件" class="headerlink" title="创建异步任务复制文件"></a>创建异步任务复制文件</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp">futures.<span class="hljs-built_in">push_back</span>(std::<span class="hljs-built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]<br>                                        &#123;<br>                                            <span class="hljs-keyword">try</span><br>                                            &#123;<br>                                                fs::<span class="hljs-built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);<br>                                                filesCopied++;<br>                                            &#125;<br>                                            <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>                                            &#123;<br>                                                std::lock_guard&lt;std::mutex&gt; <span class="hljs-built_in">lock</span>(errorMutex);<br>                                                std::cerr &lt;&lt; <span class="hljs-string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="hljs-built_in">path</span>() &lt;&lt; <span class="hljs-string">&quot; -&gt; &quot;</span> &lt;&lt; target<br>                                                        &lt;&lt; <span class="hljs-string">&quot; - &quot;</span> &lt;&lt; e.<span class="hljs-built_in">what</span>() &lt;&lt; std::endl;<br>                                                copyErrors++;<br>                                            &#125;<br>                                            tasksCompleted++; <span class="hljs-comment">// 无论成功失败都标记任务完成</span><br>                                        &#125;));<br></code></pre></td></tr></table></figure>
+<li><h4 id="创建异步任务复制文件"><a href="#创建异步任务复制文件" class="headerlink" title="创建异步任务复制文件"></a>创建异步任务复制文件</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">futures.<span class="built_in">push_back</span>(std::<span class="built_in">async</span>(std::launch::async, [=, &amp;filesCopied, &amp;tasksCompleted, &amp;copyErrors, &amp;errorMutex]</span><br><span class="line">                                        &#123;</span><br><span class="line">                                            <span class="keyword">try</span></span><br><span class="line">                                            &#123;</span><br><span class="line">                                                fs::<span class="built_in">copy_file</span>(entry, target, fs::copy_options::overwrite_existing);</span><br><span class="line">                                                filesCopied++;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                            <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">                                            &#123;</span><br><span class="line">                                                std::lock_guard&lt;std::mutex&gt; <span class="built_in">lock</span>(errorMutex);</span><br><span class="line">                                                std::cerr &lt;&lt; <span class="string">&quot;\n文件复制错误: &quot;</span> &lt;&lt; entry.<span class="built_in">path</span>() &lt;&lt; <span class="string">&quot; -&gt; &quot;</span> &lt;&lt; target</span><br><span class="line">                                                        &lt;&lt; <span class="string">&quot; - &quot;</span> &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">                                                copyErrors++;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                            tasksCompleted++; <span class="comment">// 无论成功失败都标记任务完成</span></span><br><span class="line">                                        &#125;));</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>futures.push_back(...);</code> 将异步任务的结果存储在<code>futures</code>向量中，以便稍后处理。</li>
 <li><code>std::async(std::launch::async, [=, &amp;filesCopied] &#123;...&#125;);</code> 创建一个异步任务<ul>
@@ -729,7 +598,7 @@
 <li><code>futures.size()</code>: 异步任务的数量</li>
 </ul>
 </li>
-<li><h4 id="等待异步任务完成并且更新进度"><a href="#等待异步任务完成并且更新进度" class="headerlink" title="等待异步任务完成并且更新进度"></a>等待异步任务完成并且更新进度</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">    <span class="hljs-comment">// 等待所有异步任务完成，并显示进度</span><br><span class="hljs-keyword">while</span> (filesCopied + directoriesCopied &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(futures.<span class="hljs-built_in">size</span>()))<br>&#123;<br>    <span class="hljs-built_in">showProgress</span>();<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">milliseconds</span>(<span class="hljs-number">200</span>)); <span class="hljs-comment">// 每200ms更新一次</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<li><h4 id="等待异步任务完成并且更新进度"><a href="#等待异步任务完成并且更新进度" class="headerlink" title="等待异步任务完成并且更新进度"></a>等待异步任务完成并且更新进度</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// 等待所有异步任务完成，并显示进度</span></span><br><span class="line"><span class="keyword">while</span> (filesCopied + directoriesCopied &lt; <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(futures.<span class="built_in">size</span>()))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">showProgress</span>();</span><br><span class="line">    std::this_thread::<span class="built_in">sleep_for</span>(std::chrono::<span class="built_in">milliseconds</span>(<span class="number">200</span>)); <span class="comment">// 每200ms更新一次</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>while (filesCopied + directoriesCopied &lt; static_cast&lt;int&gt;(futures.size()))</code> 当文件和目录复制完成数量小于异步任务数量时，继续循环。<ul>
 <li>&#96;&#96;&#96;filesCopied + directoriesCopied&#96;: 文件和目录复制完成数量。</li>
@@ -744,7 +613,7 @@
 <li><code>std::this_thread::sleep_for(std::chrono::milliseconds(200));</code> 每隔200毫秒更新一次进度。</li>
 </ul>
 </li>
-<li><h4 id="等待所有任务完成"><a href="#等待所有任务完成" class="headerlink" title="等待所有任务完成"></a>等待所有任务完成</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> &amp;f : futures)<br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        f.<span class="hljs-built_in">get</span>(); <span class="hljs-comment">// 获取异步结果（可能重新抛出异常）</span><br>    &#125;<br>    <span class="hljs-built_in">catch</span> (<span class="hljs-type">const</span> std::exception &amp;e)<br>    &#123;<br>        <span class="hljs-comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><h4 id="等待所有任务完成"><a href="#等待所有任务完成" class="headerlink" title="等待所有任务完成"></a>等待所有任务完成</h4>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;f : futures)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        f.<span class="built_in">get</span>(); <span class="comment">// 获取异步结果（可能重新抛出异常）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">const</span> std::exception &amp;e)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 此处异常已在任务内处理过，此处仅确保不会终止程序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><p><code>for (auto &amp;f : futures)</code> 遍历所有异步任务</p>
 <ul>
 <li><code>futures</code>: 异步任务向量</li>
@@ -780,7 +649,7 @@
 <li>该函数用于创建一个文件，并将指定的内容写入该文件。</li>
 <li><code>const fs::path &amp;path</code>: 源路径</li>
 <li><code>const std::string &amp;content</code>: 文件内容</li>
-<li>该函数实现如下：  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">ofstream <span class="hljs-title">file</span><span class="hljs-params">(path)</span></span>;<br><span class="hljs-keyword">if</span> (!file)<br>&#123;<br>    cerr &lt;&lt; <span class="hljs-string">&quot;Error: 无法在 &quot;</span> &lt;&lt; path &lt;&lt; <span class="hljs-string">&quot;下创建文件&quot;</span> &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br>file &lt;&lt; content;<br></code></pre></td></tr></table></figure></li>
+<li>该函数实现如下：  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ofstream <span class="title">file</span><span class="params">(path)</span></span>;</span><br><span class="line"><span class="keyword">if</span> (!file)</span><br><span class="line">&#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;Error: 无法在 &quot;</span> &lt;&lt; path &lt;&lt; <span class="string">&quot;下创建文件&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">file &lt;&lt; content;</span><br></pre></td></tr></table></figure></li>
 <li><code>ofstream file(path)</code>: 创建一个输出文件流，用于写入文件。使用<code>std::ofstream</code> 在离开作用域时自动调用析构函数关闭文件。</li>
 </ul>
 </li>
@@ -792,7 +661,7 @@
 <li><p><code>const string &amp;projectName</code>: 项目名称</p>
 </li>
 <li><p>该函数实现如下：</p>
-  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs cpp">  <span class="hljs-type">const</span> string cmakeTemplate =<br><span class="hljs-string">R&quot;(project()&quot;</span> + projectName + <span class="hljs-string">R&quot;()</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 添加包含目录</span><br><span class="hljs-string">include_directories(</span><br><span class="hljs-string">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/include</span><br><span class="hljs-string">)</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 收集所有源文件</span><br><span class="hljs-string">file(GLOB SOURCES &quot;src/*.cpp&quot;)</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 创建可执行文件</span><br><span class="hljs-string">add_executable($&#123;PROJECT_NAME&#125; $&#123;SOURCES&#125;)</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 设置目标属性</span><br><span class="hljs-string">set_target_properties($&#123;PROJECT_NAME&#125; PROPERTIES</span><br><span class="hljs-string">    OUTPUT_NAME &quot;$&#123;PROJECT_NAME&#125;&quot;</span><br><span class="hljs-string">    RUNTIME_OUTPUT_DIRECTORY &quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span><br><span class="hljs-string">)</span><br><span class="hljs-string">)&quot;</span>;<br>    <span class="hljs-built_in">createFile</span>(parent_path / <span class="hljs-string">&quot;CMakeLists.txt&quot;</span>, cmakeTemplate);<br></code></pre></td></tr></table></figure>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  <span class="type">const</span> string cmakeTemplate =</span><br><span class="line"><span class="string">R&quot;(project()&quot;</span> + projectName + <span class="string">R&quot;()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 添加包含目录</span></span><br><span class="line"><span class="string">include_directories(</span></span><br><span class="line"><span class="string">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/include</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 收集所有源文件</span></span><br><span class="line"><span class="string">file(GLOB SOURCES &quot;src/*.cpp&quot;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 创建可执行文件</span></span><br><span class="line"><span class="string">add_executable($&#123;PROJECT_NAME&#125; $&#123;SOURCES&#125;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 设置目标属性</span></span><br><span class="line"><span class="string">set_target_properties($&#123;PROJECT_NAME&#125; PROPERTIES</span></span><br><span class="line"><span class="string">    OUTPUT_NAME &quot;$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line"><span class="string">    RUNTIME_OUTPUT_DIRECTORY &quot;$&#123;CMAKE_BINARY_DIR&#125;/$&#123;PROJECT_NAME&#125;&quot;</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">)&quot;</span>;</span><br><span class="line">    <span class="built_in">createFile</span>(parent_path / <span class="string">&quot;CMakeLists.txt&quot;</span>, cmakeTemplate);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>const string cmakeTemplate</code>: CMakeLists.txt文件内容模板</p>
 </li>
@@ -806,7 +675,7 @@
 <li>该函数用于在指定的父目录下创建一个README.md文件，并写入指定的项目名称。</li>
 <li><code>const fs::path &amp;parent_path</code>: 父目录路径</li>
 <li><code>const string &amp;projectName</code>: 项目名称</li>
-<li>该函数实现如下：  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp">    <span class="hljs-type">const</span> std::string content =<br><span class="hljs-string">R&quot;(# )&quot;</span> + projectName + <span class="hljs-string">R&quot;(</span><br><span class="hljs-string"></span><br><span class="hljs-string">## 简介</span><br><span class="hljs-string"></span><br><span class="hljs-string">## 需求</span><br><span class="hljs-string"></span><br><span class="hljs-string">## 练习</span><br><span class="hljs-string">)&quot;</span>;<br><br>    <span class="hljs-built_in">createFile</span>(parent_path / <span class="hljs-string">&quot;readme.md&quot;</span>, content);<br></code></pre></td></tr></table></figure></li>
+<li>该函数实现如下：  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    <span class="type">const</span> std::string content =</span><br><span class="line"><span class="string">R&quot;(# )&quot;</span> + projectName + <span class="string">R&quot;(</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 简介</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 需求</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 练习</span></span><br><span class="line"><span class="string">)&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">createFile</span>(parent_path / <span class="string">&quot;readme.md&quot;</span>, content);</span><br></pre></td></tr></table></figure></li>
 <li><code>const std::string content</code>: README.md文件内容</li>
 <li><code>R&quot;(# )&quot; + projectName + R&quot;(...)</code>: 使用原始字符串字面值，将项目名称插入到模板中。</li>
 <li><code>createFile(parent_path / &quot;readme.md&quot;, content)</code>: 调用<code>createFile()</code>函数，在父目录下创建README.md文件，并将模板内容写入该文件。</li>
@@ -814,409 +683,156 @@
 </li>
 </ol>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+      </div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+      <footer class="post__footer">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/C/" class="print-no-link">#C++</a>
-      
-        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>C++算法学习-创建新项目工具</div>
-      <div>http://ankali-aylina.github.io/2025/07/22/C-算法学习/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Ankali-Aylina</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年7月22日</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>更新于</div>
-          <div>2025年9月9日</div>
-        </div>
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+        <div class="post__tags">
+          <span class="post__tags-label">LABELS / 标签</span>
+          <div class="post__tags-list">
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
+            <a href="/tags/C/">#C++</a>
+            
+            <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2025/07/25/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E9%80%92%E5%BD%92/" title="C++算法学习-递归">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C++算法学习-递归</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/" title="cmake学习(1)">
-                        <span class="hidden-mobile">cmake学习(1)</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
+        
+        <div class="post__fineprint">
+          
+          <span>UPDATED / 修订 <b>2025.09.09 09:27</b></span>
+          
+          
+          <span>FORMAT / 格式 <b>HTML · UTF-8</b></span>
         </div>
-      </div>
+        <div class="end-mark" aria-hidden="true">
+          <span>END OF DOCUMENT</span>
+          <i class="ruler"></i>
+          <span>ANIM-20250722-0A</span>
+        </div>
+        
+        <nav class="adjacent" aria-label="上一篇 / 下一篇">
+          
+          <a class="adjacent__item" href="/2025/07/25/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E9%80%92%E5%BD%92/" rel="prev">
+            <span class="adjacent__label"><span aria-hidden="true">←</span> PREV / 上一份</span>
+            <span class="adjacent__title">C++算法学习-递归</span>
+          </a>
+          
+          
+          <a class="adjacent__item adjacent__item--next" href="/2025/07/22/cmake%E5%AD%A6%E4%B9%A0-1/" rel="next">
+            <span class="adjacent__label">NEXT / 下一份 <span aria-hidden="true">→</span></span>
+            <span class="adjacent__title">cmake学习(1)</span>
+          </a>
+          
+        </nav>
+        
+      </footer>
     </div>
 
-    <div class="side-col d-none d-lg-block col-lg-2">
+    <aside class="side" aria-label="文档信息">
       
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+      <section class="panel panel--toc">
+        <div class="panel__head"><span>CONTENTS</span><span>目录</span></div>
+        <div class="toc-wrap"><ol class="toc toc--flat"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E5%89%8D%E5%BE%80CPlusAlgo"><span class="toc-text">点击前往CPlusAlgo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%B7%A5%E5%85%B7"><span class="toc-text">创建新项目工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-text">代码解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bool-createFolder-const-fs-path-parent-path-const-string-folderName-%E5%87%BD%E6%95%B0"><span class="toc-text">bool createFolder(const fs::path &amp;parent_path, const string &amp;folderName); 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#optional-findAimFolder-const-fs-path-start-path-const-string-target-name-bool-find-all-false-bool-stop-at-first-false-%E5%87%BD%E6%95%B0"><span class="toc-text">optional&lt;fs::path&gt; findAimFolder(const fs::path &amp;start_path, const string &amp;target_name, bool find_all = false, bool stop_at_first = false); 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-copyFiles-const-fs-path-src-const-fs-path-dst-%E5%87%BD%E6%95%B0"><span class="toc-text">void copyFiles(const fs::path &amp;src, const fs::path &amp;dst) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createFile-const-fs-path-path-const-std-string-content-%E5%87%BD%E6%95%B0"><span class="toc-text">void createFile(const fs::path &amp;path, const std::string &amp;content) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createCMakeLists-const-fs-path-parent-path-const-string-projectName-%E5%87%BD%E6%95%B0"><span class="toc-text">void createCMakeLists(const fs::path &amp;parent_path, const string &amp;projectName) 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-createReadme-const-fs-path-parent-path-const-string-projectName-%E5%87%BD%E6%95%B0"><span class="toc-text">void createReadme(const fs::path &amp;parent_path, const string &amp;projectName) 函数</span></a></li></ol></div>
+      </section>
+      
 
+      <section class="panel panel--readout" aria-label="阅读时长">
+        <div class="panel__head"><span>READOUT</span><span>阅读</span></div>
+        <div class="readout">
+          <em data-count="15" data-pad="2">15</em>
+          <span class="readout__unit">MIN</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="readout__note">4,094 WORDS / 字词</p>
+      </section>
 
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+      <section class="panel panel--meta">
+        <div class="panel__head"><span>DOCUMENT</span><span>文档</span></div>
+        <dl class="meta-list">
+          <div><dt>DOC NO.</dt><dd>ANIM-20250722-0A</dd></div>
+          <div><dt>ISSUE</dt><dd>2025.07.22</dd></div>
+          <div><dt>CHANNEL</dt><dd>算法</dd></div>
+          <div><dt>WORDS</dt><dd>4,094</dd></div>
+          <div><dt>ENCODING</dt><dd>UTF-8 / HTML</dd></div>
+        </dl>
+        <button class="copy-link" type="button" data-copy-link data-url="http://ankali-aylina.github.io/2025/07/22/C-%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" data-copied="COPIED / 已复制">
+          <span data-copy-label>COPY PERMALINK</span>
+          <span aria-hidden="true">⧉</span>
         </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+      </section>
+    </aside>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
     </div>
   </div>
 </div>
 
-    
 
-    
-  </main>
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=1.0.0" defer></script>
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <img src="/img/loading.gif" data-original="/img/Icon.png" alt="" style="width: 20px;"> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-
-  
-
-</div>
-
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    
-      <script  src="/js/img-lazyload.js" ></script>
-    
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
 
         <style>
             [bg-lazy] {
