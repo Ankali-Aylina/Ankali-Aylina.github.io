@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-motion="on">
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>天堂咖啡馆 · Comic Strip · Anim</title>
+<meta name="description" content="第三话。篇幅较长，使用更细的切片与分段加载。">
+<meta name="author" content="Ankali-Aylina">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="http://ankali-aylina.github.io/comic/ep03/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anim">
+<meta property="og:title" content="天堂咖啡馆 · Comic Strip">
+<meta property="og:description" content="第三话。篇幅较长，使用更细的切片与分段加载。">
+<meta property="og:url" content="http://ankali-aylina.github.io/comic/ep03/index.html">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天堂咖啡馆 · Comic Strip">
+<meta name="twitter:description" content="第三话。篇幅较长，使用更细的切片与分段加载。">
+<link rel="icon" href="/img/Icon.png">
+<link rel="preload" href="/fonts/nasalization-rg.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="/fonts/michroma-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css?v=5d23d523">
+
+<link rel="stylesheet" href="/css/motion.css?v=c23ef9eb">
+
+
+<link rel="stylesheet" href="/css/comic.css?v=f828a828">
+
+
+<link rel="preload" as="image" href="/comic/assets/ep03/cut-001-1400.webp" imagesrcset="/comic/assets/ep03/cut-001-800.webp 800w, /comic/assets/ep03/cut-001-1400.webp 1400w" imagesizes="(max-width: 900px) 100vw, 900px" fetchpriority="high">
+
+<script>
+(function () {
+  try {
+    var key = 'rnp-theme-v2';
+    var saved = localStorage.getItem(key);
+    var configured = "auto";
+    if (configured !== 'auto' && configured !== 'light' && configured !== 'dark') configured = 'auto';
+    var preference = (saved === 'dark' || saved === 'light' || saved === 'auto') ? saved : configured;
+    var requested = '';
+    try { requested = new URLSearchParams(window.location.search).get('theme') || ''; } catch (error) {}
+    if (requested === 'dark' || requested === 'light' || requested === 'auto') preference = requested;
+    var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var active = preference === 'auto' ? (system ? 'dark' : 'light') : preference;
+    document.documentElement.setAttribute('data-theme', active === 'dark' ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-mode', preference);
+  } catch (error) {}
+})();
+</script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="is-comic-issue has-progress">
+  <a class="skip" href="#main">跳到正文 / SKIP TO CONTENT</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+  <div class="sheet" id="top">
+    
+<div class="sysbar">
+  <div class="sysbar__left">
+    <a class="wordmark" href="/" aria-label="Anim">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="wordmark__org">ANIM</span>
+      <span class="wordmark__serial">ANIM-01</span>
+    </a>
+  </div>
+  <div class="sysbar__right">
+    <time class="sysbar__clock" data-clock data-timezone="Asia/Shanghai" datetime="">2026.11.11 / --:--</time>
+    <span class="sysbar__status"><i class="led" aria-hidden="true"></i>SYS NOMINAL</span>
+    
+    <button class="sysbtn" type="button" data-search-open aria-label="打开检索">
+      <span>SEARCH</span><kbd>/</kbd>
+    </button>
+    
+    <button class="sysbtn sysbtn--mode" type="button" data-theme-toggle aria-label="切换明暗模式" aria-pressed="false">
+      <i class="mode-mark" aria-hidden="true"></i><span data-theme-label>LGT</span>
+    </button>
+  </div>
+</div>
+
+    
+<header class="masthead">
+  <div class="masthead__top">
+    <div class="masthead__id">
+      <p class="kicker"><span class="kicker__mark" aria-hidden="true"></span>CHANNEL 01 / ANIM</p>
+      <a class="masthead__title" href="/">Anim</a>
+      <p class="masthead__sub">Knowledge Bureau · 嵌入式系统与技术档案</p>
+    </div>
+    <div class="stamp" aria-hidden="true">
+      <span class="stamp__top">ANIM-01</span>
+      <span class="stamp__rule"></span>
+      <span class="stamp__row">EST. 2025</span>
+      <span class="stamp__row">ASIA / SHANGHAI</span>
+      <span class="stamp__row stamp__row--last">FILE 01</span>
+    </div>
+  </div>
+  <nav class="nav" aria-label="主导航">
+    
+    
+    <a class="nav__item" href="/">
+      <span class="nav__code">01</span>
+      <span class="nav__name">首页</span>
+    </a>
+    
+    <a class="nav__item is-active" href="/comic/" aria-current=&#34;page&#34;>
+      <span class="nav__code">02</span>
+      <span class="nav__name">漫画</span>
+    </a>
+    
+    <a class="nav__item" href="/archives/">
+      <span class="nav__code">03</span>
+      <span class="nav__name">归档</span>
+    </a>
+    
+    <a class="nav__item" href="/categories/">
+      <span class="nav__code">04</span>
+      <span class="nav__name">分类</span>
+    </a>
+    
+    <a class="nav__item" href="/tags/">
+      <span class="nav__code">05</span>
+      <span class="nav__name">标签</span>
+    </a>
+    
+    <a class="nav__item" href="/about/">
+      <span class="nav__code">06</span>
+      <span class="nav__name">关于</span>
+    </a>
+    
+    <span class="nav__fill" aria-hidden="true"></span>
+    <span class="nav__meta">ISSUE 007 · 2026</span>
+  </nav>
+</header>
+
+    
+<div class="docbar">
+  <i class="docbar__stripe" aria-hidden="true"></i>
+  <span class="docbar__item docbar__no">DOC NO. <b>COMIC-03</b></span>
+  <span class="docbar__sep" aria-hidden="true">/</span>
+  <span class="docbar__item docbar__section">COMIC / 天堂咖啡馆</span>
+  <span class="docbar__right">
+    <span>REV 4.5.1</span>
+    <span class="docbar__sep" aria-hidden="true">/</span>
+    <span>PAGE 01 / 01</span>
+  </span>
+</div>
+
+    <main class="main" id="main">
+      
+<article class="comic-issue-page">
+  <nav class="comic-toolbar" aria-label="漫画阅读导航">
+    <a class="comic-toolbar__back" href="/comic/"><span aria-hidden="true">←</span> INDEX</a>
+    <span class="comic-toolbar__title">Comic Strip <i>/</i> EP. 03</span>
+    <span class="comic-toolbar__count"><b data-comic-count>01</b><span> / 38</span></span>
+    
+    <a class="comic-toolbar__next" href="/comic/">END <span aria-hidden="true">↩</span></a>
+    
+  </nav>
+
+  <header class="comic-head">
+    <p class="comic-kicker"><span class="comic-kicker__mark" aria-hidden="true"></span>COMIC STRIP / ISSUE 03 OF 03</p>
+    <h1 class="comic-head__title">天堂咖啡馆</h1>
+    <p class="comic-head__summary">第三话。篇幅较长，使用更细的切片与分段加载。</p>
+    <div class="comic-head__meta">
+      <span><b>DATE</b> 2026.11.11</span>
+      <span><b>FORMAT</b> VERTICAL / 条漫</span>
+      <span><b>CUTS</b> 38</span>
+      <span><b>AUTHOR</b> <a class="comic-author-link" href="https://b23.tv/msaXVOw" target="_blank" rel="noopener noreferrer">叉烧阿噗噜 <span aria-hidden="true">↗</span></a></span>
+    </div>
+  </header>
+
+  <div class="comic-stage" data-comic-stage>
+    
+    <figure class="comic-cut" data-cut="1" style="--ph:#e0e0e0">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-001-1400.webp" srcset="/comic/assets/ep03/cut-001-800.webp 800w, /comic/assets/ep03/cut-001-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1150" alt="Comic Strip · 天堂咖啡馆 · CUT 01" loading="eager" decoding="async" fetchpriority="high">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="2" style="--ph:#bbbaba">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-002-1400.webp" srcset="/comic/assets/ep03/cut-002-800.webp 800w, /comic/assets/ep03/cut-002-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="933" alt="Comic Strip · 天堂咖啡馆 · CUT 02" loading="eager" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="3" style="--ph:#cbcbcb">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-003-1400.webp" srcset="/comic/assets/ep03/cut-003-800.webp 800w, /comic/assets/ep03/cut-003-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1330" alt="Comic Strip · 天堂咖啡馆 · CUT 03" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="4" style="--ph:#e7e7e7">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-004-1400.webp" srcset="/comic/assets/ep03/cut-004-800.webp 800w, /comic/assets/ep03/cut-004-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1060" alt="Comic Strip · 天堂咖啡馆 · CUT 04" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="5" style="--ph:#eaeaea">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-005-1400.webp" srcset="/comic/assets/ep03/cut-005-800.webp 800w, /comic/assets/ep03/cut-005-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="939" alt="Comic Strip · 天堂咖啡馆 · CUT 05" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="6" style="--ph:#bfbfbf">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-006-1400.webp" srcset="/comic/assets/ep03/cut-006-800.webp 800w, /comic/assets/ep03/cut-006-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1207" alt="Comic Strip · 天堂咖啡馆 · CUT 06" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="7" style="--ph:#dedede">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-007-1400.webp" srcset="/comic/assets/ep03/cut-007-800.webp 800w, /comic/assets/ep03/cut-007-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1192" alt="Comic Strip · 天堂咖啡馆 · CUT 07" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="8" style="--ph:#d4d4d4">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-008-1400.webp" srcset="/comic/assets/ep03/cut-008-800.webp 800w, /comic/assets/ep03/cut-008-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1174" alt="Comic Strip · 天堂咖啡馆 · CUT 08" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="9" style="--ph:#d0d0d0">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-009-1400.webp" srcset="/comic/assets/ep03/cut-009-800.webp 800w, /comic/assets/ep03/cut-009-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1047" alt="Comic Strip · 天堂咖啡馆 · CUT 09" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="10" style="--ph:#e7e7e7">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-010-1400.webp" srcset="/comic/assets/ep03/cut-010-800.webp 800w, /comic/assets/ep03/cut-010-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1139" alt="Comic Strip · 天堂咖啡馆 · CUT 10" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="11" style="--ph:#e6e6e6">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-011-1400.webp" srcset="/comic/assets/ep03/cut-011-800.webp 800w, /comic/assets/ep03/cut-011-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="996" alt="Comic Strip · 天堂咖啡馆 · CUT 11" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="12" style="--ph:#dadada">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-012-1400.webp" srcset="/comic/assets/ep03/cut-012-800.webp 800w, /comic/assets/ep03/cut-012-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1077" alt="Comic Strip · 天堂咖啡馆 · CUT 12" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="13" style="--ph:#ececec">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-013-1400.webp" srcset="/comic/assets/ep03/cut-013-800.webp 800w, /comic/assets/ep03/cut-013-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="910" alt="Comic Strip · 天堂咖啡馆 · CUT 13" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="14" style="--ph:#d2d2d2">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-014-1400.webp" srcset="/comic/assets/ep03/cut-014-800.webp 800w, /comic/assets/ep03/cut-014-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1138" alt="Comic Strip · 天堂咖啡馆 · CUT 14" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="15" style="--ph:#f8f8f8">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-015-1400.webp" srcset="/comic/assets/ep03/cut-015-800.webp 800w, /comic/assets/ep03/cut-015-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="917" alt="Comic Strip · 天堂咖啡馆 · CUT 15" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="16" style="--ph:#e7e7e7">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-016-1400.webp" srcset="/comic/assets/ep03/cut-016-800.webp 800w, /comic/assets/ep03/cut-016-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1187" alt="Comic Strip · 天堂咖啡馆 · CUT 16" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="17" style="--ph:#e1e1e1">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-017-1400.webp" srcset="/comic/assets/ep03/cut-017-800.webp 800w, /comic/assets/ep03/cut-017-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1133" alt="Comic Strip · 天堂咖啡馆 · CUT 17" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="18" style="--ph:#d3d3d3">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-018-1400.webp" srcset="/comic/assets/ep03/cut-018-800.webp 800w, /comic/assets/ep03/cut-018-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1106" alt="Comic Strip · 天堂咖啡馆 · CUT 18" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="19" style="--ph:#d4d4d4">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-019-1400.webp" srcset="/comic/assets/ep03/cut-019-800.webp 800w, /comic/assets/ep03/cut-019-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1156" alt="Comic Strip · 天堂咖啡馆 · CUT 19" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="20" style="--ph:#c9c8c8">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-020-1400.webp" srcset="/comic/assets/ep03/cut-020-800.webp 800w, /comic/assets/ep03/cut-020-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1189" alt="Comic Strip · 天堂咖啡馆 · CUT 20" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="21" style="--ph:#f0efef">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-021-1400.webp" srcset="/comic/assets/ep03/cut-021-800.webp 800w, /comic/assets/ep03/cut-021-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="910" alt="Comic Strip · 天堂咖啡馆 · CUT 21" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="22" style="--ph:#dddddd">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-022-1400.webp" srcset="/comic/assets/ep03/cut-022-800.webp 800w, /comic/assets/ep03/cut-022-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1295" alt="Comic Strip · 天堂咖啡馆 · CUT 22" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="23" style="--ph:#b9b9b9">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-023-1400.webp" srcset="/comic/assets/ep03/cut-023-800.webp 800w, /comic/assets/ep03/cut-023-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="935" alt="Comic Strip · 天堂咖啡馆 · CUT 23" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="24" style="--ph:#e6e6e6">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-024-1400.webp" srcset="/comic/assets/ep03/cut-024-800.webp 800w, /comic/assets/ep03/cut-024-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1007" alt="Comic Strip · 天堂咖啡馆 · CUT 24" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="25" style="--ph:#ebebeb">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-025-1400.webp" srcset="/comic/assets/ep03/cut-025-800.webp 800w, /comic/assets/ep03/cut-025-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1315" alt="Comic Strip · 天堂咖啡馆 · CUT 25" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="26" style="--ph:#f9f9f9">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-026-1400.webp" srcset="/comic/assets/ep03/cut-026-800.webp 800w, /comic/assets/ep03/cut-026-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="910" alt="Comic Strip · 天堂咖啡馆 · CUT 26" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="27" style="--ph:#ededed">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-027-1400.webp" srcset="/comic/assets/ep03/cut-027-800.webp 800w, /comic/assets/ep03/cut-027-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1228" alt="Comic Strip · 天堂咖啡馆 · CUT 27" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="28" style="--ph:#bbbbbb">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-028-1400.webp" srcset="/comic/assets/ep03/cut-028-800.webp 800w, /comic/assets/ep03/cut-028-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1188" alt="Comic Strip · 天堂咖啡馆 · CUT 28" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="29" style="--ph:#edecec">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-029-1400.webp" srcset="/comic/assets/ep03/cut-029-800.webp 800w, /comic/assets/ep03/cut-029-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="910" alt="Comic Strip · 天堂咖啡馆 · CUT 29" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="30" style="--ph:#d7d4d4">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-030-1400.webp" srcset="/comic/assets/ep03/cut-030-800.webp 800w, /comic/assets/ep03/cut-030-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1051" alt="Comic Strip · 天堂咖啡馆 · CUT 30" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="31" style="--ph:#e3e3e3">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-031-1400.webp" srcset="/comic/assets/ep03/cut-031-800.webp 800w, /comic/assets/ep03/cut-031-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="988" alt="Comic Strip · 天堂咖啡馆 · CUT 31" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="32" style="--ph:#dbdbdb">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-032-1400.webp" srcset="/comic/assets/ep03/cut-032-800.webp 800w, /comic/assets/ep03/cut-032-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="923" alt="Comic Strip · 天堂咖啡馆 · CUT 32" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="33" style="--ph:#e0e0e0">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-033-1400.webp" srcset="/comic/assets/ep03/cut-033-800.webp 800w, /comic/assets/ep03/cut-033-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1303" alt="Comic Strip · 天堂咖啡馆 · CUT 33" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="34" style="--ph:#f8f8f8">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-034-1400.webp" srcset="/comic/assets/ep03/cut-034-800.webp 800w, /comic/assets/ep03/cut-034-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1037" alt="Comic Strip · 天堂咖啡馆 · CUT 34" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="35" style="--ph:#f4f4f4">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-035-1400.webp" srcset="/comic/assets/ep03/cut-035-800.webp 800w, /comic/assets/ep03/cut-035-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="921" alt="Comic Strip · 天堂咖啡馆 · CUT 35" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="36" style="--ph:#e7e7e7">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-036-1400.webp" srcset="/comic/assets/ep03/cut-036-800.webp 800w, /comic/assets/ep03/cut-036-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1138" alt="Comic Strip · 天堂咖啡馆 · CUT 36" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="37" style="--ph:#e6e5e5">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-037-1400.webp" srcset="/comic/assets/ep03/cut-037-800.webp 800w, /comic/assets/ep03/cut-037-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1080" alt="Comic Strip · 天堂咖啡馆 · CUT 37" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+    <figure class="comic-cut" data-cut="38" style="--ph:#f1f1f1">
+      <img class="comic-cut__img no-lazy" src="/comic/assets/ep03/cut-038-1400.webp" srcset="/comic/assets/ep03/cut-038-800.webp 800w, /comic/assets/ep03/cut-038-1400.webp 1400w" sizes="(max-width: 900px) 100vw, 900px" width="1400" height="1127" alt="Comic Strip · 天堂咖啡馆 · CUT 38" loading="lazy" decoding="async" fetchpriority="low">
+    </figure>
+    
+  </div>
+
+  <div class="comic-end">
+    <div class="end-mark" aria-hidden="true"><span>END OF ISSUE</span><i class="ruler"></i><span>EP. 03</span></div>
+    <nav class="comic-jump" aria-label="刊页导航">
+      
+      <a class="comic-jump__item" href="/comic/ep02/"><span>← PREV / 上一话</span><b>神の一拳</b></a>
+      
+      <a class="comic-jump__index" href="/comic/">ALL ISSUES<span aria-hidden="true">↗</span></a>
+      <span class="comic-jump__item comic-jump__item--next is-empty"><span>NEXT / 下一话</span><b>TO BE CONTINUED</b></span>
+    </nav>
+    <p class="comic-end__note">COMIC SUPPLEMENT / Comic Strip · 作者 <a class="comic-author-link" href="https://b23.tv/msaXVOw" target="_blank" rel="noopener noreferrer">叉烧阿噗噜</a> · 图片按段落懒加载</p>
+  </div>
+</article>
+
+    </main>
+    
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <p class="footer__label">COLOPHON / 版本说明</p>
+      <p class="footer__mark"><i class="hazard" aria-hidden="true"></i>ANIM</p>
+      <p class="footer__text">本刊所有技术记录按原样发布；错漏之处，以勘误为准。</p>
+      <div class="ruler" aria-hidden="true"></div>
+      <p class="footer__fine">ANIM-01 / REV 4.5.1 / SYS NOMINAL</p>
+    </div>
+    <nav class="footer__nav" aria-label="页脚导航">
+      <p class="footer__label">INDEX / 索引</p>
+      
+      <a href="/archives/">归档</a>
+      
+      <a href="/categories/">分类</a>
+      
+      <a href="/tags/">标签</a>
+      
+      <a href="/about/">关于</a>
+      
+    </nav>
+    <div class="footer__meta">
+      <p class="footer__label">SYSTEM / 系统</p>
+      <p>HEXO 7.3</p>
+      <p>THEME NASA-PUNK 1.2.0</p>
+      <p>EST. 2025 — 2026</p>
+      <p>NO SIGNAL? <a href="/404.html">/404</a></p>
+    </div>
+  </div>
+  <div class="footer__base">
+    <span>© 2026 Ankali-Aylina. ALL RECORDS RETAINED.</span>
+    <span class="footer__base-mid">BUILT WITH HEXO · PAINTED WHITE / BLUEPRINT BLUE</span>
+    <a class="footer__top-link" href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
+</footer>
+
+  </div>
+  
+
+<div class="search" data-search data-search-url="/search.json" hidden>
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search__head">
+      <i class="hazard" aria-hidden="true"></i>
+      <span class="search__title" id="search-title">INDEX SEARCH / 档案检索</span>
+      <button class="search__close" type="button" data-search-close>ESC / CLOSE</button>
+    </div>
+    <form class="search__form" role="search" data-search-form>
+      <span class="search__prompt" aria-hidden="true">&gt;</span>
+      <label class="sr-only" for="search-input">检索关键词</label>
+      <input class="search__input" id="search-input" type="search" name="q" placeholder="输入标题、标签或正文关键词 / SEARCH THE ARCHIVE" autocomplete="off" spellcheck="false">
+      <span class="search__hint">ENTER 打开首个结果 · ESC 关闭</span>
+    </form>
+    <div class="search__status" data-search-status aria-live="polite">SIGNAL READY / 输入关键词开始检索</div>
+    <div class="search__results" data-search-results></div>
+    <div class="search__foot">
+      <span>LOCAL INDEX / 007 RECORDS</span>
+      <span>NO NETWORK REQUIRED</span>
+    </div>
+  </div>
+</div>
+
+
+  <!-- NASA PUNK / ANIM-01 -->
+<script src="/js/main.js?v=cdf25da3" defer></script>
+
+<script src="/js/comic.js?v=dcdfd81c" defer></script>
+
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
